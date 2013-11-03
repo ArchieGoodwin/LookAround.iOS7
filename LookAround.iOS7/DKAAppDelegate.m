@@ -7,12 +7,15 @@
 //
 
 #import "DKAAppDelegate.h"
-
+#import "DKAHelper.h"
 @implementation DKAAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    [[DKAHelper sharedInstance] startUpdateLocation];
+    
     return YES;
 }
 							
