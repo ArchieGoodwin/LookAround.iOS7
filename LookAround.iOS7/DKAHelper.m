@@ -55,6 +55,34 @@ static NSString* topLevelCategories[] = {
 
 #pragma mark - Helper methods
 
+
+-(void)populateAppDefaults
+{
+    
+    if([self getPrefValueForKey:DKA_PREF_DATA_SOURCE] == nil)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:@"Factual" forKey:DKA_PREF_DATA_SOURCE];
+        [[NSUserDefaults standardUserDefaults] setObject:@"NO" forKey:DKA_PREF_APP_HAS_STARTED];
+        
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
+   
+}
+
+-(void)setPrefValueForKey:(NSString *)key val:(id)val
+{
+    [[NSUserDefaults standardUserDefaults] setObject:val forKey:key];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+
+-(id)getPrefValueForKey:(NSString *)key
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:key];
+}
+
 -(void) populateQueryDefaults {
     [_searchPrefs setValue:[NSNumber numberWithInt:0 ] forKey:PREFS_FACTUAL_TABLE];
     
@@ -117,6 +145,29 @@ static NSString* topLevelCategories[] = {
 }
 
 
+-(void)doQueryWithSearchTerm:(NSString *)searchTerm completion:(DKAFactualHelperCompletionBlock)completion
+{
+    
+    NSLog(@"%@", _searchPrefs);
+    DKAFactualHelper *fHelper = [[DKAFactualHelper alloc] initWithPreferences:_searchPrefs];
+    [fHelper doQueryWithSearchTermAndLocation:searchTerm location:nil completeBlock:^(FactualQueryResult *data, NSError *error) {
+        NSLog(@"Factual data received");
+        if(!error)
+        {
+            if(completion)
+            {
+                completion(data, nil);
+            }
+        }
+        else
+        {
+            if(completion)
+            {
+                completion(nil, error);
+            }
+        }
+    }];
+}
 
 
 #pragma mark - Init methods
@@ -138,7 +189,7 @@ static NSString* topLevelCategories[] = {
 
         _searchPrefs = [NSMutableDictionary new];
         [self populateQueryDefaults];
-        
+        [self populateAppDefaults];
         
         
         _locationManager = [[CLLocationManager alloc] init];

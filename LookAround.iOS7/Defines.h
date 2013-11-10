@@ -6,6 +6,10 @@
 #define DKALocationMuchUpdated @"LocationMuchUpdated"
 #define LOCATIONLISTFONTSIZE 18
 
+#define DKA_PREF_DATA_SOURCE @"DKA_PREF_DATA_SOURCE"
+#define DKA_PREF_APP_HAS_STARTED @"DKA_PREF_APP_HAS_STARTED"
+
+
 typedef void (^DKAFactualHelperCompletionBlock)  (FactualQueryResult *data, NSError *error);
 
 #define helper ((DKAHelper *)[DKAHelper sharedInstance])

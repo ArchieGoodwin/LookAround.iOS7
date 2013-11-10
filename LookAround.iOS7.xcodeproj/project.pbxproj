@@ -23,11 +23,24 @@
 		DC0D5434180D5C5C004193E2 /* DKALocationListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0D5431180D5C5C004193E2 /* DKALocationListVC.m */; };
 		DC0D5435180D5C5C004193E2 /* DKASpringyCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0D5433180D5C5C004193E2 /* DKASpringyCollectionViewFlowLayout.m */; };
 		DC0D543C180D70E9004193E2 /* DKAHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0D543B180D70E9004193E2 /* DKAHelper.m */; };
+		DC39CC08182F94A100EFD523 /* MRBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC39CBF3182F94A100EFD523 /* MRBlurView.m */; };
+		DC39CC09182F94A100EFD523 /* UIImage+MRImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = DC39CBF5182F94A100EFD523 /* UIImage+MRImageEffects.m */; };
+		DC39CC0A182F94A100EFD523 /* MRActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC39CBF8182F94A100EFD523 /* MRActivityIndicatorView.m */; };
+		DC39CC0B182F94A100EFD523 /* MRCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC39CBFA182F94A100EFD523 /* MRCircularProgressView.m */; };
+		DC39CC0C182F94A100EFD523 /* MRIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC39CBFC182F94A100EFD523 /* MRIconView.m */; };
+		DC39CC0D182F94A100EFD523 /* MRNavigationBarProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC39CBFE182F94A100EFD523 /* MRNavigationBarProgressView.m */; };
+		DC39CC0E182F94A100EFD523 /* MRProgressOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC39CC00182F94A100EFD523 /* MRProgressOverlayView.m */; };
+		DC39CC0F182F94A100EFD523 /* MRMessageInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = DC39CC04182F94A100EFD523 /* MRMessageInterceptor.m */; };
+		DC39CC10182F94A100EFD523 /* MRWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = DC39CC07182F94A100EFD523 /* MRWeakProxy.m */; };
 		DC800423180FFEC30024C63C /* DKAFactualHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DC800422180FFEC30024C63C /* DKAFactualHelper.m */; };
 		DC80042718100D570024C63C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC80042618100D570024C63C /* CoreLocation.framework */; };
 		DC80043F181011920024C63C /* FactualSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC80043E181011920024C63C /* FactualSDK.framework */; };
 		DC8004421810122C0024C63C /* NSString(Escaping).m in Sources */ = {isa = PBXBuildFile; fileRef = DC8004411810122C0024C63C /* NSString(Escaping).m */; };
 		DC8E449F1815502E00B7B71A /* DKANavVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8E449E1815502E00B7B71A /* DKANavVC.m */; };
+		DC9A7FC0182E33A800EB9E9F /* DKASearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9A7FBF182E33A800EB9E9F /* DKASearchVC.m */; };
+		DC9A7FC3182E6C6A00EB9E9F /* NSDate-Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9A7FC2182E6C6A00EB9E9F /* NSDate-Utilities.m */; };
+		DC9A7FC7182F579500EB9E9F /* DKAHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9A7FC6182F579500EB9E9F /* DKAHistoryVC.m */; };
+		DC9A7FCC182F868C00EB9E9F /* DKASettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9A7FCB182F868C00EB9E9F /* DKASettingsVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +77,26 @@
 		DC0D5433180D5C5C004193E2 /* DKASpringyCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKASpringyCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		DC0D543A180D70E9004193E2 /* DKAHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKAHelper.h; sourceTree = "<group>"; };
 		DC0D543B180D70E9004193E2 /* DKAHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAHelper.m; sourceTree = "<group>"; };
+		DC39CBF2182F94A100EFD523 /* MRBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRBlurView.h; sourceTree = "<group>"; };
+		DC39CBF3182F94A100EFD523 /* MRBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRBlurView.m; sourceTree = "<group>"; };
+		DC39CBF4182F94A100EFD523 /* UIImage+MRImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+MRImageEffects.h"; sourceTree = "<group>"; };
+		DC39CBF5182F94A100EFD523 /* UIImage+MRImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+MRImageEffects.m"; sourceTree = "<group>"; };
+		DC39CBF7182F94A100EFD523 /* MRActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRActivityIndicatorView.h; sourceTree = "<group>"; };
+		DC39CBF8182F94A100EFD523 /* MRActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRActivityIndicatorView.m; sourceTree = "<group>"; };
+		DC39CBF9182F94A100EFD523 /* MRCircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRCircularProgressView.h; sourceTree = "<group>"; };
+		DC39CBFA182F94A100EFD523 /* MRCircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRCircularProgressView.m; sourceTree = "<group>"; };
+		DC39CBFB182F94A100EFD523 /* MRIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRIconView.h; sourceTree = "<group>"; };
+		DC39CBFC182F94A100EFD523 /* MRIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRIconView.m; sourceTree = "<group>"; };
+		DC39CBFD182F94A100EFD523 /* MRNavigationBarProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRNavigationBarProgressView.h; sourceTree = "<group>"; };
+		DC39CBFE182F94A100EFD523 /* MRNavigationBarProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRNavigationBarProgressView.m; sourceTree = "<group>"; };
+		DC39CBFF182F94A100EFD523 /* MRProgressOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRProgressOverlayView.h; sourceTree = "<group>"; };
+		DC39CC00182F94A100EFD523 /* MRProgressOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRProgressOverlayView.m; sourceTree = "<group>"; };
+		DC39CC01182F94A100EFD523 /* MRProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRProgress.h; sourceTree = "<group>"; };
+		DC39CC03182F94A100EFD523 /* MRMessageInterceptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRMessageInterceptor.h; sourceTree = "<group>"; };
+		DC39CC04182F94A100EFD523 /* MRMessageInterceptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRMessageInterceptor.m; sourceTree = "<group>"; };
+		DC39CC05182F94A100EFD523 /* MRProgressHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRProgressHelper.h; sourceTree = "<group>"; };
+		DC39CC06182F94A100EFD523 /* MRWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRWeakProxy.h; sourceTree = "<group>"; };
+		DC39CC07182F94A100EFD523 /* MRWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRWeakProxy.m; sourceTree = "<group>"; };
 		DC800421180FFEC30024C63C /* DKAFactualHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKAFactualHelper.h; sourceTree = "<group>"; };
 		DC800422180FFEC30024C63C /* DKAFactualHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAFactualHelper.m; sourceTree = "<group>"; };
 		DC80042618100D570024C63C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -73,6 +106,14 @@
 		DC8004431810FABD0024C63C /* Defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Defines.h; sourceTree = "<group>"; };
 		DC8E449D1815502E00B7B71A /* DKANavVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKANavVC.h; sourceTree = "<group>"; };
 		DC8E449E1815502E00B7B71A /* DKANavVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKANavVC.m; sourceTree = "<group>"; };
+		DC9A7FBE182E33A800EB9E9F /* DKASearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKASearchVC.h; sourceTree = "<group>"; };
+		DC9A7FBF182E33A800EB9E9F /* DKASearchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKASearchVC.m; sourceTree = "<group>"; };
+		DC9A7FC1182E6C6A00EB9E9F /* NSDate-Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate-Utilities.h"; sourceTree = "<group>"; };
+		DC9A7FC2182E6C6A00EB9E9F /* NSDate-Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate-Utilities.m"; sourceTree = "<group>"; };
+		DC9A7FC5182F579500EB9E9F /* DKAHistoryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKAHistoryVC.h; sourceTree = "<group>"; };
+		DC9A7FC6182F579500EB9E9F /* DKAHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAHistoryVC.m; sourceTree = "<group>"; };
+		DC9A7FCA182F868C00EB9E9F /* DKASettingsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKASettingsVC.h; sourceTree = "<group>"; };
+		DC9A7FCB182F868C00EB9E9F /* DKASettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKASettingsVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +177,10 @@
 		DC0D53FE180C1257004193E2 /* LookAround.iOS7 */ = {
 			isa = PBXGroup;
 			children = (
+				DC9A7FC9182F867400EB9E9F /* Settings */,
+				DC9A7FC8182F57FF00EB9E9F /* Model */,
+				DC9A7FC4182F577C00EB9E9F /* History */,
+				DC9A7FBD182E338100EB9E9F /* Search */,
 				DC0D5437180D7049004193E2 /* Helpers */,
 				DC0D5436180D703C004193E2 /* Locations */,
 				DC0D5407180C1257004193E2 /* DKAAppDelegate.h */,
@@ -192,6 +237,9 @@
 		DC0D5437180D7049004193E2 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				DC39CBF0182F948C00EFD523 /* MRProgress */,
+				DC9A7FC1182E6C6A00EB9E9F /* NSDate-Utilities.h */,
+				DC9A7FC2182E6C6A00EB9E9F /* NSDate-Utilities.m */,
 				DC8004431810FABD0024C63C /* Defines.h */,
 				DC8004401810122C0024C63C /* NSString(Escaping).h */,
 				DC8004411810122C0024C63C /* NSString(Escaping).m */,
@@ -201,6 +249,91 @@
 				DC800422180FFEC30024C63C /* DKAFactualHelper.m */,
 			);
 			name = Helpers;
+			sourceTree = "<group>";
+		};
+		DC39CBF0182F948C00EFD523 /* MRProgress */ = {
+			isa = PBXGroup;
+			children = (
+				DC39CBF1182F94A100EFD523 /* Blur */,
+				DC39CBF6182F94A100EFD523 /* Components */,
+				DC39CC01182F94A100EFD523 /* MRProgress.h */,
+				DC39CC02182F94A100EFD523 /* Utils */,
+			);
+			name = MRProgress;
+			sourceTree = "<group>";
+		};
+		DC39CBF1182F94A100EFD523 /* Blur */ = {
+			isa = PBXGroup;
+			children = (
+				DC39CBF2182F94A100EFD523 /* MRBlurView.h */,
+				DC39CBF3182F94A100EFD523 /* MRBlurView.m */,
+				DC39CBF4182F94A100EFD523 /* UIImage+MRImageEffects.h */,
+				DC39CBF5182F94A100EFD523 /* UIImage+MRImageEffects.m */,
+			);
+			path = Blur;
+			sourceTree = "<group>";
+		};
+		DC39CBF6182F94A100EFD523 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				DC39CBF7182F94A100EFD523 /* MRActivityIndicatorView.h */,
+				DC39CBF8182F94A100EFD523 /* MRActivityIndicatorView.m */,
+				DC39CBF9182F94A100EFD523 /* MRCircularProgressView.h */,
+				DC39CBFA182F94A100EFD523 /* MRCircularProgressView.m */,
+				DC39CBFB182F94A100EFD523 /* MRIconView.h */,
+				DC39CBFC182F94A100EFD523 /* MRIconView.m */,
+				DC39CBFD182F94A100EFD523 /* MRNavigationBarProgressView.h */,
+				DC39CBFE182F94A100EFD523 /* MRNavigationBarProgressView.m */,
+				DC39CBFF182F94A100EFD523 /* MRProgressOverlayView.h */,
+				DC39CC00182F94A100EFD523 /* MRProgressOverlayView.m */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		DC39CC02182F94A100EFD523 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				DC39CC03182F94A100EFD523 /* MRMessageInterceptor.h */,
+				DC39CC04182F94A100EFD523 /* MRMessageInterceptor.m */,
+				DC39CC05182F94A100EFD523 /* MRProgressHelper.h */,
+				DC39CC06182F94A100EFD523 /* MRWeakProxy.h */,
+				DC39CC07182F94A100EFD523 /* MRWeakProxy.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		DC9A7FBD182E338100EB9E9F /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				DC9A7FBE182E33A800EB9E9F /* DKASearchVC.h */,
+				DC9A7FBF182E33A800EB9E9F /* DKASearchVC.m */,
+			);
+			name = Search;
+			sourceTree = "<group>";
+		};
+		DC9A7FC4182F577C00EB9E9F /* History */ = {
+			isa = PBXGroup;
+			children = (
+				DC9A7FC5182F579500EB9E9F /* DKAHistoryVC.h */,
+				DC9A7FC6182F579500EB9E9F /* DKAHistoryVC.m */,
+			);
+			name = History;
+			sourceTree = "<group>";
+		};
+		DC9A7FC8182F57FF00EB9E9F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		DC9A7FC9182F867400EB9E9F /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				DC9A7FCA182F868C00EB9E9F /* DKASettingsVC.h */,
+				DC9A7FCB182F868C00EB9E9F /* DKASettingsVC.m */,
+			);
+			name = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -301,12 +434,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC39CC0A182F94A100EFD523 /* MRActivityIndicatorView.m in Sources */,
 				DC0D5435180D5C5C004193E2 /* DKASpringyCollectionViewFlowLayout.m in Sources */,
 				DC8004421810122C0024C63C /* NSString(Escaping).m in Sources */,
 				DC800423180FFEC30024C63C /* DKAFactualHelper.m in Sources */,
+				DC9A7FC7182F579500EB9E9F /* DKAHistoryVC.m in Sources */,
+				DC9A7FCC182F868C00EB9E9F /* DKASettingsVC.m in Sources */,
 				DC8E449F1815502E00B7B71A /* DKANavVC.m in Sources */,
+				DC39CC0B182F94A100EFD523 /* MRCircularProgressView.m in Sources */,
+				DC39CC08182F94A100EFD523 /* MRBlurView.m in Sources */,
 				DC0D5405180C1257004193E2 /* main.m in Sources */,
+				DC39CC0D182F94A100EFD523 /* MRNavigationBarProgressView.m in Sources */,
+				DC39CC10182F94A100EFD523 /* MRWeakProxy.m in Sources */,
+				DC39CC0E182F94A100EFD523 /* MRProgressOverlayView.m in Sources */,
+				DC39CC0F182F94A100EFD523 /* MRMessageInterceptor.m in Sources */,
+				DC39CC0C182F94A100EFD523 /* MRIconView.m in Sources */,
+				DC9A7FC0182E33A800EB9E9F /* DKASearchVC.m in Sources */,
 				DC0D543C180D70E9004193E2 /* DKAHelper.m in Sources */,
+				DC9A7FC3182E6C6A00EB9E9F /* NSDate-Utilities.m in Sources */,
+				DC39CC09182F94A100EFD523 /* UIImage+MRImageEffects.m in Sources */,
 				DC0D5409180C1257004193E2 /* DKAAppDelegate.m in Sources */,
 				DC0D5434180D5C5C004193E2 /* DKALocationListVC.m in Sources */,
 			);
@@ -433,8 +579,13 @@
 		DC0D5428180C1257004193E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					armv7,
+				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/sdikarev/Dropbox/Incoding/Apple\\ coding/DKAFactualPlaces",
@@ -442,7 +593,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LookAround.iOS7/LookAround.iOS7-Prefix.pch";
 				INFOPLIST_FILE = "LookAround.iOS7/LookAround.iOS7-Info.plist";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -450,8 +603,13 @@
 		DC0D5429180C1257004193E2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					"$(ARCHS_STANDARD)",
+					armv7,
+				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/sdikarev/Dropbox/Incoding/Apple\\ coding/DKAFactualPlaces",
@@ -459,7 +617,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LookAround.iOS7/LookAround.iOS7-Prefix.pch";
 				INFOPLIST_FILE = "LookAround.iOS7/LookAround.iOS7-Info.plist";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

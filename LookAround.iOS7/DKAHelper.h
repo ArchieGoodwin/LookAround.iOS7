@@ -39,6 +39,9 @@ extern NSString * const PREFS_CATEGORY_FILTER_TYPE;
 
 +(id)sharedInstance;
 -(void)doQueryWithLocation:(CLLocation *)location completion:(DKAFactualHelperCompletionBlock)completion;
+-(void)doQueryWithSearchTerm:(NSString *)searchTerm completion:(DKAFactualHelperCompletionBlock)completion;
 -(void)startUpdateLocation;
 -(CGFloat)getLabelSize:(UILabel *)label fontSize:(NSInteger)fontSize;
+-(id)getPrefValueForKey:(NSString *)key;
+-(void)setPrefValueForKey:(NSString *)key val:(id)val;
 @end

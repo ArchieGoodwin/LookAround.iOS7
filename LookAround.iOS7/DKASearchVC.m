@@ -1,49 +1,74 @@
+//
+//  DKASearchVC.m
+//  LookAround.iOS7
+//
+//  Created by Nero Wolfe on 09/11/13.
+//  Copyright (c) 2013 Sergey Dikarev. All rights reserved.
+//
 
-
-#import "DKALocationListVC.h"
+#import "DKASearchVC.h"
 #import "DKASpringyCollectionViewFlowLayout.h"
 #import "DKAHelper.h"
 #import "Defines.h"
 #import <FactualSDK/FactualQuery.h>
-
-@interface DKALocationListVC ()
+@interface DKASearchVC ()
 {
     FactualQueryResult *queryData;
+
 }
 @end
 
-@implementation DKALocationListVC
+@implementation DKASearchVC
 
 static NSString *CellIdentifier = @"Cell";
+
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
-    DKASpringyCollectionViewFlowLayout *layout = [[DKASpringyCollectionViewFlowLayout alloc] init];
-    //layout.headerReferenceSize = CGSizeMake(320, 44);
-    [self.collectionView setCollectionViewLayout:layout];
-    //[self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CellIdentifier];
     
-
+    DKASpringyCollectionViewFlowLayout *layout = [[DKASpringyCollectionViewFlowLayout alloc] init];
+    [self.collectionView setCollectionViewLayout:layout];
+    
     self.collectionView.backgroundColor = [UIColor whiteColor];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatedLocation) name:DKALocationMuchUpdated object:nil];
-
-    
-    
-      
+	// Do any additional setup after loading the view.
 }
 
--(void)updatedLocation
+- (void)didReceiveMemoryWarning
 {
-    CLLocation *loc = [[DKAHelper sharedInstance] currentLocation];
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
-    [[DKAHelper sharedInstance] doQueryWithLocation:loc completion:^(FactualQueryResult *data, NSError *error) {
-        
+
+-(void)searchByKeywords:(NSString *)keyword
+{
+    [[DKAHelper sharedInstance] doQueryWithSearchTerm:keyword completion:^(FactualQueryResult *data, NSError *error) {
         queryData = data;
         [self.collectionView reloadData];
     }];
+}
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+
+}
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+    [self searchByKeywords:searchBar.text];
 }
 
 #pragma mark - UICollectionViewDataSource Methods
@@ -52,7 +77,7 @@ static NSString *CellIdentifier = @"Cell";
 
 -(void)configureCell:(UICollectionViewCell *)cell forIndexPath:(NSIndexPath *)indexPath
 {
-
+    
     
     
     FactualRow* row = [queryData.rows objectAtIndex:indexPath.row];
@@ -72,7 +97,7 @@ static NSString *CellIdentifier = @"Cell";
     lbl.font = [UIFont systemFontOfSize:LOCATIONLISTFONTSIZE];
     lbl.numberOfLines = 0;
     lbl.lineBreakMode = NSLineBreakByWordWrapping;
-
+    
     lbl.text = [row valueForName:@"name"];
     //NSLog(@"%@", NSStringFromCGSize(CGSizeMake(320, [[DKAHelper sharedInstance] getLabelSize:lbl fontSize:LOCATIONLISTFONTSIZE] + 12)));
     return CGSizeMake(320, [[DKAHelper sharedInstance] getLabelSize:lbl fontSize:LOCATIONLISTFONTSIZE] + 12);
@@ -105,13 +130,12 @@ static NSString *CellIdentifier = @"Cell";
 }
 
 /*- (UICollectionReusableView*)collectionView: (UICollectionView*)cv
-          viewForSupplementaryElementOfKind:(NSString*)kind atIndexPath:(NSIndexPath*)indexPath
-{
-
-    SearchHeaderView *headerView = [cv dequeueReusableSupplementaryViewOfKind: UICollectionElementKindSectionHeader withReuseIdentifier:@"SearchHeaderViewRoot" forIndexPath:indexPath];
-    
-    return headerView;
-}*/
-
+ viewForSupplementaryElementOfKind:(NSString*)kind atIndexPath:(NSIndexPath*)indexPath
+ {
+ 
+ SearchHeaderView *headerView = [cv dequeueReusableSupplementaryViewOfKind: UICollectionElementKindSectionHeader withReuseIdentifier:@"SearchHeaderViewRoot" forIndexPath:indexPath];
+ 
+ return headerView;
+ }*/
 
 @end

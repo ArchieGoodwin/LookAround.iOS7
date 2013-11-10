@@ -27,7 +27,9 @@
 {
     [super viewDidLoad];
     
-    [self.navigationBar setBackgroundImage:[UIImage new]
+    
+    //facebook style bar
+    /*[self.navigationBar setBackgroundImage:[UIImage new]
                              forBarMetrics:UIBarMetricsDefault];
     self.navigationBar.shadowImage = [UIImage new];
     self.navigationBar.translucent = YES;
@@ -40,7 +42,7 @@
     
     self.navigationBar.barTintColor = barColour;
     
-    [self.navigationBar.layer insertSublayer:colourView.layer atIndex:1];
+    [self.navigationBar.layer insertSublayer:colourView.layer atIndex:1];*/
 	// Do any additional setup after loading the view.
 }
 
