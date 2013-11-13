@@ -8,11 +8,16 @@
 
 #import "DKAAppDelegate.h"
 #import "DKAHelper.h"
+#import <GoogleMaps/GoogleMaps.h>
+
 @implementation DKAAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    [GMSServices provideAPIKey:@"AIzaSyAmZjUMXcLd6cvA_mCBoyqC54W102KMuXs"];
+
     
     [[DKAHelper sharedInstance] startUpdateLocation];
     

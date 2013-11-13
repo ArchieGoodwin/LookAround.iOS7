@@ -5,7 +5,7 @@
 #import "DKAHelper.h"
 #import "Defines.h"
 #import <FactualSDK/FactualQuery.h>
-
+#import "DKAPlaceVC.h"
 @interface DKALocationListVC ()
 {
     FactualQueryResult *queryData;
@@ -26,13 +26,21 @@ static NSString *CellIdentifier = @"Cell";
     //[self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:CellIdentifier];
     
 
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+    self.collectionView.backgroundColor = BLUE5;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatedLocation) name:DKALocationMuchUpdated object:nil];
 
     
     
       
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.tabBarController.tabBar.hidden = NO;
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 -(void)updatedLocation
@@ -101,7 +109,24 @@ static NSString *CellIdentifier = @"Cell";
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    FactualRow* row = [queryData.rows objectAtIndex:indexPath.row];
+
+    [self performSegueWithIdentifier:@"ShowPlace" sender:row];
+
     
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if([segue.identifier isEqualToString:@"ShowPlace"])
+    {
+        DKAPlaceVC *vc = (DKAPlaceVC *)segue.destinationViewController;
+        vc.placeObj = sender;
+       
+       
+
+
+    }
 }
 
 /*- (UICollectionReusableView*)collectionView: (UICollectionView*)cv

@@ -10,6 +10,7 @@
 #import <CoreMotion/CoreMotion.h>
 #import "NSDate-Utilities.h"
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "Defines.h"
 @interface DKAHistoryVC ()
 {
     NSMutableArray *items;
@@ -33,7 +34,8 @@
 {
     [super viewDidLoad];
 
-    
+    self.tableView.backgroundColor = BLUE5;
+
     CMMotionActivityManager *motionManager = [[CMMotionActivityManager alloc] init];
     [motionManager queryActivityStartingFromDate:[[NSDate date] dateBySubtractingDays:3] toDate:[NSDate date] toQueue:[NSOperationQueue currentQueue] withHandler:^(NSArray *activities, NSError *error) {
         NSLog(@"activities: %@", activities);

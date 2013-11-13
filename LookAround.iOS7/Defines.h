@@ -15,3 +15,19 @@ typedef void (^DKAFactualHelperCompletionBlock)  (FactualQueryResult *data, NSEr
 #define helper ((DKAHelper *)[DKAHelper sharedInstance])
 #define appDelegate ((DKAAppDelegate *)[[UIApplication sharedApplication] delegate])
 
+
+#define BLUE0 [UIColor colorWithRed:44 / 255 green:85 / 255 blue:103 / 255 alpha:1]
+#define BLUE1 [UIColor colorWithRed:255 / 255 green:168 / 255 blue:108 / 255 alpha:1]
+#define BLUE2 [UIColor colorWithRed:108 / 255 green:210 / 255 blue:255 / 255 alpha:1]
+#define BLUE3 [UIColor colorWithRed:255 / 255 green:212 / 255 blue:181 / 255 alpha:1]
+#define BLUE4 [UIColor colorWithRed:218 / 255 green:244 / 255 blue:255 / 255 alpha:1]
+#define BLUE5 [UIColor colorWithRed:248.0 / 255 green:252.0 / 255 blue:255.0 / 255 alpha:1]
+
+
+
+#define BROWN0 [UIColor colorWithRed:94 / 255 green:63 / 255 blue:55 / 255 alpha:1]
+#define BROWN1 [UIColor colorWithRed:177 / 255 green:131 / 255 blue:104 / 255 alpha:1]
+#define BROWN2 [UIColor colorWithRed:255 / 255 green:206 / 255 blue:149 / 255 alpha:1]
+#define BROWN3 [UIColor colorWithRed:255 / 255 green:221 / 255 blue:149 / 255 alpha:1]
+#define BROWN4 [UIColor colorWithRed:255 / 255 green:233 / 255 blue:149 / 255 alpha:1]
+

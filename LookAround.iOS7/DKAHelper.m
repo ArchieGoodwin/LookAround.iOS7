@@ -243,6 +243,43 @@ static NSString* topLevelCategories[] = {
 
 
 
+#pragma mark - Design methods
+
+- (UIImage *)radialGradientImage:(CGSize)size start:(float)start end:(float)end centre:(CGPoint)centre radius:(float)radius {
+	// Render a radial background
+	// http://developer.apple.com/library/ios/#documentation/GraphicsImaging/Conceptual/drawingwithquartz2d/dq_shadings/dq_shadings.html
+    
+	// Initialise
+	UIGraphicsBeginImageContextWithOptions(size, NO, 1);
+    
+	// Create the gradient's colours
+	size_t num_locations = 2;
+	CGFloat locations[2] = { 0.0, 1.0 };
+	CGFloat components[8] = { start,start,start, 1.0,  // Start color
+		end,end,end, 0.0 }; // End color
+	
+	CGColorSpaceRef myColorspace = CGColorSpaceCreateDeviceRGB();
+	CGGradientRef myGradient = CGGradientCreateWithColorComponents (myColorspace, components, locations, num_locations);
+	
+	// Normalise the 0-1 ranged inputs to the width of the image
+	CGPoint myCentrePoint = CGPointMake(centre.x * size.width, centre.y * size.height);
+	float myRadius = MIN(size.width, size.height) * radius;
+	
+	// Draw it!
+	CGContextDrawRadialGradient (UIGraphicsGetCurrentContext(), myGradient, myCentrePoint,
+								 0, myCentrePoint, myRadius,
+								 kCGGradientDrawsAfterEndLocation);
+	
+	// Grab it as an autoreleased image
+	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+	
+	// Clean up
+	CGColorSpaceRelease(myColorspace); // Necessary?
+	CGGradientRelease(myGradient); // Necessary?
+	UIGraphicsEndImageContext(); // Clean up
+	return image;
+}
+
 
 
 

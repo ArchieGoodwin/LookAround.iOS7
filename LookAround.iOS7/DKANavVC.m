@@ -23,10 +23,22 @@
     return self;
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
+-(BOOL)prefersStatusBarHidden
+{
+    return NO;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
+    [self preferredStatusBarStyle];
+    [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
     
     //facebook style bar
     /*[self.navigationBar setBackgroundImage:[UIImage new]

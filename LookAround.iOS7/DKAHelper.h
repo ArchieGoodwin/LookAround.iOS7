@@ -44,4 +44,5 @@ extern NSString * const PREFS_CATEGORY_FILTER_TYPE;
 -(CGFloat)getLabelSize:(UILabel *)label fontSize:(NSInteger)fontSize;
 -(id)getPrefValueForKey:(NSString *)key;
 -(void)setPrefValueForKey:(NSString *)key val:(id)val;
+- (UIImage *)radialGradientImage:(CGSize)size start:(float)start end:(float)end centre:(CGPoint)centre radius:(float)radius;
 @end
