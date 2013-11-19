@@ -13,8 +13,15 @@
 #import "StreetViewVCViewController.h"
 #import "MapAnnotation.h"
 #import "STImageAnnotationView.h"
+#import "DKAPlaceMenuVC.h"
+#import "LiveFrost.h"
+#import "LFGlassView.h"
+#import "DKACyclePageContainerVC.h"
 @interface DKAPlaceVC ()
-
+{
+    DKAPlaceMenuVC *placeMenu;
+    DKACyclePageContainerVC *cycleContainer;
+}
 @end
 
 @implementation DKAPlaceVC
@@ -85,8 +92,62 @@
     [panoramaView moveNearCoordinate:coord];
 }
 
+- (IBAction)showInfoPages:(id)sender
+{
+    for(UIView *view in _myStreetView.subviews)
+    {
+        [view removeFromSuperview];
+    }
+    cycleContainer = [DKACyclePageContainerVC new];
+    
+    [_myStreetView addSubview:cycleContainer.view];
+    
+}
+
 - (IBAction)showMenu:(id)sender {
     
+    if(![_myStreetView viewWithTag:2001])
+    {
+        UIGraphicsBeginImageContextWithOptions(_myStreetView.frame.size, YES, 4);
+        
+        [_myStreetView drawViewHierarchyInRect:_myStreetView.frame afterScreenUpdates:YES];
+        
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        UIImageView *img = [[UIImageView alloc] initWithImage:image];
+        
+        img.alpha = 0.0;
+        img.frame = _myStreetView.frame;
+
+        LFGlassView *frost  = [[LFGlassView alloc] initWithFrame:_myStreetView.frame];
+        frost.alpha = 0.0;
+        
+        placeMenu = [self.storyboard instantiateViewControllerWithIdentifier:@"placeMenu"];
+        placeMenu.view.frame = CGRectMake(10, 100, 300, 300);
+        placeMenu.view.tag = 2001;
+        placeMenu.parentVC = self;
+        placeMenu.view.alpha = 0.0;
+        [UIView animateWithDuration:0.3 animations:^{
+
+            [_myStreetView addSubview:img];
+            
+            img.alpha = 1.0;
+           
+            [_myStreetView addSubview:frost];
+            frost.alpha = 1.0;
+           
+            [_myStreetView addSubview:placeMenu.view];
+            placeMenu.view.alpha = 1.0;
+        }];
+        
+        
+        
+    }
+    
+    
+    
+  
 }
 
 #pragma mark Map methods
@@ -171,7 +232,6 @@
     annotationView.centerOffset =  CGPointMake(0, 0);
     return annotationView;
 }
-
 
 - (IBAction)showMap:(id)sender {
     

@@ -120,8 +120,19 @@ static NSString* topLevelCategories[] = {
 
 #pragma mark - Factual methods
 
+
+
+
 -(void)doQueryWithLocation:(CLLocation *)location completion:(DKAFactualHelperCompletionBlock)completion
 {
+    if(_placemark)
+    {
+        [_searchPrefs setValue:[NSNumber numberWithBool:YES] forKey:PREFS_LOCALITY_FILTER_ENABLED];
+        [_searchPrefs setValue:@"country" forKey:PREFS_LOCALITY_FILTER_TYPE];
+        [_searchPrefs setValue:[_placemark.addressDictionary objectForKey:@"CountryCode"] forKey:PREFS_LOCALITY_FILTER_TEXT];
+    }
+    
+    
     
     NSLog(@"%@", _searchPrefs);
     DKAFactualHelper *fHelper = [[DKAFactualHelper alloc] initWithPreferences:_searchPrefs];
@@ -166,6 +177,28 @@ static NSString* topLevelCategories[] = {
                 completion(nil, error);
             }
         }
+    }];
+}
+
+
+-(void)getLocality
+{
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    [geocoder reverseGeocodeLocation:[[CLLocation alloc] initWithLatitude:_currentLocation.coordinate.latitude longitude:_currentLocation.coordinate.longitude] completionHandler:^(NSArray *placemarks, NSError *error) {
+        if (error == nil) {
+
+            NSLog(@"%@", [NSString stringWithFormat:@"%@,%@", [[placemarks objectAtIndex:0] locality], [[placemarks objectAtIndex:0] country]]);
+            _placemark = [placemarks objectAtIndex:0];
+            NSLog(@"%@", [_placemark.addressDictionary objectForKey:@"CountryCode"]);
+            //self.location.address = ABCreateStringWithAddressDictionary([[placemarks objectAtIndex:0] addressDictionary], NO);
+            
+            
+        }
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:DKALocationMuchUpdated object:self userInfo:nil];
+
+        //[MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        
     }];
 }
 
@@ -228,10 +261,11 @@ static NSString* topLevelCategories[] = {
     double distance = [loc1 distanceFromLocation:loc2];
     _currentLocation = newLocation;
 
-    if(distance > 5)
+    if(distance > 20)
     {
         NSLog(@"SIGNIFICANTSHIFT");
-        [[NSNotificationCenter defaultCenter] postNotificationName:DKALocationMuchUpdated object:self userInfo:nil];
+        
+        [self getLocality];
         
     }
     

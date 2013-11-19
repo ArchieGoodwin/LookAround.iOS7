@@ -18,4 +18,6 @@
 @property (strong, nonatomic) IBOutlet UIView *myStreetView;
 @property (strong, nonatomic) IBOutlet UIButton *btnBack;
 
+- (IBAction)showMenu:(id)sender;
+- (IBAction)showInfoPages:(id)sender;
 @end

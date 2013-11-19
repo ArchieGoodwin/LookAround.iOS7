@@ -35,7 +35,7 @@ extern NSString * const PREFS_CATEGORY_FILTER_TYPE;
 @property (nonatomic, readonly) FactualAPI* apiObject;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) CLLocation *currentLocation;
-
+@property (nonatomic, strong) CLPlacemark *placemark;
 
 +(id)sharedInstance;
 -(void)doQueryWithLocation:(CLLocation *)location completion:(DKAFactualHelperCompletionBlock)completion;

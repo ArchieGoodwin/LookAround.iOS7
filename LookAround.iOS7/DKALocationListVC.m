@@ -65,6 +65,10 @@ static NSString *CellIdentifier = @"Cell";
     
     FactualRow* row = [queryData.rows objectAtIndex:indexPath.row];
     UILabel *lbl = (UILabel *)[cell.contentView viewWithTag:1001];
+    
+    CGRect frame = lbl.frame;
+    frame.size.height = [[DKAHelper sharedInstance] getLabelSize:lbl fontSize:LOCATIONLISTFONTSIZE];
+    lbl.frame = frame;
     lbl.text = [row valueForName:@"name"];
     
     

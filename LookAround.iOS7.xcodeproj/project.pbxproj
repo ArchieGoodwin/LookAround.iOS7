@@ -59,8 +59,14 @@
 		DC9A7FC3182E6C6A00EB9E9F /* NSDate-Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9A7FC2182E6C6A00EB9E9F /* NSDate-Utilities.m */; };
 		DC9A7FC7182F579500EB9E9F /* DKAHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9A7FC6182F579500EB9E9F /* DKAHistoryVC.m */; };
 		DC9A7FCC182F868C00EB9E9F /* DKASettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9A7FCB182F868C00EB9E9F /* DKASettingsVC.m */; };
+		DCE34C79183B6A4300757702 /* DKAPlaceMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE34C78183B6A4300757702 /* DKAPlaceMenuVC.m */; };
+		DCE34C80183B6F1000757702 /* LFDisplayBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE34C7C183B6F1000757702 /* LFDisplayBridge.m */; };
+		DCE34C81183B6F1000757702 /* LFGlassView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE34C7E183B6F1000757702 /* LFGlassView.m */; };
 		DCE5764F18324A0F003A5F3C /* STImageAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE5764C18324A0F003A5F3C /* STImageAnnotationView.m */; };
 		DCE5765018324A0F003A5F3C /* MapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE5764E18324A0F003A5F3C /* MapAnnotation.m */; };
+		DCE896FB183B74E000F450FD /* GTCyclePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE896F8183B74E000F450FD /* GTCyclePageView.m */; };
+		DCE896FC183B74E000F450FD /* GTCyclePageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE896FA183B74E000F450FD /* GTCyclePageViewCell.m */; };
+		DCE896FF183B755500F450FD /* DKACyclePageContainerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE896FE183B755500F450FD /* DKACyclePageContainerVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,10 +160,23 @@
 		DC9A7FC6182F579500EB9E9F /* DKAHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAHistoryVC.m; sourceTree = "<group>"; };
 		DC9A7FCA182F868C00EB9E9F /* DKASettingsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKASettingsVC.h; sourceTree = "<group>"; };
 		DC9A7FCB182F868C00EB9E9F /* DKASettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKASettingsVC.m; sourceTree = "<group>"; };
+		DCE34C77183B6A4300757702 /* DKAPlaceMenuVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKAPlaceMenuVC.h; sourceTree = "<group>"; };
+		DCE34C78183B6A4300757702 /* DKAPlaceMenuVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAPlaceMenuVC.m; sourceTree = "<group>"; };
+		DCE34C7B183B6F1000757702 /* LFDisplayBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFDisplayBridge.h; sourceTree = "<group>"; };
+		DCE34C7C183B6F1000757702 /* LFDisplayBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFDisplayBridge.m; sourceTree = "<group>"; };
+		DCE34C7D183B6F1000757702 /* LFGlassView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFGlassView.h; sourceTree = "<group>"; };
+		DCE34C7E183B6F1000757702 /* LFGlassView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LFGlassView.m; sourceTree = "<group>"; };
+		DCE34C7F183B6F1000757702 /* LiveFrost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveFrost.h; sourceTree = "<group>"; };
 		DCE5764B18324A0F003A5F3C /* STImageAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STImageAnnotationView.h; sourceTree = "<group>"; };
 		DCE5764C18324A0F003A5F3C /* STImageAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STImageAnnotationView.m; sourceTree = "<group>"; };
 		DCE5764D18324A0F003A5F3C /* MapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapAnnotation.h; sourceTree = "<group>"; };
 		DCE5764E18324A0F003A5F3C /* MapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapAnnotation.m; sourceTree = "<group>"; };
+		DCE896F7183B74E000F450FD /* GTCyclePageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCyclePageView.h; sourceTree = "<group>"; };
+		DCE896F8183B74E000F450FD /* GTCyclePageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCyclePageView.m; sourceTree = "<group>"; };
+		DCE896F9183B74E000F450FD /* GTCyclePageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCyclePageViewCell.h; sourceTree = "<group>"; };
+		DCE896FA183B74E000F450FD /* GTCyclePageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCyclePageViewCell.m; sourceTree = "<group>"; };
+		DCE896FD183B755500F450FD /* DKACyclePageContainerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKACyclePageContainerVC.h; sourceTree = "<group>"; };
+		DCE896FE183B755500F450FD /* DKACyclePageContainerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKACyclePageContainerVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -313,6 +332,8 @@
 		DC0D5437180D7049004193E2 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				DCE896F6183B74E000F450FD /* Class */,
+				DCE34C7A183B6F1000757702 /* LiveFrost */,
 				DCE5764B18324A0F003A5F3C /* STImageAnnotationView.h */,
 				DCE5764C18324A0F003A5F3C /* STImageAnnotationView.m */,
 				DCE5764D18324A0F003A5F3C /* MapAnnotation.h */,
@@ -338,6 +359,10 @@
 				DC19086318322F3900DB0D20 /* StreetViewVCViewController.m */,
 				DC1D83F61832079500D22307 /* DKAPlaceVC.h */,
 				DC1D83F71832079500D22307 /* DKAPlaceVC.m */,
+				DCE34C77183B6A4300757702 /* DKAPlaceMenuVC.h */,
+				DCE34C78183B6A4300757702 /* DKAPlaceMenuVC.m */,
+				DCE896FD183B755500F450FD /* DKACyclePageContainerVC.h */,
+				DCE896FE183B755500F450FD /* DKACyclePageContainerVC.m */,
 			);
 			name = Place;
 			sourceTree = "<group>";
@@ -425,6 +450,29 @@
 				DC9A7FCB182F868C00EB9E9F /* DKASettingsVC.m */,
 			);
 			name = Settings;
+			sourceTree = "<group>";
+		};
+		DCE34C7A183B6F1000757702 /* LiveFrost */ = {
+			isa = PBXGroup;
+			children = (
+				DCE34C7B183B6F1000757702 /* LFDisplayBridge.h */,
+				DCE34C7C183B6F1000757702 /* LFDisplayBridge.m */,
+				DCE34C7D183B6F1000757702 /* LFGlassView.h */,
+				DCE34C7E183B6F1000757702 /* LFGlassView.m */,
+				DCE34C7F183B6F1000757702 /* LiveFrost.h */,
+			);
+			path = LiveFrost;
+			sourceTree = "<group>";
+		};
+		DCE896F6183B74E000F450FD /* Class */ = {
+			isa = PBXGroup;
+			children = (
+				DCE896F7183B74E000F450FD /* GTCyclePageView.h */,
+				DCE896F8183B74E000F450FD /* GTCyclePageView.m */,
+				DCE896F9183B74E000F450FD /* GTCyclePageViewCell.h */,
+				DCE896FA183B74E000F450FD /* GTCyclePageViewCell.m */,
+			);
+			path = Class;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -527,6 +575,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC39CC0A182F94A100EFD523 /* MRActivityIndicatorView.m in Sources */,
+				DCE34C80183B6F1000757702 /* LFDisplayBridge.m in Sources */,
 				DC0D5435180D5C5C004193E2 /* DKASpringyCollectionViewFlowLayout.m in Sources */,
 				DC8004421810122C0024C63C /* NSString(Escaping).m in Sources */,
 				DC800423180FFEC30024C63C /* DKAFactualHelper.m in Sources */,
@@ -536,17 +585,22 @@
 				DC39CC0B182F94A100EFD523 /* MRCircularProgressView.m in Sources */,
 				DC39CC08182F94A100EFD523 /* MRBlurView.m in Sources */,
 				DC0D5405180C1257004193E2 /* main.m in Sources */,
+				DCE34C79183B6A4300757702 /* DKAPlaceMenuVC.m in Sources */,
 				DC19086418322F3900DB0D20 /* StreetViewVCViewController.m in Sources */,
 				DC39CC0D182F94A100EFD523 /* MRNavigationBarProgressView.m in Sources */,
 				DC39CC10182F94A100EFD523 /* MRWeakProxy.m in Sources */,
+				DCE896FC183B74E000F450FD /* GTCyclePageViewCell.m in Sources */,
 				DC39CC0E182F94A100EFD523 /* MRProgressOverlayView.m in Sources */,
 				DC39CC0F182F94A100EFD523 /* MRMessageInterceptor.m in Sources */,
+				DCE896FB183B74E000F450FD /* GTCyclePageView.m in Sources */,
 				DC39CC0C182F94A100EFD523 /* MRIconView.m in Sources */,
+				DCE896FF183B755500F450FD /* DKACyclePageContainerVC.m in Sources */,
 				DC9A7FC0182E33A800EB9E9F /* DKASearchVC.m in Sources */,
 				DC0D543C180D70E9004193E2 /* DKAHelper.m in Sources */,
 				DCE5764F18324A0F003A5F3C /* STImageAnnotationView.m in Sources */,
 				DC9A7FC3182E6C6A00EB9E9F /* NSDate-Utilities.m in Sources */,
 				DC39CC09182F94A100EFD523 /* UIImage+MRImageEffects.m in Sources */,
+				DCE34C81183B6F1000757702 /* LFGlassView.m in Sources */,
 				DC0D5409180C1257004193E2 /* DKAAppDelegate.m in Sources */,
 				DC0D5434180D5C5C004193E2 /* DKALocationListVC.m in Sources */,
 				DC1D83F81832079500D22307 /* DKAPlaceVC.m in Sources */,

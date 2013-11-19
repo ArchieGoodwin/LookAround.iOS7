@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ELW-I3-sbq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5023" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ELW-I3-sbq">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
         <!--NavVC - Around-->
@@ -9,11 +9,11 @@
             <objects>
                 <navigationController definesPresentationContext="YES" id="8tE-vP-fh4" customClass="DKANavVC" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Around" image="around" id="cEI-gm-Aqe">
-                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-3"/>
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-1"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="sNd-Fd-5Ie">
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="1" green="0.83137254900000002" blue="0.70980392160000005" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="tintColor" red="1" green="0.6588235294" blue="0.42352941179999998" alpha="1" colorSpace="deviceRGB"/>
                         <color key="barTintColor" red="0.17254901959999999" green="0.33333333329999998" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -32,12 +32,13 @@
             <objects>
                 <tabBarController definesPresentationContext="YES" id="ELW-I3-sbq" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="lJA-PW-XQr">
+                    <tabBar key="tabBar" alpha="0.84999999999999987" contentMode="scaleToFill" id="lJA-PW-XQr">
                         <rect key="frame" x="129" y="330" width="163" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="tintColor" red="1" green="0.83137254900000002" blue="0.70980392160000005" alpha="1" colorSpace="deviceRGB"/>
-                        <color key="barTintColor" red="0.17254901959999999" green="0.33333333329999998" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="backgroundColor" red="0.17254902420000001" green="0.33333334329999997" blue="0.40392157439999998" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="tintColor" red="1" green="0.80784313730000001" blue="0.58431372550000005" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="barTintColor" red="0.17254902420000001" green="0.33333334329999997" blue="0.40392157439999998" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="selectedImageTintColor" red="1" green="0.80784313730000001" blue="0.58431372550000005" alpha="1" colorSpace="deviceRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="8tE-vP-fh4" kind="relationship" relationship="viewControllers" id="wfV-Gf-VXY"/>
@@ -55,11 +56,11 @@
             <objects>
                 <navigationController definesPresentationContext="YES" id="vuU-qf-BJX" customClass="DKANavVC" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Search" image="search" id="Z8X-2P-Smr">
-                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-3"/>
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-1"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Q67-66-xCf">
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="1" green="0.83137254900000002" blue="0.70980392160000005" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="tintColor" red="1" green="0.6588235294" blue="0.42352941179999998" alpha="1" colorSpace="deviceRGB"/>
                         <color key="barTintColor" red="0.17254901959999999" green="0.33333333329999998" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -118,11 +119,11 @@
             <objects>
                 <navigationController definesPresentationContext="YES" id="aeA-Gt-2xc" customClass="DKANavVC" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Settings" image="settings" id="C1T-pU-VyZ">
-                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-3"/>
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-1"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="XDF-Ta-BLR">
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="1" green="0.83137254900000002" blue="0.70980392160000005" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="tintColor" red="1" green="0.6588235294" blue="0.42352941179999998" alpha="1" colorSpace="deviceRGB"/>
                         <color key="barTintColor" red="0.17254901959999999" green="0.33333333329999998" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -268,11 +269,11 @@
             <objects>
                 <navigationController definesPresentationContext="YES" id="wKG-Yd-04Y" customClass="DKANavVC" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="History" image="history" id="7gf-7W-Ied">
-                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-3"/>
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-1"/>
                     </tabBarItem>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="HhG-a4-U2v">
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" red="1" green="0.83137254900000002" blue="0.70980392160000005" alpha="1" colorSpace="deviceRGB"/>
+                        <color key="tintColor" red="1" green="0.6588235294" blue="0.42352941179999998" alpha="1" colorSpace="deviceRGB"/>
                         <color key="barTintColor" red="0.17254901959999999" green="0.33333333329999998" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -285,6 +286,61 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vAX-Lv-rRE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="200" y="1496"/>
+        </scene>
+        <!--Place MenuVC-->
+        <scene sceneID="Cqo-uP-7Aa">
+            <objects>
+                <viewController storyboardIdentifier="placeMenu" id="zan-ok-sBL" customClass="DKAPlaceMenuVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xSG-Nl-B1r"/>
+                        <viewControllerLayoutGuide type="bottom" id="yGw-58-CTk"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="SDb-00-4HY">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ny-Q3-kTF">
+                                <rect key="frame" x="125" y="20" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="map"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tXf-Zm-bY5">
+                                <rect key="frame" x="29" y="20" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="1" green="0.80784313730000001" blue="0.58431372550000005" alpha="1" colorSpace="deviceRGB"/>
+                                <state key="normal" image="street_view"/>
+                                <connections>
+                                    <action selector="btnShowInfo:" destination="zan-ok-sBL" eventType="touchUpInside" id="eI1-fd-Zbc"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" red="1" green="0.80784313730000001" blue="0.58431372550000005" alpha="1" colorSpace="deviceRGB"/>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="300" height="300"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DTg-fh-nve" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1665" y="120"/>
+        </scene>
+        <!--Cycle Page ContainerVC-->
+        <scene sceneID="K0D-3E-Hah">
+            <objects>
+                <viewController id="IJc-rX-YJJ" customClass="DKACyclePageContainerVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0jd-MZ-xzE"/>
+                        <viewControllerLayoutGuide type="bottom" id="GvZ-yt-t5U"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ij5-8Q-VdB">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Ii-UL-3cd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1655" y="506"/>
         </scene>
         <!--PlaceVC-->
         <scene sceneID="s8u-O3-ZAg">
@@ -318,7 +374,7 @@
                                 <color key="tintColor" red="0.17254901959999999" green="0.33333333329999998" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                                 <state key="normal" image="menu_cards"/>
                                 <connections>
-                                    <action selector="showMenu:" destination="fkK-4w-UGR" eventType="touchUpInside" id="JSv-OO-xkc"/>
+                                    <action selector="showMenu:" destination="fkK-4w-UGR" eventType="touchUpInside" id="Ehj-eZ-pGv"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UuK-HT-CoV">
@@ -428,13 +484,13 @@
         <image name="settings" width="28" height="28"/>
         <image name="street_view" width="28" height="24"/>
     </resources>
-    <color key="tintColor" red="0.97254901959999995" green="0.98823529409999999" blue="1" alpha="1" colorSpace="deviceRGB"/>
+    <color key="tintColor" red="1" green="0.80784313730000001" blue="0.58431372550000005" alpha="1" colorSpace="deviceRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="paa-w5-i4w"/>
+        <segue reference="9hB-yH-cJY"/>
     </inferredMetricsTieBreakers>
 </document>
