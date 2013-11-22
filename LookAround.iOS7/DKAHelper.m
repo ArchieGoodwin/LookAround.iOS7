@@ -11,8 +11,6 @@
 #import <FactualSDK/FactualQuery.h>
 #import "DKAFactualHelper.h"
 #import "Defines.h"
-#import "AFNetworking.h"
-#import "AFHTTPRequestOperation.h"
 #import "NWFourSquarePhoto.h"
 NSString * const PREFS_FACTUAL_TABLE = @"factual_table";
 NSString * const SANDBOX_TABLE_DESC = @"US POI Sandbox";

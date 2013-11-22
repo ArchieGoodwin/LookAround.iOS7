@@ -8,7 +8,6 @@
 
 #import "InstagramCell.h"
 #import "Defines.h"
-#import "AFNetworking.h"
 #import "NWinstagram.h"
 #import "InstagramCollectionViewController.h"
 #import "NWFourSquarePhoto.h"

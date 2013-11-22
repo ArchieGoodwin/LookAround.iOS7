@@ -11,8 +11,7 @@
 #import "NWtwitter.h"
 #import "NWTwitterCell.h"
 #import "NWLabel.h"
-#import "AFNetworking.h"
-#import "UIImageView+AFNetworking.h"
+#import "DKAHelper.h"
 @interface NWTwitterViewController ()
 {
     UIView *viewForLabel;
@@ -164,8 +163,30 @@
     cell.lblDate.text =  [NSDateFormatter localizedStringFromDate:tweet.dateCreated dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterShortStyle];
     cell.lblAuthor.text = tweet.author;
 
+    
+    
     UIImage* image = [UIImage imageNamed:@"Placeholder.png"];
-    [cell.imgProfile setImageWithURL:[NSURL URLWithString:tweet.iconUrl] placeholderImage:image];
+    cell.imgProfile.image = image;
+    NSURLSessionDownloadTask *getImageTask =
+    [helper.session downloadTaskWithURL:[NSURL URLWithString:tweet.iconUrl]
+                      completionHandler:^(NSURL *location, NSURLResponse *response,
+                                          NSError *error) {
+                          // 2
+                          UIImage *downloadedImage = [UIImage imageWithData:
+                                                      [NSData dataWithContentsOfURL:location]];
+                          //3
+                          
+                          
+                          dispatch_async(dispatch_get_main_queue(), ^{
+                              
+                              cell.imgProfile.image = downloadedImage;
+                          });
+                      }];
+    
+    [getImageTask resume];
+    
+    
+    
     
     return cell;
     
