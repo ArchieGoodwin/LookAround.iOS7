@@ -29,14 +29,14 @@ extern NSString * const PREFS_CATEGORY_FILTER_ENABLED;
 extern NSString * const PREFS_CATEGORY_FILTER_TYPE;
 
 
-@interface DKAHelper : NSObject <CLLocationManagerDelegate>
+@interface DKAHelper : NSObject <CLLocationManagerDelegate, NSURLSessionDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary *searchPrefs;
 @property (nonatomic, readonly) FactualAPI* apiObject;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, strong) CLLocation *currentLocation;
 @property (nonatomic, strong) CLPlacemark *placemark;
-
+@property (nonatomic, strong) NSURLSession *session;
 +(id)sharedInstance;
 -(void)doQueryWithLocation:(CLLocation *)location completion:(DKAFactualHelperCompletionBlock)completion;
 -(void)doQueryWithSearchTerm:(NSString *)searchTerm completion:(DKAFactualHelperCompletionBlock)completion;
@@ -45,4 +45,5 @@ extern NSString * const PREFS_CATEGORY_FILTER_TYPE;
 -(id)getPrefValueForKey:(NSString *)key;
 -(void)setPrefValueForKey:(NSString *)key val:(id)val;
 - (UIImage *)radialGradientImage:(CGSize)size start:(float)start end:(float)end centre:(CGPoint)centre radius:(float)radius;
+-(BOOL)isIphone5;
 @end

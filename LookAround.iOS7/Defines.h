@@ -9,8 +9,12 @@
 #define DKA_PREF_DATA_SOURCE @"DKA_PREF_DATA_SOURCE"
 #define DKA_PREF_APP_HAS_STARTED @"DKA_PREF_APP_HAS_STARTED"
 
+typedef void (^DKAphotosByVenueIdCompletionBlock)        (NSArray *result, NSError *error);
 
 typedef void (^DKAFactualHelperCompletionBlock)  (FactualQueryResult *data, NSError *error);
+
+#define CLIENT_ID @"4AI4XUE0BZQ2G1PFEIUITRMTNHQ45I353UMKWF30TPNLAVLK"
+#define CLIENT_SECRET @"XJEEEUDB25ATGNQFHN04AGWTCTN0INXEXLBJOMOU25BRM20I"
 
 #define helper ((DKAHelper *)[DKAHelper sharedInstance])
 #define appDelegate ((DKAAppDelegate *)[[UIApplication sharedApplication] delegate])

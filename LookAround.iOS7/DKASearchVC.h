@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DKASearchVC : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate>
+@interface DKASearchVC : UITableViewController <UISearchBarDelegate>
 @property (strong, nonatomic) IBOutlet UISearchBar *searchbar;
 
-@property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
 @end

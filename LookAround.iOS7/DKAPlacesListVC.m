@@ -1,30 +1,27 @@
 //
-//  DKASearchVC.m
+//  DKAPlacesListVC.m
 //  LookAround.iOS7
 //
-//  Created by Nero Wolfe on 09/11/13.
+//  Created by Nero Wolfe on 20/11/13.
 //  Copyright (c) 2013 Sergey Dikarev. All rights reserved.
 //
 
-#import "DKASearchVC.h"
+#import "DKAPlacesListVC.h"
 #import "DKAHelper.h"
 #import "Defines.h"
 #import <FactualSDK/FactualQuery.h>
 #import "DKAPlaceVC.h"
 #import "DKAPlace.h"
+@interface DKAPlacesListVC ()
 
-@interface DKASearchVC ()
-{
-    FactualQueryResult *queryData;
-    NSMutableArray *items;
-
-}
 @end
 
-@implementation DKASearchVC
+@implementation DKAPlacesListVC
+{
+    FactualQueryResult *queryData;
 
-static NSString *CellIdentifier = @"Cell";
-
+    NSMutableArray *items;
+}
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -34,29 +31,20 @@ static NSString *CellIdentifier = @"Cell";
     return self;
 }
 
-
-
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
-    return UIStatusBarStyleLightContent;
-}
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
     items = [NSMutableArray new];
 
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 41, 0, 0);
     
-    [self preferredStatusBarStyle];
-    [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatedLocation) name:DKALocationMuchUpdated object:nil];
 
-    
-    
-	// Do any additional setup after loading the view.
+    // Uncomment the following line to preserve selection between presentations.
+    // self.clearsSelectionOnViewWillAppear = NO;
+ 
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -67,16 +55,12 @@ static NSString *CellIdentifier = @"Cell";
     self.navigationController.navigationBar.hidden = NO;
 }
 
-- (void)didReceiveMemoryWarning
+-(void)updatedLocation
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
--(void)searchByKeywords:(NSString *)keyword
-{
-    [[DKAHelper sharedInstance] doQueryWithSearchTerm:keyword completion:^(FactualQueryResult *data, NSError *error) {
+    CLLocation *loc = [[DKAHelper sharedInstance] currentLocation];
+    
+    [[DKAHelper sharedInstance] doQueryWithLocation:loc completion:^(FactualQueryResult *data, NSError *error) {
+        
         queryData = data;
         [items removeAllObjects];
         [queryData.rows enumerateObjectsUsingBlock:^(FactualRow *obj, NSUInteger idx, BOOL *stop) {
@@ -88,20 +72,12 @@ static NSString *CellIdentifier = @"Cell";
     }];
 }
 
--(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+
+- (void)didReceiveMemoryWarning
 {
-    [searchBar resignFirstResponder];
-    
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
-
--(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-    [searchBar resignFirstResponder];
-    [self searchByKeywords:searchBar.text];
-}
-
-#pragma mark - UICollectionViewDataSource Methods
-
 
 
 -(void)configureCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath
@@ -128,12 +104,12 @@ static NSString *CellIdentifier = @"Cell";
     {
         
         self.tableView.separatorInset = UIEdgeInsetsMake(0, 41, 0, 0);
-        
+
         return 1;
     }
     
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 320, 0, 0);
-    
+
     return 0;
 }
 
@@ -146,7 +122,6 @@ static NSString *CellIdentifier = @"Cell";
     }
     return 0;
 }
-
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -165,6 +140,7 @@ static NSString *CellIdentifier = @"Cell";
     }
     return 40;
 }
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

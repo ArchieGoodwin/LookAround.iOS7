@@ -17,6 +17,7 @@
 #import "LiveFrost.h"
 #import "LFGlassView.h"
 #import "DKACyclePageContainerVC.h"
+#import "DKAPlace.h"
 @interface DKAPlaceVC ()
 {
     DKAPlaceMenuVC *placeMenu;
@@ -29,7 +30,6 @@
     //GMSPanoramaView *panoView_;
     MKMapView *mapView;
     CLLocationCoordinate2D coord;
-    FactualRow *row;
 }
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -49,9 +49,9 @@
     self.tabBarController.tabBar.hidden = YES;
     
     self.navigationController.navigationBar.hidden = YES;
-     row = (FactualRow *)_placeObj;
 
-    coord = CLLocationCoordinate2DMake([[row valueForName:@"latitude"] doubleValue] , [[row valueForName:@"longitude"] doubleValue]);
+    
+    coord = CLLocationCoordinate2DMake(((DKAPlace *)_placeObj).latitude , ((DKAPlace *)_placeObj).longitude);
     
     [_btnStreetView setBackgroundImage:[helper radialGradientImage:_btnStreetView.frame.size start:0.9 end:0.9 centre:CGPointMake(0.5, 0.5) radius:0.45] forState:UIControlStateNormal];
     [_btnMenu setBackgroundImage:[helper radialGradientImage:_btnMenu.frame.size start:0.9 end:0.9 centre:CGPointMake(0.5, 0.5) radius:0.45] forState:UIControlStateNormal];
@@ -196,17 +196,19 @@
     }
 
     
-    MapAnnotation *m = [[MapAnnotation alloc] initWithUser:coord name:[row valueForName:@"name"] annotationType:WPMapAnnotationCategoryImage];
+    MapAnnotation *m = [[MapAnnotation alloc] initWithUser:coord name:((DKAPlace *)_placeObj).placeName annotationType:WPMapAnnotationCategoryImage];
     
     [mapView addAnnotation:m];
 
+    
+     [self centerMap2];
 }
 
 
 
 -(void)mapView:(MKMapView *)mapView1 didAddAnnotationViews:(NSArray *)views
 {
-    [self centerMap2];
+    //[self centerMap2];
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mv viewForAnnotation:(id<MKAnnotation>)a

@@ -11,8 +11,9 @@
 #import <FactualSDK/FactualQuery.h>
 #import "DKAFactualHelper.h"
 #import "Defines.h"
-
-
+#import "AFNetworking.h"
+#import "AFHTTPRequestOperation.h"
+#import "NWFourSquarePhoto.h"
 NSString * const PREFS_FACTUAL_TABLE = @"factual_table";
 NSString * const SANDBOX_TABLE_DESC = @"US POI Sandbox";
 
@@ -51,9 +52,38 @@ static NSString* topLevelCategories[] = {
 
 
 @implementation DKAHelper
-
+{
+    
+}
 
 #pragma mark - Helper methods
+
+-(BOOL)isIphone5
+{
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
+        if ([[UIScreen mainScreen] respondsToSelector: @selector(scale)]) {
+            CGSize result = [[UIScreen mainScreen] bounds].size;
+            CGFloat scale = [UIScreen mainScreen].scale;
+            result = CGSizeMake(result.width * scale, result.height * scale);
+            
+            if(result.height == 960) {
+                //NSLog(@"iPhone 4 Resolution");
+                return NO;
+            }
+            if(result.height == 1136) {
+                //NSLog(@"iPhone 5 Resolution");
+                //[[UIScreen mainScreen] bounds].size =result;
+                return YES;
+            }
+        }
+        else{
+            // NSLog(@"Standard Resolution");
+            return NO;
+        }
+    }
+    return NO;
+}
+
 
 
 -(void)populateAppDefaults
@@ -203,6 +233,64 @@ static NSString* topLevelCategories[] = {
 }
 
 
+#pragma mark - 4s methods
+
+-(void)photosByVenueId:(NSString *)venueId completionBlock:(DKAphotosByVenueIdCompletionBlock)completionBlock
+{
+    
+    DKAphotosByVenueIdCompletionBlock completeBlock = [completionBlock copy];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+	[dateFormat setDateFormat:@"yyyyMMdd"];
+	NSString *dateString = [dateFormat stringFromDate:[NSDate date]];
+    
+    
+    NSString *connectionString = [NSString stringWithFormat:@"https://api.foursquare.com/v2/venues/%@/photos?group=venue&client_id=%@&client_secret=%@&v=%@", venueId, CLIENT_ID, CLIENT_SECRET, dateString];
+    NSLog(@"connect to: %@",connectionString);
+    
+    
+ 
+ 
+    NSURLSessionDataTask *getTask =
+    [_session dataTaskWithURL:[NSURL URLWithString:connectionString] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSError *jsonError;
+
+        NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
+        NSMutableArray *pois = [[NSMutableArray alloc] init];
+
+        if (!jsonError) {
+            
+            NSMutableArray *items = [[[JSON objectForKey:@"response"] objectForKey:@"photos"] objectForKey:@"items"];
+            for (NSMutableDictionary *dict in items) {
+                NWFourSquarePhoto *item = [[NWFourSquarePhoto alloc] initWithDictionary:dict];
+                [pois addObject:item];
+            }
+            
+            if(pois.count > 0)
+            {
+                
+                if(completeBlock)
+                {
+                    completeBlock(pois, nil);
+                    
+                }
+            }
+            else
+            {
+                completeBlock(nil, nil);
+            }
+        }
+        else
+        {
+            completeBlock(nil, jsonError);
+        }
+    }];
+
+    [getTask resume];
+    
+
+}
+
+
 #pragma mark - Init methods
 
 - (id)init {
@@ -229,6 +317,14 @@ static NSString* topLevelCategories[] = {
         _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         _locationManager.delegate = self;
         
+        
+        NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+        //[sessionConfig setHTTPAdditionalHeaders: @{@"Accept": @"application/json"}];
+        sessionConfig.timeoutIntervalForRequest = 30.0;
+        sessionConfig.timeoutIntervalForResource = 60.0;
+        sessionConfig.HTTPMaximumConnectionsPerHost = 5;
+        
+        _session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
     }
     
     return self;
