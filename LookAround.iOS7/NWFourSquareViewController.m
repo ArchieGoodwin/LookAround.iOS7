@@ -11,8 +11,14 @@
 #import "InstagramCell.h"
 #import "Defines.h"
 #import "NWFourSquarePhoto.h"
+#import <QuartzCore/QuartzCore.h>
+#import "DKAPlace.h"
 @interface NWFourSquareViewController ()
-
+{
+    CAGradientLayer *maskLayer;
+    float lastContentOffset;
+    NSCache *imagesCache;
+}
 @end
 
 @implementation NWFourSquareViewController
@@ -26,6 +32,75 @@
     return self;
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    maskLayer.position = CGPointMake(0, scrollView.contentOffset.y);
+    [CATransaction commit];
+    
+    
+    /*ScrollDirection scrollDirection;
+    if (lastContentOffset > scrollView.contentOffset.y)
+        scrollDirection = ScrollDirectionUp;
+    else
+        scrollDirection = ScrollDirectionDown;
+    
+    lastContentOffset = scrollView.contentOffset.y;
+    
+    if(scrollDirection == ScrollDirectionDown)
+    {
+        if(lastContentOffset > 20.0)
+        {
+            [UIView animateWithDuration:0.4 animations:^{
+                _parentContr.barName.alpha = 0.0;
+            }];
+        }
+        
+    }
+    if(scrollDirection == ScrollDirectionUp)
+    {
+        [UIView animateWithDuration:0.4 animations:^{
+            _parentContr.barName.alpha = 1.0;
+        }];
+        
+    }*/
+}
+
+-(void)fadeView
+{
+    if (!maskLayer)
+    {
+        maskLayer = [CAGradientLayer layer];
+        
+        CGColorRef outerColor = [[UIColor colorWithWhite:1.0 alpha:1.0] CGColor];
+        CGColorRef innerColor = [[UIColor colorWithWhite:1.0 alpha:0.0] CGColor];
+        
+        maskLayer.colors = [NSArray arrayWithObjects:
+                            (__bridge id)outerColor,
+                            (__bridge id)innerColor,
+                            (__bridge id)innerColor,
+                            (__bridge id)innerColor,
+                            (__bridge id)outerColor, nil];
+        
+        maskLayer.locations = [NSArray arrayWithObjects:
+                               [NSNumber numberWithFloat:0.0],
+                               [NSNumber numberWithFloat:0.175],
+                               [NSNumber numberWithFloat:0.575],
+                               [NSNumber numberWithFloat:0.875],
+                               [NSNumber numberWithFloat:1.0], nil];
+        
+        //[maskLayer setStartPoint:CGPointMake(0, 0.5)];
+        //[maskLayer setEndPoint:CGPointMake(1, 0.5)];
+        
+        maskLayer.bounds = self.collectionView.bounds;
+        maskLayer.anchorPoint = CGPointZero;
+        
+        [self.collectionView.layer insertSublayer: maskLayer atIndex: 0];
+    }
+}
+
+
 -(void)back
 {
     self.collectionView = nil;
@@ -38,6 +113,7 @@
 -(void)realInit:(CGRect)rect
 {
     
+    imagesCache = [[NSCache alloc] init];
     self.view = [[UIView alloc] initWithFrame:rect];
     
     self.view.backgroundColor = [UIColor whiteColor];
@@ -54,12 +130,16 @@
     page = 1;
     isLoadingPage = YES;
     currentChaingeItemIndex = -1;
-    
+    CGRect frame = rect;
+    frame.origin.y = rect.origin.y - 60;
+    frame.size.height = rect.size.height;
+    //self.view = [[UIView alloc] initWithFrame:frame];
+    NSLog(@"frame %@", NSStringFromCGRect(frame));
     
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     [flowLayout setItemSize:CGSizeMake(100, 100)];
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
-    _collectionView = [[UICollectionView alloc] initWithFrame:rect collectionViewLayout:flowLayout];
+    _collectionView = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
     _collectionView.backgroundColor = [UIColor whiteColor];
     
     
@@ -89,9 +169,8 @@
     showExtrasSwipe2.direction = UISwipeGestureRecognizerDirectionLeft;
     [self.collectionView addGestureRecognizer:showExtrasSwipe2];*/
     
+    
     [self.collectionView reloadData];
-    
-    
     
     
     //[self getChainges];
@@ -112,6 +191,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
 	// Do any additional setup after loading the view.
 }
 
@@ -187,7 +268,7 @@
         
         //[self addToArray:[appDelegate.manager getChaingesSortByDistanceWithPage:page pageSize:pageSize userId:appDelegate.manager.userId loc:_searchLocation]];
         
-        [self.collectionView reloadData];
+        //[self.collectionView reloadData];
         // isLoadingPage = NO;
         
         
@@ -213,6 +294,12 @@
         //[self hideMessageView];
     }
     //[self updatedLocation];
+    
+    _parentContr.lblName.text = ((DKAPlace *)_parentContr.placeObj).placeName;
+
+    
+    [self fadeView];
+
     
     
 }
@@ -267,20 +354,27 @@
     
     
     InstagramCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"myChaingeCell" forIndexPath:indexPath];
-    
+
+
     NSInteger row = [indexPath row];
     NWFourSquarePhoto *ch = [_chainges objectAtIndex:row];
+    cell.imagesCache = imagesCache;
     cell.four = ch;
     cell.fourController = self;
+    
     cell.tag = indexPath.row;
     
-    NSLog(@"url = %@", ch.photoUrlFull);
+    //NSLog(@"url = %@", ch.photoUrlFull);
+
+
+   
+
     return cell;
 }
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger row = [indexPath row];
+    //NSInteger row = [indexPath row];
     //[appDelegate.mainViewController continueChainge:row chaingesArray:_chaingesArray];
 }
 
@@ -360,7 +454,7 @@
     [cv dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter
                            withReuseIdentifier:@"FlickrPhotoHeaderView" forIndexPath:indexPath];
     
-    NSLog(@"indexPath.row = %i, %i", indexPath.row, indexPath.section);
+    //NSLog(@"indexPath.row = %i, %i", indexPath.row, indexPath.section);
     /*if (!isLoadingPage) {
      
      headerView.activityIndicator.hidden = NO;

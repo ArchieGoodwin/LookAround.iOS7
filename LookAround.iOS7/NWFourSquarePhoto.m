@@ -16,7 +16,7 @@
     
     
     
-    NSLog(@"%@", dict);
+    //NSLog(@"%@", dict);
     if(dict != nil)
     {
         

@@ -14,5 +14,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *lblDate;
 @property (weak, nonatomic) IBOutlet UILabel *lblAuthor;
 @property (weak, nonatomic) IBOutlet NWLabel *lblText;
+
+@property (strong, nonatomic)  NWtwitter *tweet;
+@property (nonatomic, strong) NSCache *imagesCache;
+
 -(void)setAll:(NWtwitter *)twit;
 @end

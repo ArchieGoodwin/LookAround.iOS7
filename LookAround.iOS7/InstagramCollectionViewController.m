@@ -11,9 +11,14 @@
 #import "InstagramCell.h"
 #import "Defines.h"
 #import "NWinstagram.h"
-
+#import <QuartzCore/QuartzCore.h>
+#import "DKAPlace.h"
 @interface InstagramCollectionViewController ()
-
+{
+    CAGradientLayer *maskLayer;
+    float lastContentOffset;
+    NSCache *imagesCache;
+}
 @end
 
 @implementation InstagramCollectionViewController
@@ -36,10 +41,86 @@
 
 }
 
+
+-(void)fadeView
+{
+    if (!maskLayer)
+    {
+        maskLayer = [CAGradientLayer layer];
+        
+        CGColorRef outerColor = [[UIColor colorWithWhite:1.0 alpha:1.0] CGColor];
+        CGColorRef innerColor = [[UIColor colorWithWhite:1.0 alpha:0.0] CGColor];
+        
+        maskLayer.colors = [NSArray arrayWithObjects:
+                            (__bridge id)outerColor,
+                            (__bridge id)innerColor,
+                            (__bridge id)innerColor,
+                            (__bridge id)innerColor,
+                            (__bridge id)outerColor, nil];
+        
+        maskLayer.locations = [NSArray arrayWithObjects:
+                               [NSNumber numberWithFloat:0.0],
+                               [NSNumber numberWithFloat:0.175],
+                               [NSNumber numberWithFloat:0.575],
+                               [NSNumber numberWithFloat:0.875],
+                               [NSNumber numberWithFloat:1.0], nil];
+        
+        //[maskLayer setStartPoint:CGPointMake(0, 0.5)];
+        //[maskLayer setEndPoint:CGPointMake(1, 0.5)];
+        
+        maskLayer.bounds = self.collectionView.bounds;
+        NSLog(@"maskLayer.bounds %@", NSStringFromCGRect(maskLayer.bounds));
+        maskLayer.anchorPoint = CGPointZero;
+        
+        [self.collectionView.layer insertSublayer: maskLayer atIndex: 0];
+    }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    maskLayer.position = CGPointMake(0, scrollView.contentOffset.y);
+    [CATransaction commit];
+    
+    
+    /*ScrollDirection scrollDirection;
+    if (lastContentOffset > scrollView.contentOffset.y)
+        scrollDirection = ScrollDirectionUp;
+    else
+        scrollDirection = ScrollDirectionDown;
+    
+    lastContentOffset = scrollView.contentOffset.y;
+    
+    if(scrollDirection == ScrollDirectionDown)
+    {
+        if(lastContentOffset > 20.0)
+        {
+            [UIView animateWithDuration:0.4 animations:^{
+                _parentContr.barName.alpha = 0.0;
+            }];
+        }
+       
+        
+    }
+    if(scrollDirection == ScrollDirectionUp)
+    {
+        [UIView animateWithDuration:0.4 animations:^{
+            _parentContr.barName.alpha = 1.0;
+        }];
+        
+    }*/
+}
+
 -(void)realInit:(CGRect)rect
 {
-    
-    self.view = [[UIView alloc] initWithFrame:rect];
+    imagesCache = [[NSCache alloc] init];
+
+    CGRect frame = rect;
+    frame.origin.y = rect.origin.y - 60;
+    frame.size.height = rect.size.height;
+    //self.view = [[UIView alloc] initWithFrame:frame];
+    NSLog(@"frame %@", NSStringFromCGRect(frame));
 
     self.view.backgroundColor = [UIColor whiteColor];
    /* UIButton *btnBack = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -56,12 +137,14 @@
     isLoadingPage = YES;
     currentChaingeItemIndex = -1;
 
+    
+    
 
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     [flowLayout setItemSize:CGSizeMake(100, 100)];
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
-    _collectionView = [[UICollectionView alloc] initWithFrame:rect collectionViewLayout:flowLayout];
-    _collectionView.backgroundColor = [UIColor whiteColor];
+    _collectionView = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
+    _collectionView.backgroundColor = [UIColor clearColor];
 
 
     [_collectionView setAllowsSelection:YES];
@@ -93,7 +176,6 @@
     [self.collectionView reloadData];
 
     
-
     
     //[self getChainges];
 }
@@ -219,6 +301,11 @@
     }
     //[self updatedLocation];
 
+    _parentContr.lblName.text = ((DKAPlace *)_parentContr.placeObj).placeName;
+
+    
+    [self fadeView];
+
 
 }
 
@@ -279,6 +366,8 @@
 
     NSInteger row = [indexPath row];
     NWinstagram *ch = [_chainges objectAtIndex:row];
+    cell.imagesCache = imagesCache;
+
     cell.insta = ch;
     cell.controller = self;
     cell.tag = indexPath.row;

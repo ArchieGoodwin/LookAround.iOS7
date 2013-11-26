@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface DKAHistoryVC : UITableViewController
+#import "ASMediaFocusManager.h"
+@interface DKAHistoryVC : UITableViewController <ASMediasFocusDelegate>
 
 @end

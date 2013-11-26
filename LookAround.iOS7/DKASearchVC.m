@@ -73,10 +73,24 @@ static NSString *CellIdentifier = @"Cell";
     // Dispose of any resources that can be recreated.
 }
 
+-(void)reloadme
+{
+    [self.tableView reloadData];
+    
+}
 
 -(void)searchByKeywords:(NSString *)keyword
 {
-    [[DKAHelper sharedInstance] doQueryWithSearchTerm:keyword completion:^(FactualQueryResult *data, NSError *error) {
+    
+    [helper poisByKeyword:keyword completionBlock:^(NSArray *result, NSError *error) {
+        [items removeAllObjects];
+        items = [result mutableCopy];
+        
+        [self performSelectorOnMainThread:@selector(reloadme) withObject:nil waitUntilDone:NO];
+    }];
+    
+    
+    /*[[DKAHelper sharedInstance] doQueryWithSearchTerm:keyword completion:^(FactualQueryResult *data, NSError *error) {
         queryData = data;
         [items removeAllObjects];
         [queryData.rows enumerateObjectsUsingBlock:^(FactualRow *obj, NSUInteger idx, BOOL *stop) {
@@ -85,7 +99,7 @@ static NSString *CellIdentifier = @"Cell";
         }];
         
         [self.tableView reloadData];
-    }];
+    }];*/
 }
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -115,6 +129,40 @@ static NSString *CellIdentifier = @"Cell";
     frame.size.height = [[DKAHelper sharedInstance] getLabelSize:lbl fontSize:LOCATIONLISTFONTSIZE];
     lbl.frame = frame;
     lbl.text = place.placeName;
+    //NSLog(@" iconUrl %@", place.iconUrl);
+    
+    UIImageView *imgView = (UIImageView *)[cell.contentView viewWithTag:1002];
+    if(imgView.image == nil)
+    {
+        if(place.iconUrl != nil)
+        {
+            imgView.image = [UIImage imageNamed:@"Placeholder.png"];
+            
+            NSURLSessionDownloadTask *getImageTask =
+            [helper.session downloadTaskWithURL:[NSURL URLWithString:place.iconUrl]
+                              completionHandler:^(NSURL *location, NSURLResponse *response,
+                                                  NSError *error) {
+                                  if(!error)
+                                  {
+                                      UIImage *downloadedImage = [UIImage imageWithData:
+                                                                  [NSData dataWithContentsOfURL:location]];
+                                      
+                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                          
+                                          imgView.image = downloadedImage;
+                                      });
+                                  }
+                                  else
+                                  {
+                                      NSLog(@"error with iconUrl %@", error.localizedDescription);
+                                  }
+                                  
+                              }];
+            
+            [getImageTask resume];
+        }
+        
+    }
     
     
 }

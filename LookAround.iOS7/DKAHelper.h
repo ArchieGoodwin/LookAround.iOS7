@@ -46,4 +46,9 @@ extern NSString * const PREFS_CATEGORY_FILTER_TYPE;
 -(void)setPrefValueForKey:(NSString *)key val:(id)val;
 - (UIImage *)radialGradientImage:(CGSize)size start:(float)start end:(float)end centre:(CGPoint)centre radius:(float)radius;
 -(BOOL)isIphone5;
+-(void)poisNearLocation:(CLLocationCoordinate2D)location completionBlock:(DKAgetPOIsCompletionBlock)completionBlock;
+-(void)photosByVenueId:(NSString *)venueId completionBlock:(DKAphotosByVenueIdCompletionBlock)completionBlock;
+-(void)poisByKeyword:(NSString *)keyword completionBlock:(DKAgetPOIsCompletionBlock)completionBlock;
+- (void)getTwitterAround:(double)lat lng:(double)lng completionBlock:(DKAgetPOIsCompletionBlock)completionBlock;
+-(void)getInstagramAround:(double)lat lng:(double)lng completionBlock:(DKAgetPOIsCompletionBlock)completionBlock;
 @end

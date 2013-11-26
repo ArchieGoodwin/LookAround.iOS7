@@ -143,7 +143,9 @@
 - (void)handleDefocusGesture:(UIGestureRecognizer *)gesture
 {
     UIView *contentView;
-    
+    UIViewController *parentViewController;
+    parentViewController = [self.delegate parentViewControllerForMediaFocusManager:self];
+
     contentView = self.focusViewController.mainImageView;
     [UIView animateWithDuration:self.animationDuration
                           delay:0
@@ -164,6 +166,8 @@
                          [self.focusViewController removeFromParentViewController];
                          self.focusViewController = nil;
 
+                         parentViewController.navigationController.navigationBar.hidden = NO;
+                         parentViewController.tabBarController.tabBar.hidden = NO;
                          //appDelegate.mainViewController.tabBar.hidden = NO;
 
                      }];

@@ -41,6 +41,9 @@
 		DC190884183231FD00DB0D20 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC190883183231FD00DB0D20 /* SystemConfiguration.framework */; };
 		DC1D83F81832079500D22307 /* DKAPlaceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC1D83F71832079500D22307 /* DKAPlaceVC.m */; };
 		DC23183C183CE8C2006BCF57 /* DKAPlacesListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC23183B183CE8C2006BCF57 /* DKAPlacesListVC.m */; };
+		DC2EEA3D184087E0000632A6 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC2EEA3C184087E0000632A6 /* Social.framework */; };
+		DC2EEA3F184087E4000632A6 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC2EEA3E184087E4000632A6 /* Accounts.framework */; };
+		DC2EEA421841F8A6000632A6 /* DKAPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = DC2EEA411841F8A6000632A6 /* DKAPhoto.m */; };
 		DC39CC08182F94A100EFD523 /* MRBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC39CBF3182F94A100EFD523 /* MRBlurView.m */; };
 		DC39CC09182F94A100EFD523 /* UIImage+MRImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = DC39CBF5182F94A100EFD523 /* UIImage+MRImageEffects.m */; };
 		DC39CC0A182F94A100EFD523 /* MRActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC39CBF8182F94A100EFD523 /* MRActivityIndicatorView.m */; };
@@ -55,6 +58,7 @@
 		DC80043F181011920024C63C /* FactualSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC80043E181011920024C63C /* FactualSDK.framework */; };
 		DC8004421810122C0024C63C /* NSString(Escaping).m in Sources */ = {isa = PBXBuildFile; fileRef = DC8004411810122C0024C63C /* NSString(Escaping).m */; };
 		DC8E449F1815502E00B7B71A /* DKANavVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC8E449E1815502E00B7B71A /* DKANavVC.m */; };
+		DC9789791844A4E9002B9C31 /* DKAFoursquareInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9789781844A4E9002B9C31 /* DKAFoursquareInfoVC.m */; };
 		DC9A7FC0182E33A800EB9E9F /* DKASearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9A7FBF182E33A800EB9E9F /* DKASearchVC.m */; };
 		DC9A7FC3182E6C6A00EB9E9F /* NSDate-Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9A7FC2182E6C6A00EB9E9F /* NSDate-Utilities.m */; };
 		DC9A7FC7182F579500EB9E9F /* DKAHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9A7FC6182F579500EB9E9F /* DKAHistoryVC.m */; };
@@ -64,9 +68,6 @@
 		DCE34C81183B6F1000757702 /* LFGlassView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE34C7E183B6F1000757702 /* LFGlassView.m */; };
 		DCE5764F18324A0F003A5F3C /* STImageAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE5764C18324A0F003A5F3C /* STImageAnnotationView.m */; };
 		DCE5765018324A0F003A5F3C /* MapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE5764E18324A0F003A5F3C /* MapAnnotation.m */; };
-		DCE896FB183B74E000F450FD /* GTCyclePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE896F8183B74E000F450FD /* GTCyclePageView.m */; };
-		DCE896FC183B74E000F450FD /* GTCyclePageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE896FA183B74E000F450FD /* GTCyclePageViewCell.m */; };
-		DCE896FF183B755500F450FD /* DKACyclePageContainerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE896FE183B755500F450FD /* DKACyclePageContainerVC.m */; };
 		DCE89705183B83AF00F450FD /* NWTwitterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE89701183B83AF00F450FD /* NWTwitterCell.m */; };
 		DCE89706183B83AF00F450FD /* TwitterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCE89702183B83AF00F450FD /* TwitterCell.xib */; };
 		DCE89707183B83AF00F450FD /* NWTwitterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE89704183B83AF00F450FD /* NWTwitterViewController.m */; };
@@ -144,6 +145,10 @@
 		DC1D83F71832079500D22307 /* DKAPlaceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAPlaceVC.m; sourceTree = "<group>"; };
 		DC23183A183CE8C2006BCF57 /* DKAPlacesListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKAPlacesListVC.h; sourceTree = "<group>"; };
 		DC23183B183CE8C2006BCF57 /* DKAPlacesListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAPlacesListVC.m; sourceTree = "<group>"; };
+		DC2EEA3C184087E0000632A6 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		DC2EEA3E184087E4000632A6 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		DC2EEA401841F8A6000632A6 /* DKAPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKAPhoto.h; sourceTree = "<group>"; };
+		DC2EEA411841F8A6000632A6 /* DKAPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAPhoto.m; sourceTree = "<group>"; };
 		DC39CBF2182F94A100EFD523 /* MRBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRBlurView.h; sourceTree = "<group>"; };
 		DC39CBF3182F94A100EFD523 /* MRBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRBlurView.m; sourceTree = "<group>"; };
 		DC39CBF4182F94A100EFD523 /* UIImage+MRImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+MRImageEffects.h"; sourceTree = "<group>"; };
@@ -173,6 +178,8 @@
 		DC8004431810FABD0024C63C /* Defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Defines.h; sourceTree = "<group>"; };
 		DC8E449D1815502E00B7B71A /* DKANavVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKANavVC.h; sourceTree = "<group>"; };
 		DC8E449E1815502E00B7B71A /* DKANavVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKANavVC.m; sourceTree = "<group>"; };
+		DC9789771844A4E9002B9C31 /* DKAFoursquareInfoVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKAFoursquareInfoVC.h; sourceTree = "<group>"; };
+		DC9789781844A4E9002B9C31 /* DKAFoursquareInfoVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAFoursquareInfoVC.m; sourceTree = "<group>"; };
 		DC9A7FBE182E33A800EB9E9F /* DKASearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKASearchVC.h; sourceTree = "<group>"; };
 		DC9A7FBF182E33A800EB9E9F /* DKASearchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKASearchVC.m; sourceTree = "<group>"; };
 		DC9A7FC1182E6C6A00EB9E9F /* NSDate-Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate-Utilities.h"; sourceTree = "<group>"; };
@@ -192,12 +199,6 @@
 		DCE5764C18324A0F003A5F3C /* STImageAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STImageAnnotationView.m; sourceTree = "<group>"; };
 		DCE5764D18324A0F003A5F3C /* MapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapAnnotation.h; sourceTree = "<group>"; };
 		DCE5764E18324A0F003A5F3C /* MapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapAnnotation.m; sourceTree = "<group>"; };
-		DCE896F7183B74E000F450FD /* GTCyclePageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCyclePageView.h; sourceTree = "<group>"; };
-		DCE896F8183B74E000F450FD /* GTCyclePageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCyclePageView.m; sourceTree = "<group>"; };
-		DCE896F9183B74E000F450FD /* GTCyclePageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTCyclePageViewCell.h; sourceTree = "<group>"; };
-		DCE896FA183B74E000F450FD /* GTCyclePageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTCyclePageViewCell.m; sourceTree = "<group>"; };
-		DCE896FD183B755500F450FD /* DKACyclePageContainerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKACyclePageContainerVC.h; sourceTree = "<group>"; };
-		DCE896FE183B755500F450FD /* DKACyclePageContainerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKACyclePageContainerVC.m; sourceTree = "<group>"; };
 		DCE89700183B83AF00F450FD /* NWTwitterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NWTwitterCell.h; sourceTree = "<group>"; };
 		DCE89701183B83AF00F450FD /* NWTwitterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NWTwitterCell.m; sourceTree = "<group>"; };
 		DCE89702183B83AF00F450FD /* TwitterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TwitterCell.xib; sourceTree = "<group>"; };
@@ -243,6 +244,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC2EEA3F184087E4000632A6 /* Accounts.framework in Frameworks */,
+				DC2EEA3D184087E0000632A6 /* Social.framework in Frameworks */,
 				DC190884183231FD00DB0D20 /* SystemConfiguration.framework in Frameworks */,
 				DC190882183231E900DB0D20 /* libicucore.dylib in Frameworks */,
 				DC190880183231D800DB0D20 /* libc++.dylib in Frameworks */,
@@ -301,6 +304,8 @@
 		DC0D53F7180C1257004193E2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DC2EEA3E184087E4000632A6 /* Accounts.framework */,
+				DC2EEA3C184087E0000632A6 /* Social.framework */,
 				DC190883183231FD00DB0D20 /* SystemConfiguration.framework */,
 				DC190881183231E900DB0D20 /* libicucore.dylib */,
 				DC19087F183231D800DB0D20 /* libc++.dylib */,
@@ -332,6 +337,7 @@
 			children = (
 				DC0D5437180D7049004193E2 /* Helpers */,
 				DCE8972F183B842200F450FD /* Foursquare */,
+				DC9789761844A4C0002B9C31 /* FoursquareInfo */,
 				DCE8971B183B83FE00F450FD /* Instagram */,
 				DCE89708183B83B500F450FD /* Twitter */,
 				DC1D83F51832077900D22307 /* Place */,
@@ -395,7 +401,6 @@
 				DCE89781183B861B00F450FD /* MediaFocus */,
 				DCE89733183B847900F450FD /* NWLabel.h */,
 				DCE89734183B847900F450FD /* NWLabel.m */,
-				DCE896F6183B74E000F450FD /* Class */,
 				DCE34C7A183B6F1000757702 /* LiveFrost */,
 				DCE5764B18324A0F003A5F3C /* STImageAnnotationView.h */,
 				DCE5764C18324A0F003A5F3C /* STImageAnnotationView.m */,
@@ -424,8 +429,6 @@
 				DC1D83F71832079500D22307 /* DKAPlaceVC.m */,
 				DCE34C77183B6A4300757702 /* DKAPlaceMenuVC.h */,
 				DCE34C78183B6A4300757702 /* DKAPlaceMenuVC.m */,
-				DCE896FD183B755500F450FD /* DKACyclePageContainerVC.h */,
-				DCE896FE183B755500F450FD /* DKACyclePageContainerVC.m */,
 			);
 			name = Place;
 			sourceTree = "<group>";
@@ -481,6 +484,15 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		DC9789761844A4C0002B9C31 /* FoursquareInfo */ = {
+			isa = PBXGroup;
+			children = (
+				DC9789771844A4E9002B9C31 /* DKAFoursquareInfoVC.h */,
+				DC9789781844A4E9002B9C31 /* DKAFoursquareInfoVC.m */,
+			);
+			name = FoursquareInfo;
+			sourceTree = "<group>";
+		};
 		DC9A7FBD182E338100EB9E9F /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -516,6 +528,8 @@
 				DCE89714183B83E000F450FD /* NWWeather.m */,
 				DC14FF87183E2AED004B0447 /* DKAPlace.h */,
 				DC14FF88183E2AED004B0447 /* DKAPlace.m */,
+				DC2EEA401841F8A6000632A6 /* DKAPhoto.h */,
+				DC2EEA411841F8A6000632A6 /* DKAPhoto.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -539,17 +553,6 @@
 				DCE34C7F183B6F1000757702 /* LiveFrost.h */,
 			);
 			path = LiveFrost;
-			sourceTree = "<group>";
-		};
-		DCE896F6183B74E000F450FD /* Class */ = {
-			isa = PBXGroup;
-			children = (
-				DCE896F7183B74E000F450FD /* GTCyclePageView.h */,
-				DCE896F8183B74E000F450FD /* GTCyclePageView.m */,
-				DCE896F9183B74E000F450FD /* GTCyclePageViewCell.h */,
-				DCE896FA183B74E000F450FD /* GTCyclePageViewCell.m */,
-			);
-			path = Class;
 			sourceTree = "<group>";
 		};
 		DCE89708183B83B500F450FD /* Twitter */ = {
@@ -712,6 +715,7 @@
 				DCE89705183B83AF00F450FD /* NWTwitterCell.m in Sources */,
 				DCE89719183B83E000F450FD /* NWFourSquarePhoto.m in Sources */,
 				DC8004421810122C0024C63C /* NSString(Escaping).m in Sources */,
+				DC9789791844A4E9002B9C31 /* DKAFoursquareInfoVC.m in Sources */,
 				DCE89707183B83AF00F450FD /* NWTwitterViewController.m in Sources */,
 				DCE89718183B83E000F450FD /* NWinstagram.m in Sources */,
 				DC23183C183CE8C2006BCF57 /* DKAPlacesListVC.m in Sources */,
@@ -734,17 +738,15 @@
 				DCE8977C183B856200F450FD /* StackedGridLayoutSection.m in Sources */,
 				DC39CC10182F94A100EFD523 /* MRWeakProxy.m in Sources */,
 				DCE8971A183B83E000F450FD /* NWWeather.m in Sources */,
-				DCE896FC183B74E000F450FD /* GTCyclePageViewCell.m in Sources */,
 				DC39CC0E182F94A100EFD523 /* MRProgressOverlayView.m in Sources */,
 				DC39CC0F182F94A100EFD523 /* MRMessageInterceptor.m in Sources */,
-				DCE896FB183B74E000F450FD /* GTCyclePageView.m in Sources */,
 				DC39CC0C182F94A100EFD523 /* MRIconView.m in Sources */,
-				DCE896FF183B755500F450FD /* DKACyclePageContainerVC.m in Sources */,
 				DCE89715183B83E000F450FD /* NWItem.m in Sources */,
 				DCE8976C183B855A00F450FD /* NWFourSquareViewController.m in Sources */,
 				DC9A7FC0182E33A800EB9E9F /* DKASearchVC.m in Sources */,
 				DC0D543C180D70E9004193E2 /* DKAHelper.m in Sources */,
 				DCE5764F18324A0F003A5F3C /* STImageAnnotationView.m in Sources */,
+				DC2EEA421841F8A6000632A6 /* DKAPhoto.m in Sources */,
 				DCE8977D183B856200F450FD /* InstagramCell.m in Sources */,
 				DC9A7FC3182E6C6A00EB9E9F /* NSDate-Utilities.m in Sources */,
 				DC39CC09182F94A100EFD523 /* UIImage+MRImageEffects.m in Sources */,

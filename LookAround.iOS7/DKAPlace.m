@@ -59,4 +59,163 @@
 }
 
 
+-(NSMutableArray *)getListOfFields
+{
+    NSMutableArray *temp = [NSMutableArray new];
+    
+    
+    NSDictionary *f1 = @{@"title": @"Name", @"fieldValue":_placeName, @"type":@"text"};
+    NSDictionary *f3 = @{@"title": @"Rating", @"fieldValue":[NSNumber numberWithFloat:_rating], @"type":@"float"};
+    NSDictionary *f4 = @{@"title": @"Likes", @"fieldValue":[NSNumber numberWithInt:_likes], @"type":@"int"};
+    NSDictionary *f5 = @{@"title": @"Here now", @"fieldValue":[NSNumber numberWithInt:_hereNow], @"type":@"int"};
+    NSDictionary *f6 = _status == nil ? nil : @{@"title": @"Status", @"fieldValue":_status, @"type":@"text"};
+    NSDictionary *f7 = @{@"title": @"Checkins", @"fieldValue":[NSNumber numberWithInt:_checkinsCount], @"type":@"int"};
+    NSDictionary *f8 = @{@"title": @"Users count", @"fieldValue":[NSNumber numberWithInt:_userCount], @"type":@"int"};
+    NSDictionary *f9 = _canonicalUrl == nil ? nil : @{@"title": @"Web page", @"fieldValue":_canonicalUrl, @"type":@"link"};
+    NSDictionary *f10 = @{@"title": @"Distance", @"fieldValue":[NSNumber numberWithFloat:_distance], @"type":@"float"};
+    NSDictionary *f11 = @{@"title": @"Address", @"fieldValue":[NSString stringWithFormat:@"%@ %@", _address, _city], @"type":@"text"};
+
+
+    /*if(f1)
+    {
+        [temp addObject:f1];
+    }*/
+    if(f11)
+    {
+        [temp addObject:f11];
+    }
+    if(f10)
+    {
+        [temp addObject:f10];
+    }
+    if(f9)
+    {
+        [temp addObject:f9];
+    }
+    if(f3)
+    {
+        [temp addObject:f3];
+    }
+    if(f4)
+    {
+        [temp addObject:f4];
+    }
+    if(f5)
+    {
+        [temp addObject:f5];
+    }
+    if(f6)
+    {
+        [temp addObject:f6];
+    }
+    if(f7)
+    {
+        [temp addObject:f7];
+    }
+    if(f8)
+    {
+        [temp addObject:f8];
+    }
+
+    
+    return temp;
+}
+
+-(DKAPlace *)initWith4s:(NSMutableDictionary *)dict
+{
+    
+    //NSLog(@"%@", dict);
+    if(dict != nil)
+    {
+        
+        @try {
+            _dataSourceType = 1;
+            self.placeName = [dict  objectForKey:@"name"];
+            self.placeId = [dict objectForKey:@"id"];
+            if([dict objectForKey:@"categories"] != nil && ((NSArray *)[dict objectForKey:@"categories"]).count > 0)
+            {
+                NSString *url = [[[[dict objectForKey:@"categories"] objectAtIndex:0] objectForKey:@"icon"] objectForKey:@"prefix"];
+                NSString *ext = [[[[dict objectForKey:@"categories"] objectAtIndex:0] objectForKey:@"icon"] objectForKey:@"suffix"];
+                NSString *fullUrl = [NSString stringWithFormat:@"%@_32%@", [url substringToIndex:[url length]-1], ext];
+                self.iconUrl = fullUrl;
+                
+            }
+            
+            if([[dict objectForKey:@"location"] objectForKey:@"distance"] != [NSNull null])
+            {
+                self.distance = [[[dict objectForKey:@"location"] objectForKey:@"distance"] floatValue];
+                
+            }
+            if([[dict objectForKey:@"location"] objectForKey:@"lat"] != [NSNull null])
+            {
+                self.latitude = [[[dict objectForKey:@"location"] objectForKey:@"lat"] doubleValue];
+                self.longitude = [[[dict objectForKey:@"location"] objectForKey:@"lng"] doubleValue];
+            }
+            
+            
+            if(![[dict objectForKey:@"menu"] isEqual:[NSNull null]])
+            {
+                _menu = [dict objectForKey:@"menu"];
+            }
+            else
+            {
+                _menu = nil;
+            }
+            
+            if(![[dict objectForKey:@"reservations"] isEqual:[NSNull null]])
+            {
+                if(![[[dict objectForKey:@"reservations"] objectForKey:@"url"] isEqual:[NSNull null]])
+                {
+                    _reservationUrl = [[dict objectForKey:@"reservations"] objectForKey:@"url"];
+
+                }
+                else
+                {
+                    _reservationUrl = nil;
+                }
+            }
+            else
+            {
+                _reservationUrl = nil;
+            }
+            
+            _canonicalUrl = [dict objectForKey:@"canonicalUrl"];
+            _tel = [[dict objectForKey:@"contact"] objectForKey:@"formattedPhone"];
+            _twitter = [[dict objectForKey:@"contact"] objectForKey:@"twitter"];
+            _hereNow = [[[dict objectForKey:@"hereNow"] objectForKey:@"count"] integerValue];
+            _status = [[dict objectForKey:@"hours"] objectForKey:@"status"];
+            _likes = [[[dict objectForKey:@"likes"] objectForKey:@"count"] integerValue];
+            _location = [dict objectForKey:@"location"];
+            _rating = [[dict objectForKey:@"rating"] floatValue];
+            _checkinsCount = [[[dict objectForKey:@"stats"] objectForKey:@"checkinsCount"] integerValue];
+            _userCount = [[[dict objectForKey:@"stats"] objectForKey:@"usersCount"] integerValue];
+            _city = [[dict objectForKey:@"location"] objectForKey:@"city"];
+            _address = [[dict objectForKey:@"location"] objectForKey:@"address"];
+            self.venueId = [[dict objectForKey:@"venuePage"] objectForKey:@"id"];
+
+            _postcode = [[dict objectForKey:@"location"] objectForKey:@"postalCode"];
+            
+            NSLog(@"%@  %@", _placeId, _venueId);
+
+            
+            return self;
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Error while creating NWItem %@", exception.description);
+            return nil;
+        }
+        @finally {
+            
+        }
+        
+        
+        
+    }
+    
+    
+    return nil;
+}
+
+
+
 @end

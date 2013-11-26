@@ -9,6 +9,8 @@
 #import "NWTwitterCell.h"
 #import "NWtwitter.h"
 #import "NWLabel.h"
+#import "DKAHelper.h"
+#import "Defines.h"
 @implementation NWTwitterCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -30,10 +32,49 @@
 }
 
 
+-(void) setTweet:(NWtwitter *)tweet{
+    
+    _lblText.text = tweet.message;
+    _lblText.verticalAlignment = VerticalAlignmentTop;
+    _lblDate.text =  [NSDateFormatter localizedStringFromDate:tweet.dateCreated dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterShortStyle];
+    _lblAuthor.text = tweet.author;
+    
+    UIImage *cacheImage =  [_imagesCache objectForKey:tweet.iconUrl];
+    
+    if(!cacheImage)
+    {
+        NSURLSessionDownloadTask *getImageTask =
+        [helper.session downloadTaskWithURL:[NSURL URLWithString:tweet.iconUrl]
+                          completionHandler:^(NSURL *location, NSURLResponse *response,
+                                              NSError *error) {
+                              // 2
+                              UIImage *downloadedImage = [UIImage imageWithData:
+                                                          [NSData dataWithContentsOfURL:location]];
+                              //3
+                              
+                              
+                              dispatch_async(dispatch_get_main_queue(), ^{
+                                  [_imagesCache setObject:downloadedImage forKey:tweet.iconUrl];
+                                  
+                                  self.imgProfile.image = downloadedImage;
+                              });
+                          }];
+        
+        [getImageTask resume];
+        
+        
+    }
+    else
+    {
+        self.imgProfile.image = cacheImage;
+        
+    }
+}
+
+
 -(void)setAll:(NWtwitter *)twit
 {
-    _lblText.text = twit.message;
-    _lblText.verticalAlignment = VerticalAlignmentTop;
+    
     
    // [_lblText sizeToFit];
 }

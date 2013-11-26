@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "DKAPlaceVC.h"
 @interface NWTwitterViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate>
 
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic)     NSArray *tweets;
+@property (nonatomic, strong) DKAPlaceVC *parentContr;
+
+
 -(id)initMe:(CGRect)frame;
 -(void)realInit;
 @end

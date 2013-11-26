@@ -17,7 +17,10 @@
 @property (strong, nonatomic) id placeObj;
 @property (strong, nonatomic) IBOutlet UIView *myStreetView;
 @property (strong, nonatomic) IBOutlet UIButton *btnBack;
+@property (strong, nonatomic) IBOutlet UILabel *lblName;
+@property (strong, nonatomic) IBOutlet UIView *barName;
 
 - (IBAction)showMenu:(id)sender;
 - (IBAction)showInfoPages:(id)sender;
+-(void)changeLabelText:(NSString *)str;
 @end

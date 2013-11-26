@@ -12,9 +12,15 @@
 #import "NWTwitterCell.h"
 #import "NWLabel.h"
 #import "DKAHelper.h"
+#import <QuartzCore/QuartzCore.h>
+#import "DKAPlace.h"
+NSCache *imagesCache;
+
 @interface NWTwitterViewController ()
 {
     UIView *viewForLabel;
+    CAGradientLayer *maskLayer;
+    float lastContentOffset;
 }
 @end
 
@@ -26,16 +32,52 @@
     self = [super init];
     if(self)
     {
-        self.view.frame = frame;
+        
+       
         self.tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
 
         [self.view addSubview:_tableView];
+        
+
     }
     return self;
 
+}
+
+-(void)fadeView
+{
+    if (!maskLayer)
+    {
+        maskLayer = [CAGradientLayer layer];
+        
+        CGColorRef outerColor = [[UIColor colorWithWhite:1.0 alpha:0.0] CGColor];
+        CGColorRef innerColor = [[UIColor colorWithWhite:1.0 alpha:1.0] CGColor];
+        
+        maskLayer.colors = [NSArray arrayWithObjects:
+                            (__bridge id)outerColor,
+                            (__bridge id)innerColor,
+                            (__bridge id)innerColor,
+                            (__bridge id)innerColor,
+                            (__bridge id)outerColor, nil];
+        
+        maskLayer.locations = [NSArray arrayWithObjects:
+                               [NSNumber numberWithFloat:0.0],
+                               [NSNumber numberWithFloat:0.175],
+                               [NSNumber numberWithFloat:0.575],
+                               [NSNumber numberWithFloat:0.875],
+                               [NSNumber numberWithFloat:1.0], nil];
+        
+        //[maskLayer setStartPoint:CGPointMake(0, 0.5)];
+        //[maskLayer setEndPoint:CGPointMake(1, 0.5)];
+        
+        maskLayer.bounds = self.view.bounds;
+        maskLayer.anchorPoint = CGPointZero;
+        
+        self.tableView.layer.mask = maskLayer;
+    }
 }
 
 - (void)showMessageView {
@@ -87,7 +129,6 @@
     
     [super viewDidLoad];
 
-    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -104,13 +145,59 @@
         [self showMessageView];
         //[self hideMessageView];
     }
+    _parentContr.lblName.text = ((DKAPlace *)_parentContr.placeObj).placeName;
+    
+    [self fadeView];
+
 }
 
 -(void)realInit
 {
+    imagesCache = [[NSCache alloc] init];
+
+    
     [self.tableView reloadData];
+    
+
 }
 
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    maskLayer.position = CGPointMake(0, scrollView.contentOffset.y);
+    [CATransaction commit];
+    
+    
+    /*ScrollDirection scrollDirection;
+    if (lastContentOffset > scrollView.contentOffset.y)
+        scrollDirection = ScrollDirectionUp;
+    else
+        scrollDirection = ScrollDirectionDown;
+    
+    lastContentOffset = scrollView.contentOffset.y;
+    
+    if(scrollDirection == ScrollDirectionDown)
+    {
+        if(lastContentOffset > 20.0)
+        {
+            [UIView animateWithDuration:0.4 animations:^{
+                _parentContr.barName.alpha = 0.0;
+            }];
+        }
+        
+    }
+    if(scrollDirection == ScrollDirectionUp)
+    {
+        [UIView animateWithDuration:0.4 animations:^{
+            _parentContr.barName.alpha = 1.0;
+        }];
+        
+    }*/
+    
+    
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -157,33 +244,11 @@
     
     
     NWtwitter *tweet = _tweets[indexPath.row];
+    cell.imagesCache = imagesCache;
+    cell.tweet = tweet;
+    //cell.lblText.text = tweet.message;
     
-    cell.lblText.text = tweet.message;
-    
-    cell.lblDate.text =  [NSDateFormatter localizedStringFromDate:tweet.dateCreated dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterShortStyle];
-    cell.lblAuthor.text = tweet.author;
 
-    
-    
-    UIImage* image = [UIImage imageNamed:@"Placeholder.png"];
-    cell.imgProfile.image = image;
-    NSURLSessionDownloadTask *getImageTask =
-    [helper.session downloadTaskWithURL:[NSURL URLWithString:tweet.iconUrl]
-                      completionHandler:^(NSURL *location, NSURLResponse *response,
-                                          NSError *error) {
-                          // 2
-                          UIImage *downloadedImage = [UIImage imageWithData:
-                                                      [NSData dataWithContentsOfURL:location]];
-                          //3
-                          
-                          
-                          dispatch_async(dispatch_get_main_queue(), ^{
-                              
-                              cell.imgProfile.image = downloadedImage;
-                          });
-                      }];
-    
-    [getImageTask resume];
     
     
     
@@ -277,19 +342,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+
     
     NWtwitter *tweet = _tweets[indexPath.row];
     
     if(tweet.author)
     {
-        [[[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"https://twitter.com/%@", tweet.author] delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Open Link in Safari", nil), nil] showInView:self.view];
+        [[[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"https://twitter.com/%@", tweet.author] delegate:_parentContr cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Open Link in Safari", nil), nil] showInView:_parentContr.view];
         
     }
     

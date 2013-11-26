@@ -51,25 +51,35 @@
         _insta = instaGram;
     }
     
+    UIImage *cacheImage =  [_imagesCache objectForKey:_insta.instaPhoto];
     
-    self.imageView.image = [UIImage imageNamed:@"Placeholder.png"];
-    NSURLSessionDownloadTask *getImageTask =
-    [helper.session downloadTaskWithURL:[NSURL URLWithString:_insta.instaPhoto]
-               completionHandler:^(NSURL *location, NSURLResponse *response,
-                                   NSError *error) {
-                   // 2
-                   UIImage *downloadedImage = [UIImage imageWithData:
-                                               [NSData dataWithContentsOfURL:location]];
-                   //3
-                   
-                   
-                   dispatch_async(dispatch_get_main_queue(), ^{
-                       
-                       self.imageView.image = downloadedImage;
-                   });
-               }];
+    if(!cacheImage)
+    {
+        self.imageView.image = [UIImage imageNamed:@"Placeholder.png"];
+        NSURLSessionDownloadTask *getImageTask =
+        [helper.session downloadTaskWithURL:[NSURL URLWithString:_insta.instaPhoto]
+                          completionHandler:^(NSURL *location, NSURLResponse *response,
+                                              NSError *error) {
+                              // 2
+                              UIImage *downloadedImage = [UIImage imageWithData:
+                                                          [NSData dataWithContentsOfURL:location]];
+                              //3
+                              
+                              
+                              dispatch_async(dispatch_get_main_queue(), ^{
+                                  [_imagesCache setObject:downloadedImage forKey:_insta.instaPhoto];
 
-    [getImageTask resume];
+                                  self.imageView.image = downloadedImage;
+                              });
+                          }];
+        
+        [getImageTask resume];
+    }
+    else
+    {
+        self.imageView.image = cacheImage;
+        
+    }
     
     
     //[self.imageView setImageWithURL:[NSURL URLWithString:_insta.instaPhoto] placeholderImage:image];
@@ -95,32 +105,47 @@
     //UIImage* image = [UIImage imageNamed:@"Placeholder.png"];
     //[self.imageView setImageWithURL:[NSURL URLWithString:_four.photoUrlFull] placeholderImage:image];
     
+   // if(self.imageView.image == nil)
+    //{
+        //self.imageView.image = [UIImage imageNamed:@"Placeholder.png"];
     
-    self.imageView.image = [UIImage imageNamed:@"Placeholder.png"];
-    NSURLSessionDownloadTask *getImageTask =
-    [helper.session downloadTaskWithURL:[NSURL URLWithString:_four.photoUrlFull]
-                      completionHandler:^(NSURL *location, NSURLResponse *response,
-                                          NSError *error) {
-                          // 2
-                          UIImage *downloadedImage = [UIImage imageWithData:
-                                                      [NSData dataWithContentsOfURL:location]];
-                          //3
-                          
-                          
-                          dispatch_async(dispatch_get_main_queue(), ^{
+    UIImage *cacheImage =  [_imagesCache objectForKey:_four.photoUrlFull];
+    
+    if(!cacheImage)
+    {
+        NSURLSessionDownloadTask *getImageTask =
+        [helper.session downloadTaskWithURL:[NSURL URLWithString:_four.photoUrlFull]
+                          completionHandler:^(NSURL *location, NSURLResponse *response,
+                                              NSError *error) {
+                              // 2
+                              UIImage *downloadedImage = [UIImage imageWithData:
+                                                          [NSData dataWithContentsOfURL:location]];
+                              //3
                               
-                              self.imageView.image = downloadedImage;
-                          });
-                      }];
+                              
+                              dispatch_async(dispatch_get_main_queue(), ^{
+                                  [_imagesCache setObject:downloadedImage forKey:_four.photoUrlFull];
+                                  self.imageView.image = downloadedImage;
+                              });
+                          }];
+        
+        [getImageTask resume];
+    }
+    else
+    {
+        self.imageView.image = cacheImage;
+
+    }
     
-    [getImageTask resume];
     
     
+    
+       
+    //}
     
     _mediaFocusManager = [[ASMediaFocusManager alloc] init];
     _mediaFocusManager.delegate = self;
     [_mediaFocusManager installOnViews:@[self.imageView]];
-    
     
 }
 
@@ -141,7 +166,7 @@
 - (CGRect)mediaFocusManager:(ASMediaFocusManager *)mediafocus finalFrameforView:(UIView *)view
 {
     //return appDelegate.mainViewController.view.bounds;
-    return [helper isIphone5] ? CGRectMake(0, 0, 320, 456) :  CGRectMake(0, 0, 320, 380);
+    return [helper isIphone5] ? CGRectMake(0, 0, 320, 568) :  CGRectMake(0, 0, 320, 480);
     
 }
 

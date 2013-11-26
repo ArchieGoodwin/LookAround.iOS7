@@ -26,7 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *locHorizontal;
 @property (assign) NSInteger currentItemIndex;
 @property (nonatomic, strong) NWinstagram  *insta;
-
+@property (nonatomic, strong) NSCache *imagesCache;
 @property (nonatomic, strong) NWFourSquarePhoto  *four;
 @property (strong, nonatomic) ASMediaFocusManager *mediaFocusManager;
 @property (strong, nonatomic) InstagramCollectionViewController *controller;

@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "StackedGridLayout.h"
 #import "FlickrPhotoHeaderView.h"
-
+#import "DKAPlaceVC.h"
 
 @interface InstagramCollectionViewController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 {
@@ -23,6 +23,7 @@
 
     UIView *viewForLabel;
 }
+@property (nonatomic, strong) DKAPlaceVC *parentContr;
 
 @property (nonatomic, strong) CLLocation *searchLocation;
 @property(nonatomic, strong)  UICollectionView *collectionView;

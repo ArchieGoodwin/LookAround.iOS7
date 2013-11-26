@@ -16,12 +16,30 @@
 #import "DKAPlaceMenuVC.h"
 #import "LiveFrost.h"
 #import "LFGlassView.h"
-#import "DKACyclePageContainerVC.h"
 #import "DKAPlace.h"
+#import "NWFourSquareViewController.h"
+
+#import "NWFourSquareViewController.h"
+#import "NWTwitterViewController.h"
+#import "InstagramCollectionViewController.h"
+#import "DKAFoursquareInfoVC.h"
 @interface DKAPlaceVC ()
 {
     DKAPlaceMenuVC *placeMenu;
-    DKACyclePageContainerVC *cycleContainer;
+    UIScrollView *scrollView;
+    
+    NWFourSquareViewController *fourController;
+    NWTwitterViewController *twitterController;
+    InstagramCollectionViewController *instaController;
+    DKAFoursquareInfoVC *foursquareInfoController;
+    NSMutableArray *fourSquarePhotos;
+    NSMutableArray *tweets;
+    NSMutableArray *instagrams;
+    UIView *foursquareView;
+    UIView *foursquareInfoView;
+
+    UIView *instaView;
+    UIView *tweetView;
 }
 @end
 
@@ -50,6 +68,8 @@
     
     self.navigationController.navigationBar.hidden = YES;
 
+    tweetView = [[UIView alloc] initWithFrame:_myStreetView.frame];
+    instaView = [[UIView alloc] initWithFrame:_myStreetView.frame];
     
     coord = CLLocationCoordinate2DMake(((DKAPlace *)_placeObj).latitude , ((DKAPlace *)_placeObj).longitude);
     
@@ -58,16 +78,46 @@
     [_btnMap setBackgroundImage:[helper radialGradientImage:_btnMap.frame.size start:0.9 end:0.9 centre:CGPointMake(0.5, 0.5) radius:0.45] forState:UIControlStateNormal];
     [_btnBack setBackgroundImage:[helper radialGradientImage:_btnMap.frame.size start:0.9 end:0.9 centre:CGPointMake(0.5, 0.5) radius:0.45] forState:UIControlStateNormal];
 
+    
+    UIColor *bg = BLUE6;
+    _barName.backgroundColor = bg;
 
+    _lblName.text = ((DKAPlace *)_placeObj).placeName;
     
     [self showStreetView:nil];
+    
+    [self loadInstas];
+    [self loadTweets];
+    [self load4sPhotos];
+    foursquareInfoView = [self createFoursquareInfoView];
 	// Do any additional setup after loading the view.
 }
+
+
+-(void)changeLabelText:(NSString *)str
+{
+    _lblName.text = str;
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    for(UIView *view in _myStreetView.subviews)
+    {
+        [view removeFromSuperview];
+    }
+    
+}
+
+
+
 
 - (IBAction)backToParent:(id)sender {
     
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+
+
 
 - (IBAction)showStreetView:(id)sender {
  
@@ -87,20 +137,165 @@
 	
 	[_myStreetView addSubview:panoramaView];
 
+    
+    self.lblName.text = @"Street view around";
+
     //_streetView.delegate = self;
    
     [panoramaView moveNearCoordinate:coord];
 }
 
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == actionSheet.cancelButtonIndex) {
+        return;
+    }
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:actionSheet.title]];
+}
+
+-(void)loadTweets
+{
+    [helper getTwitterAround:((DKAPlace *)_placeObj).latitude lng:((DKAPlace *)_placeObj).longitude completionBlock:^(NSArray *result, NSError *error) {
+        
+        tweets = [result mutableCopy];
+        
+        tweetView = [self createTwitterView];
+        
+    }];
+}
+
+-(void)loadInstas
+{
+    [helper getInstagramAround:((DKAPlace *)_placeObj).latitude lng:((DKAPlace *)_placeObj).longitude completionBlock:^(NSArray *result, NSError *error) {
+        instagrams = [result mutableCopy];
+        
+        instaView = [self createInstagramView];
+        
+    }];
+}
+
+
+-(UIView *)createFoursquareInfoView
+{
+    foursquareInfoController = [[DKAFoursquareInfoVC alloc] init];
+    foursquareInfoController.place = (DKAPlace *)_placeObj;
+    
+    
+    return foursquareInfoController.view;
+    
+}
+
+
+-(UIView *)createInstagramView
+{
+    instaController = [[InstagramCollectionViewController alloc] init];
+    instaController.currentPageType = 0;
+    instaController.parentContr = self;
+    [instaController initCollectionViewWithRect:CGRectMake(0, 60, 320, [helper isIphone5] ? 508 : 420) instas:instagrams location:nil];
+    
+    
+    return instaController.view;
+    
+}
+
+
+-(UIView *)createTwitterView
+{
+    twitterController = [[NWTwitterViewController alloc] initMe:CGRectMake(0, 60, 320, [helper isIphone5] ? 508 : 420)];
+    
+    twitterController.tweets = tweets;
+    
+    twitterController.parentContr = self;
+    
+    [twitterController realInit];
+    
+    return twitterController.view;
+    
+}
+
+
+
+-(void)load4sPhotos
+{
+    [helper photosByVenueId:((DKAPlace *)_placeObj).placeId completionBlock:^(NSArray *result, NSError *error) {
+        if(!error)
+        {
+            fourSquarePhotos = [result mutableCopy];
+            
+            foursquareView = [self createFourSquareView];
+            
+            // [_cyclePageView reloadData];
+            
+        }
+    }];
+}
+
+
+-(UIView *)createFourSquareView
+{
+    fourController = [[NWFourSquareViewController alloc] init];
+    fourController.currentPageType = 0;
+    fourController.parentContr = self;
+    [fourController initCollectionViewWithRect:CGRectMake(0, 60, 320, [helper isIphone5] ? 508 : 420) instas:fourSquarePhotos location:nil];
+    
+    return fourController.view;
+    
+}
+
+
 - (IBAction)showInfoPages:(id)sender
 {
     for(UIView *view in _myStreetView.subviews)
     {
-        [view removeFromSuperview];
+        if(view.tag != 2003)
+        {
+            [view removeFromSuperview];
+
+        }
     }
-    cycleContainer = [DKACyclePageContainerVC new];
     
-    [_myStreetView addSubview:cycleContainer.view];
+    if(!scrollView)
+    {
+        CGRect frame = _myStreetView.frame;
+        frame.origin.y = 60;
+        frame.size.height = frame.size.height - 60;
+        scrollView = [[UIScrollView alloc] initWithFrame:frame];
+        scrollView.pagingEnabled = YES;
+        scrollView.backgroundColor = [UIColor clearColor];
+    }
+    
+    for (int i = 0; i < 4; i++) {
+        CGRect frame;
+        frame.origin.x = scrollView.frame.size.width * i;
+        frame.origin.y = 0;
+        frame.size = scrollView.frame.size;
+        
+        switch (i) {
+            case 0:{
+                foursquareInfoView.frame = frame;
+                [scrollView addSubview:foursquareInfoView];
+                break;}
+            case 1:{
+                tweetView.frame = frame;
+                [scrollView addSubview:tweetView];
+                break;}
+            case 2:{
+                instaView.frame = frame;
+                [scrollView addSubview:instaView];
+                break;}
+            case 3:{
+                foursquareView.frame = frame;
+                [scrollView addSubview:foursquareView];
+                break;}
+            default:
+                break;
+        }
+        
+    }
+    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * 4, scrollView.frame.size.height);
+
+   
+    [_myStreetView addSubview:scrollView];
     
 }
 
@@ -119,7 +314,7 @@
         
         img.alpha = 0.0;
         img.frame = _myStreetView.frame;
-
+        img.tag = 2003;
         LFGlassView *frost  = [[LFGlassView alloc] initWithFrame:_myStreetView.frame];
         frost.alpha = 0.0;
         
@@ -141,7 +336,8 @@
             placeMenu.view.alpha = 1.0;
         }];
         
-        
+        self.lblName.text = @"Choose info card";
+
         
     }
     
@@ -247,6 +443,9 @@
     
     [self addAnnotationsToMap];
 
+    self.lblName.text = @"Map around";
+
+    
     [_myStreetView addSubview:mapView];
     
 }

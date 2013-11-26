@@ -12,6 +12,12 @@
 #import "DKAFactualHelper.h"
 #import "Defines.h"
 #import "NWFourSquarePhoto.h"
+#import "DKAPlace.h"
+#import <Accounts/Accounts.h>
+#import <Social/Social.h>
+#import "NWtwitter.h"
+#import "NWinstagram.h"
+
 NSString * const PREFS_FACTUAL_TABLE = @"factual_table";
 NSString * const SANDBOX_TABLE_DESC = @"US POI Sandbox";
 
@@ -231,11 +237,440 @@ static NSString* topLevelCategories[] = {
 }
 
 
+-(void)getLocationsForSearchString:(NSString *)searchStr completionBlock:(DKAgetPOIsCompletionBlock)completionBlock
+{
+    
+    DKAgetPOIsCompletionBlock cBlock = completionBlock;
+    
+    CLGeocoder *geo = [[CLGeocoder alloc] init];
+    [geo geocodeAddressString:searchStr
+            completionHandler:^(NSArray *placemarks, NSError *error) {
+                /*NSMutableArray *filteredPlacemarks = [[NSMutableArray alloc] init];
+                 for (CLPlacemark *placemark in placemarks) {
+                 if ([placemark.location distanceFromLocation:centerLocation] <= maxDistance) {
+                 [filteredPlacemarks addObject:placemark];
+                 }
+                 } */
+                NSLog(@"results: %i", placemarks.count);
+                if(cBlock)
+                {
+                    cBlock(placemarks, error);
+                }
+                
+            }];
+}
+
+
+#pragma mark - Instagram methods
+
+-(void)getInstagramAround:(double)lat lng:(double)lng completionBlock:(DKAgetPOIsCompletionBlock)completionBlock
+{
+    DKAgetPOIsCompletionBlock completeBlock = [completionBlock copy];
+    
+    
+    NSString *connectionString = [NSString stringWithFormat:@"https://api.instagram.com/v1/media/search?lat=%f&lng=%f&client_id=e6c25413297343d087a7918f284ce83e&distance=300", lat, lng];
+    NSLog(@"getInstagramAround %@", connectionString);
+    NSURL *url = [NSURL URLWithString:connectionString];
+    
+    
+    
+    NSURLSessionDataTask *getTask =
+    [_session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSError *jsonError;
+        
+        NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
+        NSLog(@"JSON insta: %@", JSON);
+        
+        if (!error) {
+            
+            NSMutableArray *instas = [[NSMutableArray alloc] init];
+            
+
+            NSMutableArray *items = [JSON objectForKey:@"data"];
+            for (NSMutableDictionary *dict in items) {
+                NWinstagram *item = [[NWinstagram alloc] initWithDictionary:dict];
+                [instas addObject:item];
+            }
+            
+            if(instas.count > 0)
+            {
+                completeBlock(instas, nil);
+
+            }
+            else
+            {
+                NSMutableDictionary* details = [NSMutableDictionary dictionary];
+                [details setValue:@"No photos" forKey:NSLocalizedDescriptionKey];
+                NSError *err = [NSError errorWithDomain:@"world" code:500 userInfo:details];
+                completeBlock(nil, err);
+            }
+        }
+        else
+        {
+            NSLog(@"error while instagram: %@", error.description);
+            completeBlock(nil, error);
+        }
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    }];
+    
+    [getTask resume];
+    
+    
+}
+
+
+
+#pragma mark - Twitter methods
+
+- (void)getTwitterAround:(double)lat lng:(double)lng completionBlock:(DKAgetPOIsCompletionBlock)completionBlock
+{
+    DKAgetPOIsCompletionBlock completeBlock = [completionBlock copy];
+    
+    NSMutableArray *result = [NSMutableArray new];
+    // Request access to the Twitter accounts
+    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
+    ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+    [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error){
+        if (granted) {
+            NSArray *accounts = [accountStore accountsWithAccountType:accountType];
+            // Check if the users has setup at least one Twitter account
+            if (accounts.count > 0)
+            {
+                ACAccount *twitterAccount = [accounts objectAtIndex:0];
+                // Creating a request to get the info about a user on Twitter
+                
+                //NSDateComponents *componentsToSubtract = [[NSDateComponents alloc] init];
+                //[componentsToSubtract setDay:-5];
+                
+                //NSDate *yesterday = [[NSCalendar currentCalendar] dateByAddingComponents:componentsToSubtract  toDate:[NSDate date] options:0];
+                
+                //NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+                //[dateFormat setDateFormat:@"yyyy-MM-dd"];
+                //NSString *dateString = [dateFormat stringFromDate:[NSDate date]];
+                
+                SLRequest *twitterInfoRequest = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:@"https://api.twitter.com/1.1/search/tweets.json?"] parameters:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%.6f,%.6f,0.2km", lat, lng], @"geocode", @"100", @"count", nil]];
+                [twitterInfoRequest setAccount:twitterAccount];
+                // Making the request
+                [twitterInfoRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                    //NSLog(@"twitter res  %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        // Check if we reached the reate limit
+                        if ([urlResponse statusCode] == 429) {
+                            NSLog(@"Rate limit reached");
+                            return;
+                        }
+                        // Check if there was an error
+                        if (error) {
+                            NSLog(@"Error: %@", error.localizedDescription);
+                            return;
+                        }
+                        // Check if there is some response data
+                        if (responseData) {
+                            NSError *error = nil;
+                            NSArray *TWData = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:&error];
+                            // Filter the preferred data
+                            //NSLog(@"%@", TWData);
+                            
+                            
+                            NSMutableArray *results = [((NSDictionary *)TWData) objectForKey:@"statuses"];
+                            for(NSMutableDictionary *dict in results)
+                            {
+                                NWtwitter *twi = [[NWtwitter alloc] initWithDictionary:dict];
+                                [result addObject:twi];
+                            }
+                            
+                            completeBlock(result, nil);
+                            
+                        }
+                    });
+                }];
+            }
+            else
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning!" message:@"To use twitter search around place please add twitter account to iOS settings" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    [alert show];
+                });
+                
+                completeBlock(nil, nil);
+                
+            }
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning!" message:@"To use twitter search around place please add twitter account to iOS settings" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alert show];
+            });
+            
+            completeBlock(nil, nil);
+        }
+    }];
+    
+}
+
+
 #pragma mark - 4s methods
+
+
+-(void)poisByKeyword:(NSString *)keyword completionBlock:(DKAgetPOIsCompletionBlock)completionBlock
+{
+    
+    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
+    [self poisByKeywords:keyword near:@"" completionBlock:^(NSArray *result, NSError *error) {
+        if(!error)
+        {
+            NSSortDescriptor *sortDescriptor;
+            sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"distance" ascending:YES selector:@selector(compare:)];
+            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            if(completionBlock)
+            {
+                completionBlock([NSMutableArray arrayWithArray:[result sortedArrayUsingDescriptors:sortDescriptors]], nil);
+            }
+            
+        }
+        else
+        {
+            if(completionBlock)
+            {
+                completionBlock(nil, error);
+            }
+        }
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    }];
+
+    
+    
+    /*[self getLocationsForSearchString:keyword completionBlock:^(NSArray *result, NSError *error) {
+     
+        if(result.count > 0)
+        {
+     
+            NSMutableArray *temp = [[keyword componentsSeparatedByString:@","] mutableCopy];
+            
+
+            
+            CLPlacemark  *placem = [result objectAtIndex:0];
+            
+            NSString *loc = [NSString stringWithFormat:@"%.10f,%.10f", placem.location.coordinate.latitude, placem.location.coordinate.longitude];
+
+            
+            NSLog(@"Placemark: %@", placem.addressDictionary);
+            if(YES)
+            {
+
+                [self poisByKeywords:keyword near:loc completionBlock:^(NSArray *result, NSError *error) {
+                    if(!error)
+                    {
+                        NSSortDescriptor *sortDescriptor;
+                        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"distance" ascending:YES selector:@selector(compare:)];
+                        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+                        if(completionBlock)
+                        {
+                            completionBlock([NSMutableArray arrayWithArray:[result sortedArrayUsingDescriptors:sortDescriptors]], nil);
+                        }
+
+                    }
+                    else
+                    {
+                        if(completionBlock)
+                        {
+                            completionBlock(nil, error);
+                        }
+                    }
+                    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+                }];
+                
+            }
+            else
+            {
+
+                [self poisNearLocation:CLLocationCoordinate2DMake(placem.location.coordinate.latitude, placem.location.coordinate.longitude) completionBlock:^(NSArray *result, NSError *error) {
+                    if(!error)
+                    {
+                        NSSortDescriptor *sortDescriptor;
+                        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"distance" ascending:YES selector:@selector(compare:)];
+                        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+                        if(completionBlock)
+                        {
+                            completionBlock([NSMutableArray arrayWithArray:[result sortedArrayUsingDescriptors:sortDescriptors]], nil);
+                        }
+                        
+                        
+                        
+                    }
+                    else
+                    {
+                        if(completionBlock)
+                        {
+                            completionBlock(nil, error);
+                        }
+                    }
+                    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+                    
+                    
+                }];
+            }
+            
+            
+            
+            
+        }
+        else
+        {
+            completionBlock(nil, nil);
+            
+        }
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+
+        
+        
+        
+    }];*/
+    
+    
+}
+
+-(NSString*)stringWithPercentEscape:(NSString *)str {
+    return (NSString *) CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)[str mutableCopy], NULL, CFSTR("￼=,!$&'()*+;@?\n\"<>#\t :/"),kCFStringEncodingUTF8));
+}
+
+
+-(void)poisByKeywords:(NSString *)keyword near:(NSString *)near completionBlock:(DKAgetPOIsCompletionBlock)completionBlock
+{
+    
+    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
+    DKAgetPOIsCompletionBlock completeBlock = [completionBlock copy];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+	[dateFormat setDateFormat:@"yyyyMMdd"];
+	NSString *dateString = [dateFormat stringFromDate:[NSDate date]];
+    
+    
+    
+    NSString *connectionString = [NSString stringWithFormat:@"%@query=%@&intent=global&client_id=%@&client_secret=%@&v=%@&limit=%@", PATH_TO_4SERVER_SEEARCH, [self stringWithPercentEscape:keyword], CLIENT_ID, CLIENT_SECRET, dateString, @"50"];
+    NSLog(@"connect to: %@",connectionString);
+    
+    
+    
+    
+    
+    NSURLSessionDataTask *getTask =
+    [_session dataTaskWithURL:[NSURL URLWithString:connectionString] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSError *jsonError;
+        
+        NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
+        NSLog(@"JSON: %@", JSON);
+        NSMutableArray *pois = [[NSMutableArray alloc] init];
+        
+        if (!error) {
+            
+            NSMutableArray *items = [[JSON objectForKey:@"response"] objectForKey:@"venues"];
+            for (NSMutableDictionary *dict in items) {
+                DKAPlace *item = [[DKAPlace alloc] initWith4s:dict];
+                [pois addObject:item];
+            }
+            
+            if(pois.count > 0)
+            {
+                
+                NSSortDescriptor * sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"distance" ascending:YES];
+                if(completeBlock)
+                {
+                    completeBlock([pois sortedArrayUsingDescriptors:[NSMutableArray arrayWithObjects:sortDescriptor, nil]], nil);
+                    
+                }
+            }
+            else
+            {
+                completeBlock(pois, nil);
+            }
+        }
+        else
+        {
+            NSLog(@"error while searching by keywprd: %@", error.description);
+            completeBlock(nil, error);
+        }
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    }];
+    
+    [getTask resume];
+    
+    
+}
+
+
+-(void)poisNearLocation:(CLLocationCoordinate2D)location completionBlock:(DKAgetPOIsCompletionBlock)completionBlock
+{
+    
+    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
+    DKAgetPOIsCompletionBlock completeBlock = [completionBlock copy];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+	[dateFormat setDateFormat:@"yyyyMMdd"];
+	NSString *dateString = [dateFormat stringFromDate:[NSDate date]];
+    
+    NSString *loc = [NSString stringWithFormat:@"%.10f,%.10f", location.latitude, location.longitude];
+    
+    
+    NSString *connectionString = [NSString stringWithFormat:@"%@ll=%@&client_id=%@&client_secret=%@&v=%@&limit=%@&radius=%@", PATH_TO_4SERVER, loc, CLIENT_ID, CLIENT_SECRET, dateString, LIMIT, RADIUS];
+    NSLog(@"connect to: %@",connectionString);
+    
+    
+    
+    NSURLSessionDataTask *getTask =
+    [_session dataTaskWithURL:[NSURL URLWithString:connectionString] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSError *jsonError;
+        
+        NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
+        NSMutableArray *pois = [[NSMutableArray alloc] init];
+        
+        if (!jsonError) {
+            
+            NSMutableArray *items = [[[[JSON objectForKey:@"response"] objectForKey:@"groups"] objectAtIndex:0] objectForKey:@"items"];
+            for (NSMutableDictionary *dict in items) {
+                DKAPlace *item = [[DKAPlace alloc] initWith4s:[dict objectForKey:@"venue"]];
+                [pois addObject:item];
+            }
+            
+            if(pois.count > 0)
+            {
+                
+                NSSortDescriptor * sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"distance" ascending:YES];
+                if(completeBlock)
+                {
+                    completeBlock([pois sortedArrayUsingDescriptors:[NSMutableArray arrayWithObjects:sortDescriptor, nil]], nil);
+                    
+                }
+            }
+            else
+            {
+                completeBlock(pois, nil);
+            }
+        }
+        else
+        {
+            completeBlock(nil, jsonError);
+        }
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    }];
+    
+    [getTask resume];
+    
+
+}
+
+
+
 
 -(void)photosByVenueId:(NSString *)venueId completionBlock:(DKAphotosByVenueIdCompletionBlock)completionBlock
 {
     
+    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     DKAphotosByVenueIdCompletionBlock completeBlock = [completionBlock copy];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
 	[dateFormat setDateFormat:@"yyyyMMdd"];
@@ -254,8 +689,9 @@ static NSString* topLevelCategories[] = {
 
         NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
         NSMutableArray *pois = [[NSMutableArray alloc] init];
+        NSLog(@"JSON: %@", JSON);
 
-        if (!jsonError) {
+        if (!error) {
             
             NSMutableArray *items = [[[JSON objectForKey:@"response"] objectForKey:@"photos"] objectForKey:@"items"];
             for (NSMutableDictionary *dict in items) {
@@ -279,8 +715,9 @@ static NSString* topLevelCategories[] = {
         }
         else
         {
-            completeBlock(nil, jsonError);
+            completeBlock(nil, error);
         }
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     }];
 
     [getTask resume];
@@ -319,8 +756,8 @@ static NSString* topLevelCategories[] = {
         NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
         //[sessionConfig setHTTPAdditionalHeaders: @{@"Accept": @"application/json"}];
         sessionConfig.timeoutIntervalForRequest = 30.0;
-        sessionConfig.timeoutIntervalForResource = 60.0;
-        sessionConfig.HTTPMaximumConnectionsPerHost = 5;
+        sessionConfig.timeoutIntervalForResource = 30.0;
+        sessionConfig.HTTPMaximumConnectionsPerHost = 15;
         
         _session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
     }

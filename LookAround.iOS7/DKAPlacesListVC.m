@@ -9,18 +9,22 @@
 #import "DKAPlacesListVC.h"
 #import "DKAHelper.h"
 #import "Defines.h"
-#import <FactualSDK/FactualQuery.h>
+//#import <FactualSDK/FactualQuery.h>
 #import "DKAPlaceVC.h"
 #import "DKAPlace.h"
 @interface DKAPlacesListVC ()
+{
+    DKAPlace *selectedPlace;
+    NSCache *imagesCache;
+}
 
 @end
 
 @implementation DKAPlacesListVC
 {
-    FactualQueryResult *queryData;
+    //FactualQueryResult *queryData;
 
-    NSMutableArray *items;
+    NSArray *items;
 }
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -34,6 +38,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    imagesCache = [[NSCache alloc] init];
+
     items = [NSMutableArray new];
 
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 41, 0, 0);
@@ -55,11 +62,33 @@
     self.navigationController.navigationBar.hidden = NO;
 }
 
+-(void)reloadme
+{
+    [self.tableView reloadData];
+
+}
+
 -(void)updatedLocation
 {
     CLLocation *loc = [[DKAHelper sharedInstance] currentLocation];
     
-    [[DKAHelper sharedInstance] doQueryWithLocation:loc completion:^(FactualQueryResult *data, NSError *error) {
+
+    [helper poisNearLocation:loc.coordinate completionBlock:^(NSArray *result, NSError *error) {
+        NSLog(@"done!");
+        items = result;
+        
+        [self performSelectorOnMainThread:@selector(reloadme) withObject:nil waitUntilDone:NO];
+        
+        
+    }];
+        
+    
+
+    
+    
+    
+    
+    /*[[DKAHelper sharedInstance] doQueryWithLocation:loc completion:^(FactualQueryResult *data, NSError *error) {
         
         queryData = data;
         [items removeAllObjects];
@@ -69,7 +98,7 @@
         }];
         
         [self.tableView reloadData];
-    }];
+    }];*/
 }
 
 
@@ -91,6 +120,46 @@
     frame.size.height = [[DKAHelper sharedInstance] getLabelSize:lbl fontSize:LOCATIONLISTFONTSIZE];
     lbl.frame = frame;
     lbl.text = place.placeName;
+    //NSLog(@" iconUrl %@", place.iconUrl);
+
+    UIImageView *imgView = (UIImageView *)[cell.contentView viewWithTag:1002];
+    
+
+    
+    UIImage *cacheImage =  [imagesCache objectForKey:place.iconUrl];
+    
+    if(!cacheImage)
+    {
+        NSURLSessionDownloadTask *getImageTask =
+        [helper.session downloadTaskWithURL:[NSURL URLWithString:place.iconUrl]
+                          completionHandler:^(NSURL *location, NSURLResponse *response,
+                                              NSError *error) {
+                              // 2
+                              UIImage *downloadedImage = [UIImage imageWithData:
+                                                          [NSData dataWithContentsOfURL:location]];
+                              //3
+                              
+                              
+                              dispatch_async(dispatch_get_main_queue(), ^{
+                                  [imagesCache setObject:downloadedImage forKey:place.iconUrl];
+                                  
+                                  imgView.image = downloadedImage;
+                              });
+                          }];
+        
+        [getImageTask resume];
+        
+        
+    }
+    else
+    {
+        imgView.image = cacheImage;
+        
+    }
+    
+    
+    
+    
     
     
 }
@@ -146,7 +215,6 @@
 {
     UITableViewCell *cell = [tableView  dequeueReusableCellWithIdentifier:@"Cell"];
     
-    
     [self configureCell:cell forIndexPath:indexPath];
     
     return cell;
@@ -160,7 +228,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DKAPlace *place = items[indexPath.row];
-    
+    selectedPlace = place;
     [self performSegueWithIdentifier:@"ShowPlace" sender:place];
     
 }
@@ -171,7 +239,7 @@
     if([segue.identifier isEqualToString:@"ShowPlace"])
     {
         DKAPlaceVC *vc = (DKAPlaceVC *)segue.destinationViewController;
-        vc.placeObj = sender;
+        vc.placeObj = selectedPlace;
         
     }
 }
