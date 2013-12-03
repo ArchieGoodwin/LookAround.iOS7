@@ -50,21 +50,34 @@
     UISegmentedControl *sw = (UISegmentedControl *)sender;
     if(sw.selectedSegmentIndex == 0)
     {
-        [helper setPrefValueForKey:DKA_PREF_DATA_SOURCE val:@"Factual"];
+        [helper setPrefValueForKey:DKA_PREF_REFRESH val:@"Auto"];
     }
     else
     {
-        [helper setPrefValueForKey:DKA_PREF_DATA_SOURCE val:@"Foursquare"];
+        [helper setPrefValueForKey:DKA_PREF_REFRESH val:@"Manual"];
     }
     [self.tableView reloadData];
 }
 
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == actionSheet.cancelButtonIndex) {
+        return;
+    }
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:actionSheet.title]];
+}
+
+- (IBAction)btnShowSite:(id)sender {
+    
+     [[[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"http://www.worldweatheronline.com"] delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Open Link in Safari", nil), nil] showInView:self.view];
+    
+}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 1;
+    return 2;
 }
 
 
@@ -72,9 +85,11 @@
 {
     switch (section) {
         case 0:
-            return @"Data sources";
+            return @" ";
             break;
-            
+        case 1:
+            return @"Credits";
+            break;
         default:
             break;
     }
@@ -87,32 +102,75 @@
     return 1;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.section == 0)
+    {
+        if(indexPath.row == 0)
+        {
+            return 60;
+        }
+    }
+    if(indexPath.section == 1)
+    {
+        if(indexPath.row == 0)
+        {
+            return 350;
+        }
+    }
+    return 60;
+}
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"DataSourceCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+ 
     
     
     if(indexPath.section == 0)
     {
-        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-        
-        UISegmentedControl *sw = (UISegmentedControl *)cell.contentView.subviews[0];
-        if([[helper getPrefValueForKey:DKA_PREF_DATA_SOURCE] isEqualToString:@"Factual"])
+        if(indexPath.row == 0)
         {
-            [sw setSelectedSegmentIndex:0];
-        }
-        else
-        {
-            [sw setSelectedSegmentIndex:1];
+            cell = [tableView dequeueReusableCellWithIdentifier:@"DataSourceCell"];
+            
+            UISegmentedControl *sw = (UISegmentedControl *)cell.contentView.subviews[0];
+            if([[helper getPrefValueForKey:DKA_PREF_REFRESH] isEqualToString:@"Auto"])
+            {
+                [sw setSelectedSegmentIndex:0];
+            }
+            else
+            {
+                [sw setSelectedSegmentIndex:1];
+            }
+            //[self dataSourceSwitchValueChanged:sw];
+            return cell;
         }
         
-        return cell;
+        
+    }
+    if(indexPath.section == 1)
+    {
+        if(indexPath.row == 0)
+        {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"AboutCell"];
+            
+            
+            //[self dataSourceSwitchValueChanged:sw];
+            return cell;
+        }
+        
         
     }
     // Configure the cell...
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 /*

@@ -10,7 +10,6 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import <FactualSDK/FactualQuery.h>
 #import "DKAHelper.h"
-#import "StreetViewVCViewController.h"
 #import "MapAnnotation.h"
 #import "STImageAnnotationView.h"
 #import "DKAPlaceMenuVC.h"
@@ -23,6 +22,7 @@
 #import "NWTwitterViewController.h"
 #import "InstagramCollectionViewController.h"
 #import "DKAFoursquareInfoVC.h"
+#import "DKAWeatherVC.h"
 @interface DKAPlaceVC ()
 {
     DKAPlaceMenuVC *placeMenu;
@@ -32,14 +32,18 @@
     NWTwitterViewController *twitterController;
     InstagramCollectionViewController *instaController;
     DKAFoursquareInfoVC *foursquareInfoController;
+    DKAWeatherVC *weatherVC;
     NSMutableArray *fourSquarePhotos;
     NSMutableArray *tweets;
     NSMutableArray *instagrams;
     UIView *foursquareView;
     UIView *foursquareInfoView;
+    UIView *weatherVCview;
 
     UIView *instaView;
     UIView *tweetView;
+    BOOL firstTime;
+    GMSPanoramaView *panoramaView;
 }
 @end
 
@@ -62,16 +66,30 @@
 {
     [super viewDidLoad];
     
+    
+
+
+    /*[_lblName.layer removeAllAnimations];
+    CATransition *animation = [CATransition animation];
+    animation.duration = 1.0;
+    animation.type = kCATransitionFade;
+    animation.removedOnCompletion = NO;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    [_lblName.layer addAnimation:animation forKey:@"changeTextTransition"];*/
+    
+    
     NSLog(@"%@", _placeObj);
     
     self.tabBarController.tabBar.hidden = YES;
     
     self.navigationController.navigationBar.hidden = YES;
 
+    firstTime = YES;
+    
     tweetView = [[UIView alloc] initWithFrame:_myStreetView.frame];
     instaView = [[UIView alloc] initWithFrame:_myStreetView.frame];
     
-    coord = CLLocationCoordinate2DMake(((DKAPlace *)_placeObj).latitude , ((DKAPlace *)_placeObj).longitude);
+    coord = CLLocationCoordinate2DMake(_placeObj.latitude , _placeObj.longitude);
     
     [_btnStreetView setBackgroundImage:[helper radialGradientImage:_btnStreetView.frame.size start:0.9 end:0.9 centre:CGPointMake(0.5, 0.5) radius:0.45] forState:UIControlStateNormal];
     [_btnMenu setBackgroundImage:[helper radialGradientImage:_btnMenu.frame.size start:0.9 end:0.9 centre:CGPointMake(0.5, 0.5) radius:0.45] forState:UIControlStateNormal];
@@ -89,7 +107,9 @@
     [self loadInstas];
     [self loadTweets];
     [self load4sPhotos];
+    //[self loadFacebook];
     foursquareInfoView = [self createFoursquareInfoView];
+    weatherVCview = [self createWeatherView];
 	// Do any additional setup after loading the view.
 }
 
@@ -105,7 +125,28 @@
     {
         [view removeFromSuperview];
     }
+    fourController = nil;
+    twitterController = nil;
+    instaController = nil;;
+    foursquareInfoController = nil;
+    weatherVC = nil;
+    [fourSquarePhotos removeAllObjects];
+    fourSquarePhotos = nil;
+    [tweets removeAllObjects];
+    tweets = nil;
+    [instagrams removeAllObjects];
+    instagrams = nil;
+    foursquareView = nil;
+    foursquareInfoView = nil;
+    weatherVCview = nil;
     
+    instaView = nil;
+    tweetView = nil;
+    panoramaView = nil;
+    scrollView = nil;
+    self.view = nil;
+    //[[helper.session delegateQueue] setSuspended:YES];
+    //[helper.session invalidateAndCancel];
 }
 
 
@@ -128,7 +169,7 @@
         [view removeFromSuperview];
     }
     
-    GMSPanoramaView *panoramaView = [[GMSPanoramaView alloc] initWithFrame:self.view.frame];
+    panoramaView = [[GMSPanoramaView alloc] initWithFrame:self.view.frame];
 	
 	[panoramaView setUserInteractionEnabled:YES];
 	[panoramaView setDelegate:self];
@@ -153,9 +194,9 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:actionSheet.title]];
 }
 
--(void)loadTweets
+-(void)loadFacebook
 {
-    [helper getTwitterAround:((DKAPlace *)_placeObj).latitude lng:((DKAPlace *)_placeObj).longitude completionBlock:^(NSArray *result, NSError *error) {
+    [helper getFacebookAround:((DKAPlace *)_placeObj).latitude lng:((DKAPlace *)_placeObj).longitude completionBlock:^(NSArray *result, NSError *error) {
         
         tweets = [result mutableCopy];
         
@@ -164,24 +205,39 @@
     }];
 }
 
+-(void)loadTweets
+{
+    
+    tweetView = [self createTwitterView];
+    
+}
+
 -(void)loadInstas
 {
-    [helper getInstagramAround:((DKAPlace *)_placeObj).latitude lng:((DKAPlace *)_placeObj).longitude completionBlock:^(NSArray *result, NSError *error) {
-        instagrams = [result mutableCopy];
-        
-        instaView = [self createInstagramView];
-        
-    }];
+    instaView = [self createInstagramView];
+    
 }
 
 
 -(UIView *)createFoursquareInfoView
 {
-    foursquareInfoController = [[DKAFoursquareInfoVC alloc] init];
+    foursquareInfoController = [self.storyboard instantiateViewControllerWithIdentifier:@"foursquareInfo"];
     foursquareInfoController.place = (DKAPlace *)_placeObj;
     
     
     return foursquareInfoController.view;
+    
+}
+
+
+
+-(UIView *)createWeatherView
+{
+    weatherVC = [self.storyboard instantiateViewControllerWithIdentifier:@"weatherVC"];
+    weatherVC.place = (DKAPlace *)_placeObj;
+    
+    
+    return weatherVC.view;
     
 }
 
@@ -191,7 +247,8 @@
     instaController = [[InstagramCollectionViewController alloc] init];
     instaController.currentPageType = 0;
     instaController.parentContr = self;
-    [instaController initCollectionViewWithRect:CGRectMake(0, 60, 320, [helper isIphone5] ? 508 : 420) instas:instagrams location:nil];
+    instaController.place = _placeObj;
+    [instaController initCollectionViewWithRect:CGRectMake(0, 60, 320, [helper isIphone5] ? 508 : 420) instas:nil location:nil];
     
     
     return instaController.view;
@@ -203,9 +260,11 @@
 {
     twitterController = [[NWTwitterViewController alloc] initMe:CGRectMake(0, 60, 320, [helper isIphone5] ? 508 : 420)];
     
-    twitterController.tweets = tweets;
+    //twitterController.tweets = tweets;
     
     twitterController.parentContr = self;
+    
+    twitterController.place = _placeObj;
     
     [twitterController realInit];
     
@@ -217,17 +276,8 @@
 
 -(void)load4sPhotos
 {
-    [helper photosByVenueId:((DKAPlace *)_placeObj).placeId completionBlock:^(NSArray *result, NSError *error) {
-        if(!error)
-        {
-            fourSquarePhotos = [result mutableCopy];
-            
-            foursquareView = [self createFourSquareView];
-            
-            // [_cyclePageView reloadData];
-            
-        }
-    }];
+    foursquareView = [self createFourSquareView];
+    
 }
 
 
@@ -236,6 +286,7 @@
     fourController = [[NWFourSquareViewController alloc] init];
     fourController.currentPageType = 0;
     fourController.parentContr = self;
+    fourController.place = _placeObj;
     [fourController initCollectionViewWithRect:CGRectMake(0, 60, 320, [helper isIphone5] ? 508 : 420) instas:fourSquarePhotos location:nil];
     
     return fourController.view;
@@ -243,28 +294,29 @@
 }
 
 
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    
+   /* CGPoint offset = scrollView.contentOffset;
+    CGPoint newOffset = CGPointMake(offset.x+30, offset.y);
+    
+    [UIView animateWithDuration:0.3 delay:0.2 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAutoreverse |UIViewAnimationOptionRepeat animations:^{
+        [UIView setAnimationRepeatCount: 1];
+        [scrollView setContentOffset:newOffset animated: NO];
+    } completion:^(BOOL finished) {
+        [scrollView setContentOffset:offset animated:NO];
+    }];*/
+     
+    
+}
+
 - (IBAction)showInfoPages:(id)sender
 {
-    for(UIView *view in _myStreetView.subviews)
-    {
-        if(view.tag != 2003)
-        {
-            [view removeFromSuperview];
-
-        }
-    }
     
-    if(!scrollView)
-    {
-        CGRect frame = _myStreetView.frame;
-        frame.origin.y = 60;
-        frame.size.height = frame.size.height - 60;
-        scrollView = [[UIScrollView alloc] initWithFrame:frame];
-        scrollView.pagingEnabled = YES;
-        scrollView.backgroundColor = [UIColor clearColor];
-    }
     
-    for (int i = 0; i < 4; i++) {
+    
+    
+    for (int i = 0; i < 5; i++) {
         CGRect frame;
         frame.origin.x = scrollView.frame.size.width * i;
         frame.origin.y = 0;
@@ -287,59 +339,214 @@
                 foursquareView.frame = frame;
                 [scrollView addSubview:foursquareView];
                 break;}
+            case 4:{
+                weatherVCview.frame = frame;
+                [scrollView addSubview:weatherVCview];
+                break;}
             default:
                 break;
         }
         
     }
-    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * 4, scrollView.frame.size.height);
+    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * 5, scrollView.frame.size.height);
 
    
     [_myStreetView addSubview:scrollView];
     
+    
+    if(firstTime)
+    {
+        CGPoint offset = scrollView.contentOffset;
+        CGPoint newOffset = CGPointMake(offset.x+30, offset.y);
+        
+        [UIView animateWithDuration:0.4 delay:0.5 options:UIViewAnimationOptionCurveEaseIn   animations:^{
+            //[UIView setAnimationRepeatCount: 1];
+            [scrollView setContentOffset:newOffset animated: NO];
+        } completion:^(BOOL finished) {
+            if(finished)
+            {
+                [UIView animateWithDuration:0.2 delay:0.1 options:UIViewAnimationOptionCurveEaseIn   animations:^{
+                    //[UIView setAnimationRepeatCount: 1];
+                    [scrollView setContentOffset:offset animated: NO];
+                } completion:^(BOOL finished) {
+                    
+                }];
+                
+                
+
+            }
+        }];
+    }
+    
+
 }
 
-- (IBAction)showMenu:(id)sender {
-    
-    if(![_myStreetView viewWithTag:2001])
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView1
+{
+    //static NSInteger previousPage = 0;
+    CGFloat pageWidth = scrollView1.frame.size.width;
+    float fractionalPage = scrollView1.contentOffset.x / pageWidth;
+    NSInteger page = lround(fractionalPage);
+    //NSLog(@"Page %i", page);
+    if(page == 0)
     {
+        [self changeTextForTitleLabel:@"Place info"];
+        
+    }
+    if(page == 1)
+    {
+        [self changeTextForTitleLabel:@"Tweets around location"];
+    }
+    if(page == 3)
+    {
+        [self changeTextForTitleLabel:@"Foursquare photos"];
+    }
+    if(page == 2)
+    {
+        [self changeTextForTitleLabel:@"Instagram photos"];
+    }
+    if(page == 4)
+    {
+        [self changeTextForTitleLabel:@"Weather in location"];
+    }
+}
+
+-(void)changeTextForTitleLabel:(NSString *)newText
+{
+    /*[_lblName.layer removeAllAnimations];
+    CATransition *animation = [CATransition animation];
+    animation.duration = 1.0;
+    animation.type = kCATransitionFade;
+    animation.removedOnCompletion = NO;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    [_lblName.layer addAnimation:animation forKey:@"changeTextTransition"];*/
+    
+    // Change the text
+    _lblName.text = newText;
+    
+    
+    //[self performSelector:@selector(returnPlaceName) withObject:nil afterDelay:4];
+    
+}
+
+-(void)returnPlaceName
+{
+   /* [_lblName.layer removeAllAnimations];
+    CATransition *animation = [CATransition animation];
+    animation.duration = 1.0;
+    animation.type = kCATransitionFade;
+    animation.removedOnCompletion = NO;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    [_lblName.layer addAnimation:animation forKey:@"changeTextTransitionBack"];*/
+    
+    // Change the text
+    _lblName.text = ((DKAPlace *)_placeObj).placeName;
+}
+
+
+- (IBAction)showMenu:(id)sender {
+
+    for(UIView *view in _myStreetView.subviews)
+    {
+        if(view.tag == 2005)
+        {
+            [view removeFromSuperview];
+            
+        }
+        
+    }
+    if(scrollView)
+    {
+        firstTime = NO;
+        for(UIView *view in scrollView.subviews)
+        {
+            
+            [view removeFromSuperview];
+            
+        }
+        [scrollView removeFromSuperview];
+    }
+    CGRect frame = _myStreetView.frame;
+    frame.origin.y = 60;
+    frame.size.height = frame.size.height - 60;
+    scrollView = [[UIScrollView alloc] initWithFrame:frame];
+    scrollView.pagingEnabled = YES;
+    scrollView.backgroundColor = [UIColor clearColor];
+    scrollView.delegate = self;
+    scrollView.tag = 2006;
+    
+    
+    
+   
+    UIGraphicsBeginImageContextWithOptions(_myStreetView.frame.size, YES, 4);
+    
+    [_myStreetView drawViewHierarchyInRect:_myStreetView.frame afterScreenUpdates:YES];
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    UIImageView *img = [[UIImageView alloc] initWithImage:image];
+    
+    img.alpha = 0.0;
+    img.frame = _myStreetView.frame;
+    img.tag = 2003;
+    LFGlassView *frost  = [[LFGlassView alloc] initWithFrame:_myStreetView.frame];
+    frost.tag = 2004;
+    frost.alpha = 0.0;
+    
+    //placeMenu = [self.storyboard instantiateViewControllerWithIdentifier:@"placeMenu"];
+    //placeMenu.view.frame = CGRectMake(10, 100, 300, 300);
+    //placeMenu.view.tag = 2001;
+    //placeMenu.parentVC = self;
+    //placeMenu.view.alpha = 0.0;
+    [UIView animateWithDuration:0.3 animations:^{
+        
+        [_myStreetView addSubview:img];
+        
+        img.alpha = 1.0;
+        
+        [_myStreetView addSubview:frost];
+        frost.alpha = 1.0;
+        
+        
+       
+        
+        //[_myStreetView addSubview:placeMenu.view];
+        //placeMenu.view.alpha = 1.0;
+    } completion:^(BOOL finished) {
+        
         UIGraphicsBeginImageContextWithOptions(_myStreetView.frame.size, YES, 4);
         
         [_myStreetView drawViewHierarchyInRect:_myStreetView.frame afterScreenUpdates:YES];
         
-        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIImage *image1 = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         
-        UIImageView *img = [[UIImageView alloc] initWithImage:image];
-        
-        img.alpha = 0.0;
-        img.frame = _myStreetView.frame;
-        img.tag = 2003;
-        LFGlassView *frost  = [[LFGlassView alloc] initWithFrame:_myStreetView.frame];
-        frost.alpha = 0.0;
-        
-        placeMenu = [self.storyboard instantiateViewControllerWithIdentifier:@"placeMenu"];
-        placeMenu.view.frame = CGRectMake(10, 100, 300, 300);
-        placeMenu.view.tag = 2001;
-        placeMenu.parentVC = self;
-        placeMenu.view.alpha = 0.0;
-        [UIView animateWithDuration:0.3 animations:^{
+        weatherVC.placeImage = img;
 
-            [_myStreetView addSubview:img];
-            
-            img.alpha = 1.0;
-           
-            [_myStreetView addSubview:frost];
-            frost.alpha = 1.0;
-           
-            [_myStreetView addSubview:placeMenu.view];
-            placeMenu.view.alpha = 1.0;
-        }];
+        UIImageView *img1 = [[UIImageView alloc] initWithImage:image1];
+        img1.tag = 2005;
         
-        self.lblName.text = @"Choose info card";
 
         
-    }
+        [_myStreetView addSubview:img1];
+
+
+        [[_myStreetView viewWithTag:2003] removeFromSuperview];
+        
+        [[_myStreetView viewWithTag:2004] removeFromSuperview];
+        
+        
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"weatherImage" object:nil userInfo:nil];
+        
+        
+        [self showInfoPages:sender];
+
+        
+    }];
+
+    
     
     
     

@@ -12,7 +12,8 @@
 #import <FactualSDK/FactualQuery.h>
 #import "DKAPlaceVC.h"
 #import "DKAPlace.h"
-
+#import "DKAMapVC.h"
+#import "Search.h"
 @interface DKASearchVC ()
 {
     FactualQueryResult *queryData;
@@ -77,6 +78,7 @@ static NSString *CellIdentifier = @"Cell";
 {
     [self.tableView reloadData];
     
+    
 }
 
 -(void)searchByKeywords:(NSString *)keyword
@@ -136,6 +138,11 @@ static NSString *CellIdentifier = @"Cell";
     {
         if(place.iconUrl != nil)
         {
+            
+            if(!helper.session)
+            {
+                [helper refreshSession];
+            }
             imgView.image = [UIImage imageNamed:@"Placeholder.png"];
             
             NSURLSessionDownloadTask *getImageTask =
@@ -204,7 +211,7 @@ static NSString *CellIdentifier = @"Cell";
         
         //UILabel *lblT = (UILabel *)[[tableView cellForRowAtIndexPath:indexPath].contentView viewWithTag:1001];
         UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(41, 3, 272, 1000)];
-        lbl.font = [UIFont systemFontOfSize:LOCATIONLISTFONTSIZE];
+        lbl.font = [UIFont fontWithName:@"HelveticaNeue" size:LOCATIONLISTFONTSIZE];
         lbl.numberOfLines = 0;
         lbl.lineBreakMode = NSLineBreakByWordWrapping;
         
@@ -231,7 +238,29 @@ static NSString *CellIdentifier = @"Cell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     DKAPlace *place = items[indexPath.row];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"searchId = %@", place.placeId];
+    
+    Search *srch = [Search getSingleObjectByPredicate:predicate];
+    if(!srch)
+    {
+        Search *newSrch = [Search createEntityInContext];
+        newSrch.searchId = place.placeId;
+        newSrch.searchString = place.placeName;
+        newSrch.searchDate = [NSDate date];
+        NSMutableData *data = [[NSMutableData alloc] init];
+        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+        [archiver encodeObject:place.sourceDict forKey:@"MyDict"];
+        [archiver finishEncoding];
+        newSrch.searchDict = data;
+        
+        [Search saveDefaultContext];
+    }
+    
+    
     
     [self performSegueWithIdentifier:@"ShowPlace" sender:place];
     
@@ -245,6 +274,12 @@ static NSString *CellIdentifier = @"Cell";
         DKAPlaceVC *vc = (DKAPlaceVC *)segue.destinationViewController;
         vc.placeObj = sender;
         
+    }
+    if([segue.identifier isEqualToString:@"showMap"])
+    {
+        DKAMapVC *vc = (DKAMapVC *)segue.destinationViewController;
+        
+        vc.items = [@[items[0]] mutableCopy];
     }
 }
 

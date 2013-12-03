@@ -13,7 +13,8 @@
 @property (nonatomic, strong) NSString *temp_C;
 @property (nonatomic, strong) NSString *temp_F;
 @property (nonatomic, strong) NSString *weatherIconUrl;
-
+@property (nonatomic, strong) NSString *currentConditions;
+@property (nonatomic, strong) NSString *forecast;
 -(NWWeather *)initWithDictionary:(NSMutableDictionary *)dict;
 
 @end

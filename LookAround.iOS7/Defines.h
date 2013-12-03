@@ -1,16 +1,19 @@
 #import "DKAAppDelegate.h"
 #import <FactualSDK/FactualQuery.h>
 #import <FactualSDK/FactualAPI.h>
-
+#import "NWWeather.h"
 #define DKALocationUpdated @"LocationUpdated"
 #define DKALocationMuchUpdated @"LocationMuchUpdated"
 #define LOCATIONLISTFONTSIZE 18
 
 #define DKA_PREF_DATA_SOURCE @"DKA_PREF_DATA_SOURCE"
 #define DKA_PREF_APP_HAS_STARTED @"DKA_PREF_APP_HAS_STARTED"
+#define DKA_PREF_REFRESH @"DKA_PREF_REFRESH"
+
 
 typedef void (^DKAphotosByVenueIdCompletionBlock)        (NSArray *result, NSError *error);
 typedef void (^DKAgetPOIsCompletionBlock)        (NSArray *result, NSError *error);
+typedef void (^DKAgetWeatherAroundCompletionBlock)        (NWWeather *weather, NSError *error);
 
 typedef void (^DKAFactualHelperCompletionBlock)  (FactualQueryResult *data, NSError *error);
 
@@ -29,13 +32,16 @@ typedef void (^DKAFactualHelperCompletionBlock)  (FactualQueryResult *data, NSEr
 #define appDelegate ((DKAAppDelegate *)[[UIApplication sharedApplication] delegate])
 
 
-#define BLUE0 [UIColor colorWithRed:44 / 255 green:85 / 255 blue:103 / 255 alpha:1]
-#define BLUE1 [UIColor colorWithRed:255 / 255 green:168 / 255 blue:108 / 255 alpha:1]
-#define BLUE2 [UIColor colorWithRed:108 / 255 green:210 / 255 blue:255 / 255 alpha:1]
-#define BLUE3 [UIColor colorWithRed:255 / 255 green:212 / 255 blue:181 / 255 alpha:1]
-#define BLUE4 [UIColor colorWithRed:218 / 255 green:244 / 255 blue:255 / 255 alpha:1]
+#define BLUE0 [UIColor colorWithRed:44.0 / 255 green:85.0 / 255 blue:103.0 / 255 alpha:1]
+#define BLUE1 [UIColor colorWithRed:255.0 / 255 green:168.0 / 255 blue:108.0 / 255 alpha:1]
+#define BLUE2 [UIColor colorWithRed:108.0 / 255 green:210.0 / 255 blue:255.0 / 255 alpha:1]
+#define BLUE3 [UIColor colorWithRed:255.0 / 255 green:212.0 / 255 blue:181.0 / 255 alpha:1]
+#define BLUE4 [UIColor colorWithRed:218.0 / 255 green:244.0 / 255 blue:255.0 / 255 alpha:1]
 #define BLUE5 [UIColor colorWithRed:248.0 / 255 green:252.0 / 255 blue:255.0 / 255 alpha:1]
-#define BLUE6 [UIColor colorWithRed:255.0 / 255 green:168.0 / 255 blue:108.0 / 255 alpha:0.5]
+#define BLUE6 [UIColor colorWithRed:255.0 / 255 green:168.0 / 255 blue:108.0 / 255 alpha:0.7]
+#define BLUE7 [UIColor colorWithRed:255.0 / 255 green:168.0 / 255 blue:108.0 / 255 alpha:0.3]
+
+#define WHITE1 [UIColor colorWithRed:255.0 / 255 green:255.0 / 255 blue:255.0 / 255 alpha:0.7]
 
 
 

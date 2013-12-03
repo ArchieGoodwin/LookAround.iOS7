@@ -12,10 +12,13 @@
 //#import <FactualSDK/FactualQuery.h>
 #import "DKAPlaceVC.h"
 #import "DKAPlace.h"
+#import "DKAMapVC.h"
+#import "Search.h"
 @interface DKAPlacesListVC ()
 {
     DKAPlace *selectedPlace;
     NSCache *imagesCache;
+    UIRefreshControl *refreshControl;
 }
 
 @end
@@ -38,6 +41,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
+    refreshControl = [[UIRefreshControl alloc]   init];
+    refreshControl.tintColor = [UIColor grayColor];
+    
+    [refreshControl addTarget:self action:@selector(refreshLocation) forControlEvents:UIControlEventValueChanged];
+    
+    [self.tableView addSubview:refreshControl];
     
     imagesCache = [[NSCache alloc] init];
 
@@ -65,22 +76,31 @@
 -(void)reloadme
 {
     [self.tableView reloadData];
+    [refreshControl endRefreshing];
 
 }
 
 -(void)updatedLocation
 {
-    CLLocation *loc = [[DKAHelper sharedInstance] currentLocation];
     
+    if([[helper getPrefValueForKey:DKA_PREF_REFRESH] isEqualToString:@"Auto"])
+    {
+        CLLocation *loc = [[DKAHelper sharedInstance] currentLocation];
+        
+        CGPoint offset = CGPointMake(0, -100);
+        [self.tableView setContentOffset:offset animated:YES];
 
-    [helper poisNearLocation:loc.coordinate completionBlock:^(NSArray *result, NSError *error) {
-        NSLog(@"done!");
-        items = result;
-        
-        [self performSelectorOnMainThread:@selector(reloadme) withObject:nil waitUntilDone:NO];
-        
-        
-    }];
+        [refreshControl beginRefreshing];
+        [helper poisNearLocation:loc.coordinate completionBlock:^(NSArray *result, NSError *error) {
+            NSLog(@"done!");
+            items = result;
+            
+            [self performSelectorOnMainThread:@selector(reloadme) withObject:nil waitUntilDone:NO];
+            
+            
+        }];
+    }
+    
         
     
 
@@ -99,6 +119,22 @@
         
         [self.tableView reloadData];
     }];*/
+}
+
+
+-(void)refreshLocation
+{
+    CLLocation *loc = [[DKAHelper sharedInstance] currentLocation];
+    
+    
+    [helper poisNearLocation:loc.coordinate completionBlock:^(NSArray *result, NSError *error) {
+        NSLog(@"done!");
+        items = result;
+        
+        [self performSelectorOnMainThread:@selector(reloadme) withObject:nil waitUntilDone:NO];
+        
+        
+    }];
 }
 
 
@@ -130,6 +166,11 @@
     
     if(!cacheImage)
     {
+        if(!helper.session)
+        {
+            [helper refreshSession];
+        }
+        
         NSURLSessionDownloadTask *getImageTask =
         [helper.session downloadTaskWithURL:[NSURL URLWithString:place.iconUrl]
                           completionHandler:^(NSURL *location, NSURLResponse *response,
@@ -141,9 +182,13 @@
                               
                               
                               dispatch_async(dispatch_get_main_queue(), ^{
-                                  [imagesCache setObject:downloadedImage forKey:place.iconUrl];
+                                  if(downloadedImage && place.iconUrl)
+                                  {
+                                      [imagesCache setObject:downloadedImage forKey:place.iconUrl];
+                                      
+                                      imgView.image = downloadedImage;
+                                  }
                                   
-                                  imgView.image = downloadedImage;
                               });
                           }];
         
@@ -200,7 +245,7 @@
         
         //UILabel *lblT = (UILabel *)[[tableView cellForRowAtIndexPath:indexPath].contentView viewWithTag:1001];
         UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(41, 3, 272, 1000)];
-        lbl.font = [UIFont systemFontOfSize:LOCATIONLISTFONTSIZE];
+        lbl.font = [UIFont fontWithName:@"HelveticaNeue" size:LOCATIONLISTFONTSIZE];
         lbl.numberOfLines = 0;
         lbl.lineBreakMode = NSLineBreakByWordWrapping;
         
@@ -227,8 +272,29 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     DKAPlace *place = items[indexPath.row];
     selectedPlace = place;
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"searchId = %@", selectedPlace.placeId];
+
+    Search *srch = [Search getSingleObjectByPredicate:predicate];
+    if(!srch)
+    {
+        Search *newSrch = [Search createEntityInContext];
+        newSrch.searchId = selectedPlace.placeId;
+        newSrch.searchString = selectedPlace.placeName;
+        newSrch.searchDate = [NSDate date];
+        NSMutableData *data = [[NSMutableData alloc] init];
+        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+        [archiver encodeObject:selectedPlace.sourceDict forKey:@"MyDict"];
+        [archiver finishEncoding];
+        newSrch.searchDict = data;
+        
+        [Search saveDefaultContext];
+    }
+    
     [self performSegueWithIdentifier:@"ShowPlace" sender:place];
     
 }
@@ -241,6 +307,11 @@
         DKAPlaceVC *vc = (DKAPlaceVC *)segue.destinationViewController;
         vc.placeObj = selectedPlace;
         
+    }
+    if([segue.identifier isEqualToString:@"showMap"])
+    {
+        DKAMapVC *vc = (DKAMapVC *)segue.destinationViewController;
+        vc.items = [items mutableCopy];
     }
 }
 

@@ -77,7 +77,7 @@
         CGColorRef innerColor = [[UIColor colorWithWhite:1.0 alpha:0.0] CGColor];
         
         maskLayer.colors = [NSArray arrayWithObjects:
-                            (__bridge id)outerColor,
+                            (__bridge id)innerColor,
                             (__bridge id)innerColor,
                             (__bridge id)innerColor,
                             (__bridge id)innerColor,
@@ -116,7 +116,7 @@
     imagesCache = [[NSCache alloc] init];
     self.view = [[UIView alloc] initWithFrame:rect];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor clearColor];
     /* UIButton *btnBack = [UIButton buttonWithType:UIButtonTypeCustom];
      btnBack.frame = CGRectMake(7, 3, 44, 44);
      btnBack.backgroundColor = [UIColor clearColor];
@@ -140,7 +140,7 @@
     [flowLayout setItemSize:CGSizeMake(100, 100)];
     [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
     _collectionView = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
-    _collectionView.backgroundColor = [UIColor whiteColor];
+    _collectionView.backgroundColor = [UIColor clearColor];
     
     
     [_collectionView setAllowsSelection:YES];
@@ -150,7 +150,7 @@
     
     self.layout3 = [[StackedGridLayout alloc] init];
     self.layout3.headerHeight = 0;
-    self.layout3.footerHeight = 60;
+    self.layout3.footerHeight = 0;
     
     self.collectionView.collectionViewLayout = self.layout3;
     
@@ -170,7 +170,26 @@
     [self.collectionView addGestureRecognizer:showExtrasSwipe2];*/
     
     
-    [self.collectionView reloadData];
+    [helper photosByVenueId:_place.placeId completionBlock:^(NSArray *result, NSError *error) {
+        if(!error)
+        {
+            _chainges = [result mutableCopy];
+            [self.collectionView reloadData];
+            if(_chainges.count == 0)
+            {
+                [self showMessageView];
+            }
+        }
+        else
+        {
+            if(_chainges.count == 0)
+            {
+                [self showMessageView];
+            }
+        }
+    }];
+    
+    
     
     
     //[self getChainges];
@@ -198,31 +217,27 @@
 
 
 
-
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [imagesCache removeAllObjects];
+    _chainges = nil;
+    self.collectionView = nil;
+}
 
 
 - (void)showMessageView {
     viewForLabel = [[UIView alloc] initWithFrame:CGRectMake(20, 200, 280, 40)];
-    viewForLabel.backgroundColor = [UIColor whiteColor];
+    viewForLabel.backgroundColor = BLUE7;
     UILabel *lblMessage = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 280, 40)] ;
     lblMessage.backgroundColor = [UIColor clearColor];
     lblMessage.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
     lblMessage.text = @"There are no photos for this place yet";
-    lblMessage.textColor = [UIColor blackColor];
+    lblMessage.textColor = [UIColor whiteColor];
     lblMessage.textAlignment = NSTextAlignmentCenter;
-    lblMessage.alpha = 0;
     [viewForLabel addSubview:lblMessage];
     [self.view addSubview:viewForLabel];
     
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [UIView beginAnimations:nil context:context];
-    [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-    [UIView setAnimationDuration:2];
-    [UIView setAnimationDelegate:self];
-    
-    lblMessage.alpha = 1;
-    
-    [UIView commitAnimations];
+   
     
     
 }
@@ -288,11 +303,7 @@
     
     [super viewWillAppear:animated];
     
-    if(_chainges.count == 0)
-    {
-        [self showMessageView];
-        //[self hideMessageView];
-    }
+   
     //[self updatedLocation];
     
     _parentContr.lblName.text = ((DKAPlace *)_parentContr.placeObj).placeName;

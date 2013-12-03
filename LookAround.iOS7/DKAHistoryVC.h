@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ASMediaFocusManager.h"
-@interface DKAHistoryVC : UITableViewController <ASMediasFocusDelegate>
+@interface DKAHistoryVC : UITableViewController  <ASMediasFocusDelegate>
 
+@property (nonatomic, assign) BOOL isHistory;
 @end

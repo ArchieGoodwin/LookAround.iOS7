@@ -62,6 +62,27 @@ static NSTimeInterval const kDefaultOrientationAnimationDuration = 0.4;
     }
 }
 
+
+- (BOOL)isParentDeviceSupportingInterfaceOrientation:(UIDeviceOrientation)toInterfaceOrientation
+{
+    switch(toInterfaceOrientation)
+    {
+        case UIDeviceOrientationFaceUp:
+            return [self.parentViewController supportedInterfaceOrientations] & UIInterfaceOrientationMaskPortrait;
+        case UIDeviceOrientationPortrait:
+            return [self.parentViewController supportedInterfaceOrientations] & UIInterfaceOrientationMaskPortrait;
+        case UIDeviceOrientationFaceDown:
+            return [self.parentViewController supportedInterfaceOrientations] & UIInterfaceOrientationMaskPortraitUpsideDown;
+        case UIDeviceOrientationPortraitUpsideDown:
+            return [self.parentViewController supportedInterfaceOrientations] & UIInterfaceOrientationMaskPortraitUpsideDown;
+        case UIDeviceOrientationLandscapeLeft:
+            return [self.parentViewController supportedInterfaceOrientations] & UIInterfaceOrientationMaskLandscapeLeft;
+        case UIDeviceOrientationLandscapeRight:
+            return [self.parentViewController supportedInterfaceOrientations] & UIInterfaceOrientationMaskLandscapeRight;
+    }
+    return NO;
+}
+
 - (void)updateOrientationAnimated:(BOOL)animated
 {
     CGAffineTransform transform;
@@ -78,7 +99,7 @@ static NSTimeInterval const kDefaultOrientationAnimationDuration = 0.4;
     }
     
     if(([UIDevice currentDevice].orientation == UIInterfaceOrientationPortrait)
-       || [self isParentSupportingInterfaceOrientation:[UIDevice currentDevice].orientation])
+       || [self isParentDeviceSupportingInterfaceOrientation:[UIDevice currentDevice].orientation])
     {
         transform = CGAffineTransformIdentity;
     }

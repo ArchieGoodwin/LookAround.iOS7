@@ -35,7 +35,7 @@
 @property (nonatomic, assign) NSInteger checkinsCount;
 @property (nonatomic, assign) NSInteger userCount;
 @property (nonatomic, strong) NSDictionary *menu;
-
+@property (nonatomic, strong) NSMutableDictionary *sourceDict;
 -(DKAPlace *)initWithFactualData:(FactualRow *)row;
 -(DKAPlace *)initWith4s:(NSMutableDictionary *)dict;
 

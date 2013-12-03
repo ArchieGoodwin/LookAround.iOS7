@@ -24,7 +24,7 @@
     UIView *viewForLabel;
 }
 @property (nonatomic, strong) DKAPlaceVC *parentContr;
-
+@property (nonatomic, strong) DKAPlace *place;
 @property (nonatomic, strong) CLLocation *searchLocation;
 @property(nonatomic, strong)  UICollectionView *collectionView;
 @property(nonatomic, strong) NSMutableArray *chainges;

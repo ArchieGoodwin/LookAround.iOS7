@@ -9,12 +9,13 @@
 #import <UIKit/UIKit.h>
 #import <GoogleMaps/GoogleMaps.h>
 #import <MapKit/MapKit.h>
+#import "DKAPlace.h"
 
-@interface DKAPlaceVC : UIViewController <GMSPanoramaViewDelegate, MKMapViewDelegate>
+@interface DKAPlaceVC : UIViewController <GMSPanoramaViewDelegate, MKMapViewDelegate, UIScrollViewDelegate>
 @property (strong, nonatomic) IBOutlet UIButton *btnStreetView;
 @property (strong, nonatomic) IBOutlet UIButton *btnMenu;
 @property (strong, nonatomic) IBOutlet UIButton *btnMap;
-@property (strong, nonatomic) id placeObj;
+@property (strong, nonatomic) DKAPlace *placeObj;
 @property (strong, nonatomic) IBOutlet UIView *myStreetView;
 @property (strong, nonatomic) IBOutlet UIButton *btnBack;
 @property (strong, nonatomic) IBOutlet UILabel *lblName;

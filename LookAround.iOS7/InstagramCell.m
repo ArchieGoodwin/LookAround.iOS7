@@ -51,44 +51,52 @@
         _insta = instaGram;
     }
     
-    UIImage *cacheImage =  [_imagesCache objectForKey:_insta.instaPhoto];
-    
-    if(!cacheImage)
+    if(_insta.instaPhoto)
     {
-        self.imageView.image = [UIImage imageNamed:@"Placeholder.png"];
-        NSURLSessionDownloadTask *getImageTask =
-        [helper.session downloadTaskWithURL:[NSURL URLWithString:_insta.instaPhoto]
-                          completionHandler:^(NSURL *location, NSURLResponse *response,
-                                              NSError *error) {
-                              // 2
-                              UIImage *downloadedImage = [UIImage imageWithData:
-                                                          [NSData dataWithContentsOfURL:location]];
-                              //3
-                              
-                              
-                              dispatch_async(dispatch_get_main_queue(), ^{
-                                  [_imagesCache setObject:downloadedImage forKey:_insta.instaPhoto];
-
-                                  self.imageView.image = downloadedImage;
-                              });
-                          }];
+        UIImage *cacheImage =  [_imagesCache objectForKey:_insta.instaPhoto];
         
-        [getImageTask resume];
+        if(!cacheImage)
+        {
+            self.imageView.image = [UIImage imageNamed:@"Placeholder.png"];
+            NSURLSessionDownloadTask *getImageTask =
+            [helper.session downloadTaskWithURL:[NSURL URLWithString:_insta.instaPhoto]
+                              completionHandler:^(NSURL *location, NSURLResponse *response,
+                                                  NSError *error) {
+                                  // 2
+                                  UIImage *downloadedImage = [UIImage imageWithData:
+                                                              [NSData dataWithContentsOfURL:location]];
+                                  //3
+                                  
+                                  
+                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                      if(downloadedImage)
+                                      {
+                                          [_imagesCache setObject:downloadedImage forKey:_insta.instaPhoto];
+                                          
+                                          self.imageView.image = downloadedImage;
+                                      }
+                                     
+                                  });
+                              }];
+            
+            [getImageTask resume];
+        }
+        else
+        {
+            self.imageView.image = cacheImage;
+            
+        }
+        
+        
+        //[self.imageView setImageWithURL:[NSURL URLWithString:_insta.instaPhoto] placeholderImage:image];
+        
+        
+        
+        _mediaFocusManager = [[ASMediaFocusManager alloc] init];
+        _mediaFocusManager.delegate = self;
+        [_mediaFocusManager installOnViews:@[self.imageView]];
     }
-    else
-    {
-        self.imageView.image = cacheImage;
-        
-    }
     
-    
-    //[self.imageView setImageWithURL:[NSURL URLWithString:_insta.instaPhoto] placeholderImage:image];
-        
-    
-    
-    _mediaFocusManager = [[ASMediaFocusManager alloc] init];
-    _mediaFocusManager.delegate = self;
-    [_mediaFocusManager installOnViews:@[self.imageView]];
     
     
 }
@@ -108,34 +116,45 @@
    // if(self.imageView.image == nil)
     //{
         //self.imageView.image = [UIImage imageNamed:@"Placeholder.png"];
-    
-    UIImage *cacheImage =  [_imagesCache objectForKey:_four.photoUrlFull];
-    
-    if(!cacheImage)
+    if(_four.photoUrlFull)
     {
-        NSURLSessionDownloadTask *getImageTask =
-        [helper.session downloadTaskWithURL:[NSURL URLWithString:_four.photoUrlFull]
-                          completionHandler:^(NSURL *location, NSURLResponse *response,
-                                              NSError *error) {
-                              // 2
-                              UIImage *downloadedImage = [UIImage imageWithData:
-                                                          [NSData dataWithContentsOfURL:location]];
-                              //3
-                              
-                              
-                              dispatch_async(dispatch_get_main_queue(), ^{
-                                  [_imagesCache setObject:downloadedImage forKey:_four.photoUrlFull];
-                                  self.imageView.image = downloadedImage;
-                              });
-                          }];
+        UIImage *cacheImage =  [_imagesCache objectForKey:_four.photoUrlFull];
         
-        [getImageTask resume];
+        if(!cacheImage)
+        {
+            NSURLSessionDownloadTask *getImageTask =
+            [helper.session downloadTaskWithURL:[NSURL URLWithString:_four.photoUrlFull]
+                              completionHandler:^(NSURL *location, NSURLResponse *response,
+                                                  NSError *error) {
+                                  // 2
+                                  UIImage *downloadedImage = [UIImage imageWithData:
+                                                              [NSData dataWithContentsOfURL:location]];
+                                  //3
+                                  
+                                  
+                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                      if(downloadedImage)
+                                      {
+                                          [_imagesCache setObject:downloadedImage forKey:_four.photoUrlFull];
+                                          self.imageView.image = downloadedImage;
+                                      }
+                                     
+                                  });
+                              }];
+            
+            [getImageTask resume];
+        }
+        else
+        {
+            self.imageView.image = cacheImage;
+            
+        }
+        
+        _mediaFocusManager = [[ASMediaFocusManager alloc] init];
+        _mediaFocusManager.delegate = self;
+        [_mediaFocusManager installOnViews:@[self.imageView]];
     }
-    else
-    {
-        self.imageView.image = cacheImage;
-
-    }
+    
     
     
     
@@ -143,9 +162,7 @@
        
     //}
     
-    _mediaFocusManager = [[ASMediaFocusManager alloc] init];
-    _mediaFocusManager.delegate = self;
-    [_mediaFocusManager installOnViews:@[self.imageView]];
+    
     
 }
 
@@ -166,7 +183,7 @@
 - (CGRect)mediaFocusManager:(ASMediaFocusManager *)mediafocus finalFrameforView:(UIView *)view
 {
     //return appDelegate.mainViewController.view.bounds;
-    return [helper isIphone5] ? CGRectMake(0, 0, 320, 568) :  CGRectMake(0, 0, 320, 480);
+    return [helper isIphone5] ? CGRectMake(0, 0, 320, 508) :  CGRectMake(0, 0, 320, 420);
     
 }
 

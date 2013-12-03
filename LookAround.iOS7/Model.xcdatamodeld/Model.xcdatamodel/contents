@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5029" systemVersion="13A603" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Search" representedClassName="Search" syncable="YES">
+        <attribute name="searchDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="searchDict" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="searchId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="searchString" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Search" positionX="-63" positionY="-18" width="128" height="105"/>
+    </elements>
+</model>

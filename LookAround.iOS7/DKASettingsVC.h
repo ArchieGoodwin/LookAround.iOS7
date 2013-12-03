@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DKASettingsVC : UITableViewController
+@interface DKASettingsVC : UITableViewController <UIActionSheetDelegate>
 
 @end

@@ -7,7 +7,8 @@
 //
 
 #import "DKANavVC.h"
-
+#import "Defines.h"
+#import "LFGlassView.h"
 @interface DKANavVC ()
 
 @end
@@ -37,6 +38,27 @@
 {
     [super viewDidLoad];
 
+    
+    NSShadow *shadow = [[NSShadow alloc] init];
+    shadow.shadowColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8];
+    shadow.shadowOffset = CGSizeMake(0, 1);
+    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/255.0 alpha:1.0], NSForegroundColorAttributeName,
+                                                           shadow, NSShadowAttributeName,
+                                                           [UIFont fontWithName:@"HelveticaNeue-CondensedBlack" size:21.0], NSFontAttributeName, nil]];
+    
+    [[UINavigationBar appearance] setBarTintColor:BLUE0];
+
+    [[UITabBar appearance] setTintColor:BLUE1];
+    //self.tabBarController.tabBar.translucent = YES;
+    //self.tabBarController.tabBar.barStyle = UIBarStyleBlack;
+    //[[UITabBar appearance] setTranslucent:YES];
+    //[[UITabBar appearance] setBarStyle:UIBarStyleBlack];
+    
+    //LFGlassView *frost  = [[LFGlassView alloc] initWithFrame:self.tabBarController.tabBar.frame];
+
+    //[self.tabBarController.tabBar.layer insertSublayer:frost.layer atIndex:0];
+    
     [self preferredStatusBarStyle];
     [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
     

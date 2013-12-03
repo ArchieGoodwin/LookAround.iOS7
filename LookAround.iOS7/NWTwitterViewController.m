@@ -33,8 +33,10 @@ NSCache *imagesCache;
     if(self)
     {
         
-       
-        self.tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
+        CGRect rect = frame;
+        rect.origin.y = rect.origin.y - 60;
+        rect.size.height = frame.size.height;
+        self.tableView = [[UITableView alloc] initWithFrame:rect style:UITableViewStylePlain];
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
@@ -57,7 +59,7 @@ NSCache *imagesCache;
         CGColorRef innerColor = [[UIColor colorWithWhite:1.0 alpha:1.0] CGColor];
         
         maskLayer.colors = [NSArray arrayWithObjects:
-                            (__bridge id)outerColor,
+                            (__bridge id)innerColor,
                             (__bridge id)innerColor,
                             (__bridge id)innerColor,
                             (__bridge id)innerColor,
@@ -82,26 +84,17 @@ NSCache *imagesCache;
 
 - (void)showMessageView {
     viewForLabel = [[UIView alloc] initWithFrame:CGRectMake(20, 200, 280, 40)];
-    viewForLabel.backgroundColor = [UIColor whiteColor];
+    viewForLabel.backgroundColor = BLUE7;
     UILabel *lblMessage = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 280, 40)] ;
     lblMessage.backgroundColor = [UIColor clearColor];
     lblMessage.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
     lblMessage.text = @"There are no tweets around there";
-    lblMessage.textColor = [UIColor blackColor];
+    lblMessage.textColor = [UIColor whiteColor];
     lblMessage.textAlignment = NSTextAlignmentCenter;
-    lblMessage.alpha = 0;
     [viewForLabel addSubview:lblMessage];
     [self.view addSubview:viewForLabel];
     
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [UIView beginAnimations:nil context:context];
-    [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-    [UIView setAnimationDuration:2];
-    [UIView setAnimationDelegate:self];
     
-    lblMessage.alpha = 1;
-    
-    [UIView commitAnimations];
     
     
 }
@@ -151,12 +144,27 @@ NSCache *imagesCache;
 
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [imagesCache removeAllObjects];
+}
+
 -(void)realInit
 {
     imagesCache = [[NSCache alloc] init];
 
-    
-    [self.tableView reloadData];
+    [helper getTwitterAround:_place.latitude lng:_place.longitude completionBlock:^(NSArray *result, NSError *error) {
+        
+        _tweets = [result mutableCopy];
+        
+        [self.tableView reloadData];
+
+        if(_tweets.count == 0)
+        {
+            [self showMessageView];
+        }
+        
+    }];
     
 
 }

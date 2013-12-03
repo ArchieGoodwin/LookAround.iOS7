@@ -51,4 +51,8 @@ extern NSString * const PREFS_CATEGORY_FILTER_TYPE;
 -(void)poisByKeyword:(NSString *)keyword completionBlock:(DKAgetPOIsCompletionBlock)completionBlock;
 - (void)getTwitterAround:(double)lat lng:(double)lng completionBlock:(DKAgetPOIsCompletionBlock)completionBlock;
 -(void)getInstagramAround:(double)lat lng:(double)lng completionBlock:(DKAgetPOIsCompletionBlock)completionBlock;
+- (void)getFacebookAround:(double)lat lng:(double)lng completionBlock:(DKAgetPOIsCompletionBlock)completionBlock;
+-(void)getWeatherAround:(double)lat lng:(double)lng completionBlock:(DKAgetWeatherAroundCompletionBlock)completionBlock;
+-(void)refreshSession;
+-(CGFloat)getLabelSizeWithWidth:(UILabel *)label fontSize:(NSInteger)fontSize width:(float)width;
 @end

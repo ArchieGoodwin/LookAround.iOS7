@@ -32,43 +32,52 @@
 }
 
 
+
 -(void) setTweet:(NWtwitter *)tweet{
     
     _lblText.text = tweet.message;
     _lblText.verticalAlignment = VerticalAlignmentTop;
     _lblDate.text =  [NSDateFormatter localizedStringFromDate:tweet.dateCreated dateStyle:NSDateFormatterMediumStyle timeStyle:NSDateFormatterShortStyle];
     _lblAuthor.text = tweet.author;
-    
-    UIImage *cacheImage =  [_imagesCache objectForKey:tweet.iconUrl];
-    
-    if(!cacheImage)
+    if(tweet.iconUrl)
     {
-        NSURLSessionDownloadTask *getImageTask =
-        [helper.session downloadTaskWithURL:[NSURL URLWithString:tweet.iconUrl]
-                          completionHandler:^(NSURL *location, NSURLResponse *response,
-                                              NSError *error) {
-                              // 2
-                              UIImage *downloadedImage = [UIImage imageWithData:
-                                                          [NSData dataWithContentsOfURL:location]];
-                              //3
-                              
-                              
-                              dispatch_async(dispatch_get_main_queue(), ^{
-                                  [_imagesCache setObject:downloadedImage forKey:tweet.iconUrl];
+        UIImage *cacheImage =  [_imagesCache objectForKey:tweet.iconUrl];
+        
+        if(!cacheImage)
+        {
+            NSURLSessionDownloadTask *getImageTask =
+            [helper.session downloadTaskWithURL:[NSURL URLWithString:tweet.iconUrl]
+                              completionHandler:^(NSURL *location, NSURLResponse *response,
+                                                  NSError *error) {
+                                  // 2
+                                  UIImage *downloadedImage = [UIImage imageWithData:
+                                                              [NSData dataWithContentsOfURL:location]];
+                                  //3
                                   
-                                  self.imgProfile.image = downloadedImage;
-                              });
-                          }];
-        
-        [getImageTask resume];
-        
-        
+                                  
+                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                      if(downloadedImage)
+                                      {
+                                          [_imagesCache setObject:downloadedImage forKey:tweet.iconUrl];
+                                          
+                                          self.imgProfile.image = downloadedImage;
+                                      }
+                                     
+                                  });
+                              }];
+            
+            [getImageTask resume];
+            
+            
+        }
+        else
+        {
+            self.imgProfile.image = cacheImage;
+            
+        }
     }
-    else
-    {
-        self.imgProfile.image = cacheImage;
-        
-    }
+    
+    
 }
 
 

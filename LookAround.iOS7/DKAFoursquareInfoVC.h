@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DKAPlace.h"
-@interface DKAFoursquareInfoVC : UITableViewController
+@interface DKAFoursquareInfoVC : UITableViewController <UIActionSheetDelegate>
 
 
 @property (nonatomic, strong) DKAPlace *place;

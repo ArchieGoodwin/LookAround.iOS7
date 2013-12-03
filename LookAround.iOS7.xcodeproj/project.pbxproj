@@ -22,7 +22,6 @@
 		DC0D5424180C1257004193E2 /* LookAround_iOS7Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0D5423180C1257004193E2 /* LookAround_iOS7Tests.m */; };
 		DC0D543C180D70E9004193E2 /* DKAHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DC0D543B180D70E9004193E2 /* DKAHelper.m */; };
 		DC14FF89183E2AED004B0447 /* DKAPlace.m in Sources */ = {isa = PBXBuildFile; fileRef = DC14FF88183E2AED004B0447 /* DKAPlace.m */; };
-		DC19086418322F3900DB0D20 /* StreetViewVCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC19086318322F3900DB0D20 /* StreetViewVCViewController.m */; };
 		DC19086618322F5100DB0D20 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC19086518322F5100DB0D20 /* MapKit.framework */; };
 		DC19086818322FB800DB0D20 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC19086718322FB800DB0D20 /* CoreImage.framework */; };
 		DC19086A18322FBD00DB0D20 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC19086918322FBD00DB0D20 /* CoreVideo.framework */; };
@@ -40,6 +39,7 @@
 		DC190882183231E900DB0D20 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DC190881183231E900DB0D20 /* libicucore.dylib */; };
 		DC190884183231FD00DB0D20 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC190883183231FD00DB0D20 /* SystemConfiguration.framework */; };
 		DC1D83F81832079500D22307 /* DKAPlaceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC1D83F71832079500D22307 /* DKAPlaceVC.m */; };
+		DC22B1271845F9BE002ABF37 /* URBMediaFocusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC22B1261845F9BE002ABF37 /* URBMediaFocusViewController.m */; };
 		DC23183C183CE8C2006BCF57 /* DKAPlacesListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC23183B183CE8C2006BCF57 /* DKAPlacesListVC.m */; };
 		DC2EEA3D184087E0000632A6 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC2EEA3C184087E0000632A6 /* Social.framework */; };
 		DC2EEA3F184087E4000632A6 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC2EEA3E184087E4000632A6 /* Accounts.framework */; };
@@ -53,6 +53,13 @@
 		DC39CC0E182F94A100EFD523 /* MRProgressOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC39CC00182F94A100EFD523 /* MRProgressOverlayView.m */; };
 		DC39CC0F182F94A100EFD523 /* MRMessageInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = DC39CC04182F94A100EFD523 /* MRMessageInterceptor.m */; };
 		DC39CC10182F94A100EFD523 /* MRWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = DC39CC07182F94A100EFD523 /* MRWeakProxy.m */; };
+		DC5E178C1849E0A90038CE12 /* DKAMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC5E178B1849E0A90038CE12 /* DKAMapVC.m */; };
+		DC5E178F184B3E260038CE12 /* NSManagedObject+NWCoreDataHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DC5E178E184B3E260038CE12 /* NSManagedObject+NWCoreDataHelper.m */; };
+		DC5E1792184B3E550038CE12 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DC5E1790184B3E550038CE12 /* Model.xcdatamodeld */; };
+		DC5E1798184B410C0038CE12 /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = DC5E1797184B410C0038CE12 /* Search.m */; };
+		DC5E17A0184C93660038CE12 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC5E179A184C93660038CE12 /* libTestFlight.a */; };
+		DC5E17A1184C93660038CE12 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DC5E179B184C93660038CE12 /* README.md */; };
+		DC5E17A2184C93660038CE12 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = DC5E179C184C93660038CE12 /* release_notes.md */; };
 		DC800423180FFEC30024C63C /* DKAFactualHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DC800422180FFEC30024C63C /* DKAFactualHelper.m */; };
 		DC80042718100D570024C63C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC80042618100D570024C63C /* CoreLocation.framework */; };
 		DC80043F181011920024C63C /* FactualSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC80043E181011920024C63C /* FactualSDK.framework */; };
@@ -63,6 +70,7 @@
 		DC9A7FC3182E6C6A00EB9E9F /* NSDate-Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9A7FC2182E6C6A00EB9E9F /* NSDate-Utilities.m */; };
 		DC9A7FC7182F579500EB9E9F /* DKAHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9A7FC6182F579500EB9E9F /* DKAHistoryVC.m */; };
 		DC9A7FCC182F868C00EB9E9F /* DKASettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9A7FCB182F868C00EB9E9F /* DKASettingsVC.m */; };
+		DCE03846184898B40036D9EA /* DKAWeatherVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE03845184898B40036D9EA /* DKAWeatherVC.m */; };
 		DCE34C79183B6A4300757702 /* DKAPlaceMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE34C78183B6A4300757702 /* DKAPlaceMenuVC.m */; };
 		DCE34C80183B6F1000757702 /* LFDisplayBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE34C7C183B6F1000757702 /* LFDisplayBridge.m */; };
 		DCE34C81183B6F1000757702 /* LFGlassView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE34C7E183B6F1000757702 /* LFGlassView.m */; };
@@ -123,8 +131,6 @@
 		DC0D543B180D70E9004193E2 /* DKAHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAHelper.m; sourceTree = "<group>"; };
 		DC14FF87183E2AED004B0447 /* DKAPlace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKAPlace.h; sourceTree = "<group>"; };
 		DC14FF88183E2AED004B0447 /* DKAPlace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAPlace.m; sourceTree = "<group>"; };
-		DC19086218322F3900DB0D20 /* StreetViewVCViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreetViewVCViewController.h; sourceTree = "<group>"; };
-		DC19086318322F3900DB0D20 /* StreetViewVCViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StreetViewVCViewController.m; sourceTree = "<group>"; };
 		DC19086518322F5100DB0D20 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		DC19086718322FB800DB0D20 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		DC19086918322FBD00DB0D20 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -143,6 +149,8 @@
 		DC190883183231FD00DB0D20 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		DC1D83F61832079500D22307 /* DKAPlaceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKAPlaceVC.h; sourceTree = "<group>"; };
 		DC1D83F71832079500D22307 /* DKAPlaceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAPlaceVC.m; sourceTree = "<group>"; };
+		DC22B1251845F9BE002ABF37 /* URBMediaFocusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URBMediaFocusViewController.h; sourceTree = "<group>"; };
+		DC22B1261845F9BE002ABF37 /* URBMediaFocusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URBMediaFocusViewController.m; sourceTree = "<group>"; };
 		DC23183A183CE8C2006BCF57 /* DKAPlacesListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKAPlacesListVC.h; sourceTree = "<group>"; };
 		DC23183B183CE8C2006BCF57 /* DKAPlacesListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAPlacesListVC.m; sourceTree = "<group>"; };
 		DC2EEA3C184087E0000632A6 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -169,6 +177,19 @@
 		DC39CC05182F94A100EFD523 /* MRProgressHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRProgressHelper.h; sourceTree = "<group>"; };
 		DC39CC06182F94A100EFD523 /* MRWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRWeakProxy.h; sourceTree = "<group>"; };
 		DC39CC07182F94A100EFD523 /* MRWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRWeakProxy.m; sourceTree = "<group>"; };
+		DC5E178A1849E0A90038CE12 /* DKAMapVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKAMapVC.h; sourceTree = "<group>"; };
+		DC5E178B1849E0A90038CE12 /* DKAMapVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAMapVC.m; sourceTree = "<group>"; };
+		DC5E178D184B3E260038CE12 /* NSManagedObject+NWCoreDataHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+NWCoreDataHelper.h"; sourceTree = "<group>"; };
+		DC5E178E184B3E260038CE12 /* NSManagedObject+NWCoreDataHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+NWCoreDataHelper.m"; sourceTree = "<group>"; };
+		DC5E1791184B3E550038CE12 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		DC5E1796184B410C0038CE12 /* Search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Search.h; sourceTree = "<group>"; };
+		DC5E1797184B410C0038CE12 /* Search.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Search.m; sourceTree = "<group>"; };
+		DC5E179A184C93660038CE12 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		DC5E179B184C93660038CE12 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		DC5E179C184C93660038CE12 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
+		DC5E179D184C93660038CE12 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		DC5E179E184C93660038CE12 /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
+		DC5E179F184C93660038CE12 /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
 		DC800421180FFEC30024C63C /* DKAFactualHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKAFactualHelper.h; sourceTree = "<group>"; };
 		DC800422180FFEC30024C63C /* DKAFactualHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAFactualHelper.m; sourceTree = "<group>"; };
 		DC80042618100D570024C63C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -188,6 +209,8 @@
 		DC9A7FC6182F579500EB9E9F /* DKAHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAHistoryVC.m; sourceTree = "<group>"; };
 		DC9A7FCA182F868C00EB9E9F /* DKASettingsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKASettingsVC.h; sourceTree = "<group>"; };
 		DC9A7FCB182F868C00EB9E9F /* DKASettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKASettingsVC.m; sourceTree = "<group>"; };
+		DCE03844184898B40036D9EA /* DKAWeatherVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKAWeatherVC.h; sourceTree = "<group>"; };
+		DCE03845184898B40036D9EA /* DKAWeatherVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAWeatherVC.m; sourceTree = "<group>"; };
 		DCE34C77183B6A4300757702 /* DKAPlaceMenuVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKAPlaceMenuVC.h; sourceTree = "<group>"; };
 		DCE34C78183B6A4300757702 /* DKAPlaceMenuVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAPlaceMenuVC.m; sourceTree = "<group>"; };
 		DCE34C7B183B6F1000757702 /* LFDisplayBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LFDisplayBridge.h; sourceTree = "<group>"; };
@@ -249,6 +272,7 @@
 				DC190884183231FD00DB0D20 /* SystemConfiguration.framework in Frameworks */,
 				DC190882183231E900DB0D20 /* libicucore.dylib in Frameworks */,
 				DC190880183231D800DB0D20 /* libc++.dylib in Frameworks */,
+				DC5E17A0184C93660038CE12 /* libTestFlight.a in Frameworks */,
 				DC19087E183231CE00DB0D20 /* ImageIO.framework in Frameworks */,
 				DC19087C183231C600DB0D20 /* GLKit.framework in Frameworks */,
 				DC19087A183231BF00DB0D20 /* CoreText.framework in Frameworks */,
@@ -335,8 +359,10 @@
 		DC0D53FE180C1257004193E2 /* LookAround.iOS7 */ = {
 			isa = PBXGroup;
 			children = (
+				DC5E1799184C92F00038CE12 /* testflight */,
 				DC0D5437180D7049004193E2 /* Helpers */,
 				DCE8972F183B842200F450FD /* Foursquare */,
+				DCE038431848988D0036D9EA /* Weather */,
 				DC9789761844A4C0002B9C31 /* FoursquareInfo */,
 				DCE8971B183B83FE00F450FD /* Instagram */,
 				DCE89708183B83B500F450FD /* Twitter */,
@@ -387,6 +413,8 @@
 		DC0D5436180D703C004193E2 /* Locations */ = {
 			isa = PBXGroup;
 			children = (
+				DC5E178A1849E0A90038CE12 /* DKAMapVC.h */,
+				DC5E178B1849E0A90038CE12 /* DKAMapVC.m */,
 				DC8E449D1815502E00B7B71A /* DKANavVC.h */,
 				DC8E449E1815502E00B7B71A /* DKANavVC.m */,
 				DC23183A183CE8C2006BCF57 /* DKAPlacesListVC.h */,
@@ -398,6 +426,10 @@
 		DC0D5437180D7049004193E2 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				DC5E178D184B3E260038CE12 /* NSManagedObject+NWCoreDataHelper.h */,
+				DC5E178E184B3E260038CE12 /* NSManagedObject+NWCoreDataHelper.m */,
+				DC22B1251845F9BE002ABF37 /* URBMediaFocusViewController.h */,
+				DC22B1261845F9BE002ABF37 /* URBMediaFocusViewController.m */,
 				DCE89781183B861B00F450FD /* MediaFocus */,
 				DCE89733183B847900F450FD /* NWLabel.h */,
 				DCE89734183B847900F450FD /* NWLabel.m */,
@@ -423,8 +455,6 @@
 		DC1D83F51832077900D22307 /* Place */ = {
 			isa = PBXGroup;
 			children = (
-				DC19086218322F3900DB0D20 /* StreetViewVCViewController.h */,
-				DC19086318322F3900DB0D20 /* StreetViewVCViewController.m */,
 				DC1D83F61832079500D22307 /* DKAPlaceVC.h */,
 				DC1D83F71832079500D22307 /* DKAPlaceVC.m */,
 				DCE34C77183B6A4300757702 /* DKAPlaceMenuVC.h */,
@@ -484,6 +514,19 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		DC5E1799184C92F00038CE12 /* testflight */ = {
+			isa = PBXGroup;
+			children = (
+				DC5E179A184C93660038CE12 /* libTestFlight.a */,
+				DC5E179B184C93660038CE12 /* README.md */,
+				DC5E179C184C93660038CE12 /* release_notes.md */,
+				DC5E179D184C93660038CE12 /* TestFlight.h */,
+				DC5E179E184C93660038CE12 /* TestFlight+AsyncLogging.h */,
+				DC5E179F184C93660038CE12 /* TestFlight+ManualSessions.h */,
+			);
+			name = testflight;
+			sourceTree = "<group>";
+		};
 		DC9789761844A4C0002B9C31 /* FoursquareInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -530,6 +573,9 @@
 				DC14FF88183E2AED004B0447 /* DKAPlace.m */,
 				DC2EEA401841F8A6000632A6 /* DKAPhoto.h */,
 				DC2EEA411841F8A6000632A6 /* DKAPhoto.m */,
+				DC5E1796184B410C0038CE12 /* Search.h */,
+				DC5E1797184B410C0038CE12 /* Search.m */,
+				DC5E1790184B3E550038CE12 /* Model.xcdatamodeld */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -541,6 +587,15 @@
 				DC9A7FCB182F868C00EB9E9F /* DKASettingsVC.m */,
 			);
 			name = Settings;
+			sourceTree = "<group>";
+		};
+		DCE038431848988D0036D9EA /* Weather */ = {
+			isa = PBXGroup;
+			children = (
+				DCE03844184898B40036D9EA /* DKAWeatherVC.h */,
+				DCE03845184898B40036D9EA /* DKAWeatherVC.m */,
+			);
+			name = Weather;
 			sourceTree = "<group>";
 		};
 		DCE34C7A183B6F1000757702 /* LiveFrost */ = {
@@ -688,8 +743,10 @@
 				DC0D5411180C1257004193E2 /* Images.xcassets in Resources */,
 				DC0D5403180C1257004193E2 /* InfoPlist.strings in Resources */,
 				DCE89789183B862800F450FD /* ASMediaFocusController.xib in Resources */,
+				DC5E17A2184C93660038CE12 /* release_notes.md in Resources */,
 				DC0D540C180C1257004193E2 /* Main.storyboard in Resources */,
 				DCE8977A183B856200F450FD /* FlickrPhotoHeaderView.xib in Resources */,
+				DC5E17A1184C93660038CE12 /* README.md in Resources */,
 				DC1908741832319200DB0D20 /* GoogleMaps.bundle in Resources */,
 				DCE89706183B83AF00F450FD /* TwitterCell.xib in Resources */,
 			);
@@ -714,9 +771,11 @@
 				DCE34C80183B6F1000757702 /* LFDisplayBridge.m in Sources */,
 				DCE89705183B83AF00F450FD /* NWTwitterCell.m in Sources */,
 				DCE89719183B83E000F450FD /* NWFourSquarePhoto.m in Sources */,
+				DC5E178C1849E0A90038CE12 /* DKAMapVC.m in Sources */,
 				DC8004421810122C0024C63C /* NSString(Escaping).m in Sources */,
 				DC9789791844A4E9002B9C31 /* DKAFoursquareInfoVC.m in Sources */,
 				DCE89707183B83AF00F450FD /* NWTwitterViewController.m in Sources */,
+				DC5E1792184B3E550038CE12 /* Model.xcdatamodeld in Sources */,
 				DCE89718183B83E000F450FD /* NWinstagram.m in Sources */,
 				DC23183C183CE8C2006BCF57 /* DKAPlacesListVC.m in Sources */,
 				DC800423180FFEC30024C63C /* DKAFactualHelper.m in Sources */,
@@ -726,14 +785,15 @@
 				DC9A7FCC182F868C00EB9E9F /* DKASettingsVC.m in Sources */,
 				DCE89779183B856200F450FD /* FlickrPhotoHeaderView.m in Sources */,
 				DC8E449F1815502E00B7B71A /* DKANavVC.m in Sources */,
+				DC22B1271845F9BE002ABF37 /* URBMediaFocusViewController.m in Sources */,
 				DCE8977F183B856200F450FD /* InstagramCollectionViewController.m in Sources */,
 				DC39CC0B182F94A100EFD523 /* MRCircularProgressView.m in Sources */,
 				DC39CC08182F94A100EFD523 /* MRBlurView.m in Sources */,
 				DC0D5405180C1257004193E2 /* main.m in Sources */,
 				DC14FF89183E2AED004B0447 /* DKAPlace.m in Sources */,
 				DCE34C79183B6A4300757702 /* DKAPlaceMenuVC.m in Sources */,
-				DC19086418322F3900DB0D20 /* StreetViewVCViewController.m in Sources */,
 				DC39CC0D182F94A100EFD523 /* MRNavigationBarProgressView.m in Sources */,
+				DC5E178F184B3E260038CE12 /* NSManagedObject+NWCoreDataHelper.m in Sources */,
 				DCE89788183B862800F450FD /* ASMediaFocusManager.m in Sources */,
 				DCE8977C183B856200F450FD /* StackedGridLayoutSection.m in Sources */,
 				DC39CC10182F94A100EFD523 /* MRWeakProxy.m in Sources */,
@@ -750,7 +810,9 @@
 				DCE8977D183B856200F450FD /* InstagramCell.m in Sources */,
 				DC9A7FC3182E6C6A00EB9E9F /* NSDate-Utilities.m in Sources */,
 				DC39CC09182F94A100EFD523 /* UIImage+MRImageEffects.m in Sources */,
+				DCE03846184898B40036D9EA /* DKAWeatherVC.m in Sources */,
 				DCE8977B183B856200F450FD /* StackedGridLayout.m in Sources */,
+				DC5E1798184B410C0038CE12 /* Search.m in Sources */,
 				DCE89735183B847900F450FD /* NWLabel.m in Sources */,
 				DCE34C81183B6F1000757702 /* LFGlassView.m in Sources */,
 				DCE89716183B83E000F450FD /* NWtwitter.m in Sources */,
@@ -881,10 +943,12 @@
 		DC0D5428180C1257004193E2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Sergey Dikarev (A2KE4XLMNK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Sergey Dikarev (A2KE4XLMNK)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/sdikarev/Dropbox/Incoding/Apple\\ coding/DKAFactualPlaces",
@@ -893,9 +957,15 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LookAround.iOS7/LookAround.iOS7-Prefix.pch";
 				INFOPLIST_FILE = "LookAround.iOS7/LookAround.iOS7-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/LookAround.iOS7\"",
+					"\"$(SRCROOT)\"",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "6A487607-0AA4-468D-8FA3-0ACE17C1E072";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
@@ -904,10 +974,12 @@
 		DC0D5429180C1257004193E2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Sergey Dikarev (A2KE4XLMNK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Sergey Dikarev (A2KE4XLMNK)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/sdikarev/Dropbox/Incoding/Apple\\ coding/DKAFactualPlaces",
@@ -916,9 +988,15 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LookAround.iOS7/LookAround.iOS7-Prefix.pch";
 				INFOPLIST_FILE = "LookAround.iOS7/LookAround.iOS7-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/LookAround.iOS7\"",
+					"\"$(SRCROOT)\"",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "6A487607-0AA4-468D-8FA3-0ACE17C1E072";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
@@ -997,6 +1075,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		DC5E1790184B3E550038CE12 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				DC5E1791184B3E550038CE12 /* Model.xcdatamodel */,
+			);
+			currentVersion = DC5E1791184B3E550038CE12 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = DC0D53ED180C1257004193E2 /* Project object */;
 }

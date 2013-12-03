@@ -73,16 +73,22 @@
     NSDictionary *f8 = @{@"title": @"Users count", @"fieldValue":[NSNumber numberWithInt:_userCount], @"type":@"int"};
     NSDictionary *f9 = _canonicalUrl == nil ? nil : @{@"title": @"Web page", @"fieldValue":_canonicalUrl, @"type":@"link"};
     NSDictionary *f10 = @{@"title": @"Distance", @"fieldValue":[NSNumber numberWithFloat:_distance], @"type":@"float"};
-    NSDictionary *f11 = @{@"title": @"Address", @"fieldValue":[NSString stringWithFormat:@"%@ %@", _address, _city], @"type":@"text"};
+    NSDictionary *f11 = @{@"title": @"Address", @"fieldValue":[NSString stringWithFormat:@"%@ %@", _address == nil ? @"" : _address, _city == nil ? @"" : _city], @"type":@"text"};
+    NSDictionary *f12 = @{@"title": @"Directions", @"fieldValue":@"", @"type":@"directions"};
+    NSDictionary *f13 = _reservationUrl == nil? nil : @{@"title": @"Reserve", @"fieldValue":@"Table Here", @"type":@"reservation"};
 
 
-    /*if(f1)
+    if(f1)
     {
         [temp addObject:f1];
-    }*/
-    if(f11)
+    }
+    if(![[f11 objectForKey:@"fieldValue"] isEqualToString:@" "])
     {
         [temp addObject:f11];
+    }
+    if(f13)
+    {
+        [temp addObject:f13];
     }
     if(f10)
     {
@@ -116,6 +122,10 @@
     {
         [temp addObject:f8];
     }
+    if(f12)
+    {
+        [temp addObject:f12];
+    }
 
     
     return temp;
@@ -127,6 +137,19 @@
     //NSLog(@"%@", dict);
     if(dict != nil)
     {
+        _sourceDict = dict;
+
+        
+        /*NSMutableData *data = [[NSMutableData alloc] init];
+        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+        [archiver encodeObject:_sourceDict forKey:@"MyDict"];
+        [archiver finishEncoding];
+        
+        
+        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+        NSDictionary *myDictionary = [unarchiver decodeObjectForKey:@"MyDict"];
+        [unarchiver finishDecoding];*/
+        
         
         @try {
             _dataSourceType = 1;
@@ -179,7 +202,7 @@
                 _reservationUrl = nil;
             }
             
-            _canonicalUrl = [dict objectForKey:@"canonicalUrl"];
+            _canonicalUrl = [dict objectForKey:@"url"];
             _tel = [[dict objectForKey:@"contact"] objectForKey:@"formattedPhone"];
             _twitter = [[dict objectForKey:@"contact"] objectForKey:@"twitter"];
             _hereNow = [[[dict objectForKey:@"hereNow"] objectForKey:@"count"] integerValue];

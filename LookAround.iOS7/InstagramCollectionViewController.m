@@ -13,6 +13,7 @@
 #import "NWinstagram.h"
 #import <QuartzCore/QuartzCore.h>
 #import "DKAPlace.h"
+
 @interface InstagramCollectionViewController ()
 {
     CAGradientLayer *maskLayer;
@@ -41,6 +42,12 @@
 
 }
 
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [imagesCache removeAllObjects];
+    [_chainges removeAllObjects];
+    self.collectionView = nil;
+}
 
 -(void)fadeView
 {
@@ -52,7 +59,7 @@
         CGColorRef innerColor = [[UIColor colorWithWhite:1.0 alpha:0.0] CGColor];
         
         maskLayer.colors = [NSArray arrayWithObjects:
-                            (__bridge id)outerColor,
+                            (__bridge id)innerColor,
                             (__bridge id)innerColor,
                             (__bridge id)innerColor,
                             (__bridge id)innerColor,
@@ -122,7 +129,7 @@
     //self.view = [[UIView alloc] initWithFrame:frame];
     NSLog(@"frame %@", NSStringFromCGRect(frame));
 
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor clearColor];
    /* UIButton *btnBack = [UIButton buttonWithType:UIButtonTypeCustom];
     btnBack.frame = CGRectMake(7, 3, 44, 44);
     btnBack.backgroundColor = [UIColor clearColor];
@@ -154,7 +161,7 @@
 
     self.layout3 = [[StackedGridLayout alloc] init];
     self.layout3.headerHeight = 0;
-    self.layout3.footerHeight = 60;
+    self.layout3.footerHeight = 0;
 
     self.collectionView.collectionViewLayout = self.layout3;
 
@@ -172,12 +179,17 @@
     UISwipeGestureRecognizer *showExtrasSwipe2 = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(cellSwipeLeft:)];
     showExtrasSwipe2.direction = UISwipeGestureRecognizerDirectionLeft;
     [self.collectionView addGestureRecognizer:showExtrasSwipe2];*/
-    
-    [self.collectionView reloadData];
 
-    
-    
-    //[self getChainges];
+    [helper getInstagramAround:_place.latitude lng:_place.longitude completionBlock:^(NSArray *result, NSError *error) {
+        _chainges = [result mutableCopy];
+        if(_chainges.count == 0)
+        {
+            [self showMessageView];
+        }
+         [self.collectionView reloadData];
+        
+    }];
+
 }
 
 -(void)initCollectionViewWithRect:(CGRect)rect instas:(NSMutableArray *)instas location:(CLLocation *)location
@@ -205,26 +217,17 @@
 
 - (void)showMessageView {
     viewForLabel = [[UIView alloc] initWithFrame:CGRectMake(20, 200, 280, 40)];
-    viewForLabel.backgroundColor = [UIColor whiteColor];
+    viewForLabel.backgroundColor = BLUE7;
     UILabel *lblMessage = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 280, 40)] ;
     lblMessage.backgroundColor = [UIColor clearColor];
     lblMessage.font = [UIFont fontWithName:@"HelveticaNeue" size:16];
     lblMessage.text = @"There are no instagrams around there";
-    lblMessage.textColor = [UIColor blackColor];
+    lblMessage.textColor = [UIColor whiteColor];
     lblMessage.textAlignment = NSTextAlignmentCenter;
-    lblMessage.alpha = 0;
     [viewForLabel addSubview:lblMessage];
     [self.view addSubview:viewForLabel];
 
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [UIView beginAnimations:nil context:context];
-    [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-    [UIView setAnimationDuration:2];
-    [UIView setAnimationDelegate:self];
-
-    lblMessage.alpha = 1;
-
-    [UIView commitAnimations];
+    
 
 
 }
@@ -294,14 +297,10 @@
     [super viewWillAppear:animated];
 
     
-    if(_chainges.count == 0)
-    {
-        [self showMessageView];
-        //[self hideMessageView];
-    }
+   
     //[self updatedLocation];
 
-    _parentContr.lblName.text = ((DKAPlace *)_parentContr.placeObj).placeName;
+    //_parentContr.lblName.text = ((DKAPlace *)_parentContr.placeObj).placeName;
 
     
     [self fadeView];
@@ -379,7 +378,7 @@
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger row = [indexPath row];
+    //NSInteger row = [indexPath row];
     //[appDelegate.mainViewController continueChainge:row chaingesArray:_chaingesArray];
 }
 
@@ -405,7 +404,7 @@
                   layout:(UICollectionViewLayout *)cvl
     sizeForItemWithWidth:(CGFloat)width
              atIndexPath:(NSIndexPath *)indexPath {
-    NSInteger row = [indexPath row];
+    //NSInteger row = [indexPath row];
     //Chainge *ch = [_chainges objectAtIndex:row];
 
     //ChaingeItem *item = [appDelegate.manager getf:ch];

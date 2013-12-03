@@ -100,6 +100,12 @@ static NSString* topLevelCategories[] = {
         
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
+    if([self getPrefValueForKey:DKA_PREF_REFRESH] == nil)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:@"Auto" forKey:DKA_PREF_REFRESH];
+        
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
     
    
 }
@@ -143,6 +149,24 @@ static NSString* topLevelCategories[] = {
                                           nil];
     
     CGRect frame = [label.text boundingRectWithSize:CGSizeMake(306, 2000.0)
+                                            options:NSStringDrawingUsesLineFragmentOrigin
+                                         attributes:attributesDictionary
+                                            context:nil];
+    
+    CGSize size = frame.size;
+    
+    return size.height;
+}
+
+-(CGFloat)getLabelSizeWithWidth:(UILabel *)label fontSize:(NSInteger)fontSize width:(float)width
+{
+    
+    
+    NSDictionary *attributesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                          [UIFont systemFontOfSize:fontSize], NSFontAttributeName,
+                                          nil];
+    
+    CGRect frame = [label.text boundingRectWithSize:CGSizeMake(width, 2000.0)
                                             options:NSStringDrawingUsesLineFragmentOrigin
                                          attributes:attributesDictionary
                                             context:nil];
@@ -272,7 +296,10 @@ static NSString* topLevelCategories[] = {
     NSLog(@"getInstagramAround %@", connectionString);
     NSURL *url = [NSURL URLWithString:connectionString];
     
-    
+    if(!_session)
+    {
+        [self refreshSession];
+    }
     
     NSURLSessionDataTask *getTask =
     [_session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -399,6 +426,163 @@ static NSString* topLevelCategories[] = {
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning!" message:@"To use twitter search around place please add twitter account to iOS settings" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alert show];
+            });
+            
+            completeBlock(nil, nil);
+        }
+    }];
+    
+}
+
+#pragma mark - Weather
+
+-(void)getWeatherAround:(double)lat lng:(double)lng completionBlock:(DKAgetWeatherAroundCompletionBlock)completionBlock
+{
+    //http://free.worldweatheronline.com/feed/weather.ashx?q=34.00,43.00&format=json&num_of_days=2&key=b603d14d52054854131903
+    
+    DKAgetWeatherAroundCompletionBlock completeBlock = [completionBlock copy];
+    
+    
+    NSString *connectionString = [NSString stringWithFormat:@"http://api.worldweatheronline.com/free/v1/weather.ashx?q=%f,%f&format=json&num_of_days=2&key=y63g6gb5zfkh84wjyheednaz", lat, lng];
+    NSLog(@"%@", connectionString);
+    NSURL *url = [NSURL URLWithString:connectionString];
+    if(!_session)
+    {
+        [self refreshSession];
+    }
+
+    
+    NSURLSessionDataTask *getTask =
+    [_session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSError *jsonError;
+        
+        NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonError];
+        NSLog(@"JSON weather: %@", JSON);
+        
+        if (!error) {
+            
+            NWWeather *item = [[NWWeather alloc] initWithDictionary:[JSON objectForKey:@"data"]];
+            
+            completeBlock(item, nil);
+        }
+        else
+        {
+            NSLog(@"error while weather: %@", error.description);
+            completeBlock(nil, error);
+        }
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    }];
+    
+    [getTask resume];
+    
+    
+    
+    
+}
+
+
+
+#pragma mark - Facebook methods
+
+- (void)getFacebookAround:(double)lat lng:(double)lng completionBlock:(DKAgetPOIsCompletionBlock)completionBlock
+{
+    DKAgetPOIsCompletionBlock completeBlock = [completionBlock copy];
+    
+    NSMutableArray *result = [NSMutableArray new];
+    // Request access to the Twitter accounts
+    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
+    
+    NSDictionary *options = @{
+                              ACFacebookAppIdKey : @"630474416991234",
+                              ACFacebookPermissionsKey : @[ @"email"],
+                              ACFacebookAudienceKey: ACFacebookAudienceEveryone}; // Needed only when write permissions are requested
+
+    
+    ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
+    [accountStore requestAccessToAccountsWithType:accountType options:options completion:^(BOOL granted, NSError *error){
+        if (granted) {
+            NSArray *accounts = [accountStore accountsWithAccountType:accountType];
+            // Check if the users has setup at least one Twitter account
+            if (accounts.count > 0)
+            {
+                ACAccount *fbAccount = [accounts objectAtIndex:0];
+                // Creating a request to get the info about a user on Twitter
+                
+                //NSDateComponents *componentsToSubtract = [[NSDateComponents alloc] init];
+                //[componentsToSubtract setDay:-5];
+                
+                //NSDate *yesterday = [[NSCalendar currentCalendar] dateByAddingComponents:componentsToSubtract  toDate:[NSDate date] options:0];
+                
+                //NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+                //[dateFormat setDateFormat:@"yyyy-MM-dd"];
+                //NSString *dateString = [dateFormat stringFromDate:[NSDate date]];
+                //q=coffee&type=place. ?
+                
+                //fbAccount.credential = [[ACAccountCredential alloc] initWithOAuthToken:@"89ad1034f4a379b242865948c1558313" tokenSecret:@"052f0fe96d616311211d43f95291bc97"];
+
+                
+                //SLRequest *twitterInfoRequest = [SLRequest requestForServiceType:SLServiceTypeFacebook requestMethod:SLRequestMethodGET URL:[NSURL URLWithString:@"https://graph.facebook.com/search?"] parameters:[NSDictionary dictionaryWithObjectsAndKeys:@"coffee", @"q", [NSString stringWithFormat:@"%.6f,%.6f", lat, lng], @"center", @"place", @"type", fbAccount.credential.oauthToken, @"access_token", nil]];
+                NSString *acessToken = [NSString stringWithFormat:@"%@",fbAccount.credential.oauthToken];
+                NSDictionary *parameters = @{@"access_token": acessToken, @"q": @"coffee", @"center": [NSString stringWithFormat:@"%.6f,%.6f", lat, lng]};
+                NSURL *feedURL = [NSURL URLWithString:@"https://graph.facebook.com/search?"];
+                SLRequest *twitterInfoRequest = [SLRequest
+                                          requestForServiceType:SLServiceTypeFacebook
+                                          requestMethod:SLRequestMethodGET
+                                          URL:feedURL
+                                          parameters:parameters];
+                
+                NSLog(@"access_token: %@",  parameters);
+                [twitterInfoRequest setAccount:fbAccount];
+                // Making the request
+                [twitterInfoRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+                    //NSLog(@"twitter res  %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        // Check if we reached the reate limit
+                        if ([urlResponse statusCode] == 429) {
+                            NSLog(@"Rate limit reached");
+                            return;
+                        }
+                        // Check if there was an error
+                        if (error) {
+                            NSLog(@"Error: %@", error.localizedDescription);
+                            return;
+                        }
+                        // Check if there is some response data
+                        if (responseData) {
+                            NSError *error = nil;
+                            NSDictionary *TWData = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:&error];
+                            // Filter the preferred data
+                            NSLog(@"%@", TWData);
+                            
+                            
+                            NSMutableArray *results = [((NSDictionary *)TWData) objectForKey:@"statuses"];
+                            for(NSMutableDictionary *dict in results)
+                            {
+                                NWtwitter *twi = [[NWtwitter alloc] initWithDictionary:dict];
+                                [result addObject:twi];
+                            }
+                            
+                            completeBlock(result, nil);
+                            
+                        }
+                    });
+                }];
+            }
+            else
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning!" message:@"To use Facebook search around place please add Facebook account to iOS settings" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    [alert show];
+                });
+                
+                completeBlock(nil, nil);
+                
+            }
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning!" message:@"To use Facebook search around place please add Facebook account to iOS settings" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                 [alert show];
             });
             
@@ -554,7 +738,11 @@ static NSString* topLevelCategories[] = {
     NSLog(@"connect to: %@",connectionString);
     
     
-    
+    if(!_session)
+    {
+        [self refreshSession];
+    }
+
     
     
     NSURLSessionDataTask *getTask =
@@ -619,7 +807,11 @@ static NSString* topLevelCategories[] = {
     NSString *connectionString = [NSString stringWithFormat:@"%@ll=%@&client_id=%@&client_secret=%@&v=%@&limit=%@&radius=%@", PATH_TO_4SERVER, loc, CLIENT_ID, CLIENT_SECRET, dateString, LIMIT, RADIUS];
     NSLog(@"connect to: %@",connectionString);
     
-    
+    if(!_session)
+    {
+        [self refreshSession];
+    }
+
     
     NSURLSessionDataTask *getTask =
     [_session dataTaskWithURL:[NSURL URLWithString:connectionString] completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -680,7 +872,11 @@ static NSString* topLevelCategories[] = {
     NSString *connectionString = [NSString stringWithFormat:@"https://api.foursquare.com/v2/venues/%@/photos?group=venue&client_id=%@&client_secret=%@&v=%@", venueId, CLIENT_ID, CLIENT_SECRET, dateString];
     NSLog(@"connect to: %@",connectionString);
     
-    
+    if(!_session)
+    {
+        [self refreshSession];
+    }
+
  
  
     NSURLSessionDataTask *getTask =
@@ -753,19 +949,23 @@ static NSString* topLevelCategories[] = {
         _locationManager.delegate = self;
         
         
-        NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
-        //[sessionConfig setHTTPAdditionalHeaders: @{@"Accept": @"application/json"}];
-        sessionConfig.timeoutIntervalForRequest = 30.0;
-        sessionConfig.timeoutIntervalForResource = 30.0;
-        sessionConfig.HTTPMaximumConnectionsPerHost = 15;
-        
-        _session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
+        [self refreshSession];
     }
     
     return self;
     
 }
 
+-(void)refreshSession
+{
+    NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+    //[sessionConfig setHTTPAdditionalHeaders: @{@"Accept": @"application/json"}];
+    sessionConfig.timeoutIntervalForRequest = 30.0;
+    sessionConfig.timeoutIntervalForResource = 30.0;
+    sessionConfig.HTTPMaximumConnectionsPerHost = 15;
+    
+    _session = [NSURLSession sessionWithConfiguration:sessionConfig delegate:self delegateQueue:nil];
+}
 
 -(void)startUpdateLocation
 {

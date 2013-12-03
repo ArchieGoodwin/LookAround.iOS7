@@ -7,7 +7,8 @@
 //
 
 #import "DKAFoursquareInfoVC.h"
-
+#import "Defines.h"
+#import <MapKit/MapKit.h>
 @interface DKAFoursquareInfoVC ()
 {
     NSMutableArray *fields;
@@ -31,11 +32,10 @@
 
     fields = [_place getListOfFields];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    UIColor *bg = BLUE6;
+    self.tableView.backgroundColor = bg;
+    self.view.backgroundColor = [UIColor clearColor];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -58,43 +58,193 @@
     return fields.count;
 }
 
+-(void)configureCell:(UITableViewCell *)cell forIndexPath:(NSIndexPath *)indexPath
+{
+    UILabel *title = (UILabel *)[cell.contentView viewWithTag:301];
+    UILabel *detail = (UILabel *)[cell.contentView viewWithTag:302];
+    
+    //title.textColor = BLUE0;
+    //detail.textColor = BLUE3;
+    
+    UIColor *bg = WHITE1;
+    cell.backgroundColor = [UIColor clearColor];
+    cell.contentView.backgroundColor = bg;
+    
+    NSDictionary *dict = fields[indexPath.row];
+    
+    title.text = [dict objectForKey:@"title"];
+    
+    if([[dict objectForKey:@"type"] isEqualToString:@"text"])
+    {
+        detail.text = [dict objectForKey:@"fieldValue"];
+    }
+    if([[dict objectForKey:@"type"] isEqualToString:@"float"])
+    {
+        detail.text = [NSString stringWithFormat:@"%.2f", [[dict objectForKey:@"fieldValue"] floatValue]];
+    }
+    if([[dict objectForKey:@"type"] isEqualToString:@"int"])
+    {
+        detail.text = [NSString stringWithFormat:@"%i", [[dict objectForKey:@"fieldValue"] intValue]];
+    }
+    if([[dict objectForKey:@"type"] isEqualToString:@"link"])
+    {
+        detail.text = [NSString stringWithFormat:@"%@", [dict objectForKey:@"fieldValue"]];
+        cell.contentView.backgroundColor = [UIColor whiteColor];
+
+    }
+    if([[dict objectForKey:@"type"] isEqualToString:@"directions"])
+    {
+        title.text = @"Directions";
+        detail.text = @"To Location";
+        cell.contentView.backgroundColor = [UIColor whiteColor];
+    }
+    if([[dict objectForKey:@"type"] isEqualToString:@"reservation"])
+    {
+        detail.text = [dict objectForKey:@"fieldValue"];
+        cell.contentView.backgroundColor = [UIColor whiteColor];
+
+    }
+    //detail.numberOfLines = 0;
+    //detail.lineBreakMode = NSLineBreakByWordWrapping;
+    //CGRect frame = detail.frame;
+    //frame.size.height = [helper getLabelSizeWithWidth:detail fontSize:17  width:160] + 5;
+    //detail.frame = frame;
+    
+    
+    //NSLog(@"details %@", NSStringFromCGRect(frame));
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView  dequeueReusableCellWithIdentifier:@"Cell"];
+
     
-    if(cell == nil)
-    {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Cell"];
-        cell.textLabel.textColor = BLUE0;
-        cell.detailTextLabel.textColor = BLUE3;
-    }
-    cell.textLabel.textColor = BLUE0;
-    cell.detailTextLabel.textColor = BLUE3;
-    NSDictionary *dict = fields[indexPath.row];
+    [self configureCell:cell forIndexPath:indexPath];
     
-    cell.textLabel.text = [dict objectForKey:@"title"];
-    
-    if([[dict objectForKey:@"type"] isEqualToString:@"text"])
-    {
-        cell.detailTextLabel.text = [dict objectForKey:@"fieldValue"];
-    }
-    if([[dict objectForKey:@"type"] isEqualToString:@"float"])
-    {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f", [[dict objectForKey:@"fieldValue"] floatValue]];
-    }
-    if([[dict objectForKey:@"type"] isEqualToString:@"int"])
-    {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%i", [[dict objectForKey:@"fieldValue"] intValue]];
-    }
-    if([[dict objectForKey:@"type"] isEqualToString:@"link"])
-    {
-        cell.detailTextLabel.text = @"Link";
-    }
-    
+
     return cell;
 }
 
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *dict = fields[indexPath.row];
+    UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(150, 5, 160, 1000)];
+    lbl.font = [UIFont fontWithName:@"HelveticaNeue" size:17];
+    lbl.numberOfLines = 0;
+    lbl.lineBreakMode = NSLineBreakByWordWrapping;
+    
+    if([[dict objectForKey:@"type"] isEqualToString:@"text"])
+    {
+        lbl.text = [dict objectForKey:@"fieldValue"];
+    }
+    if([[dict objectForKey:@"type"] isEqualToString:@"float"])
+    {
+        lbl.text = [NSString stringWithFormat:@"%.2f", [[dict objectForKey:@"fieldValue"] floatValue]];
+    }
+    if([[dict objectForKey:@"type"] isEqualToString:@"int"])
+    {
+        lbl.text = [NSString stringWithFormat:@"%i", [[dict objectForKey:@"fieldValue"] intValue]];
+    }
+    if([[dict objectForKey:@"type"] isEqualToString:@"link"])
+    {
+        lbl.text = [NSString stringWithFormat:@"%@", [dict objectForKey:@"fieldValue"]];
+    }
+    if([[dict objectForKey:@"type"] isEqualToString:@"directions"])
+    {
+        lbl.text = @"To Location";
+    }
+    if([[dict objectForKey:@"type"] isEqualToString:@"reservation"])
+    {
+        lbl.text = [dict objectForKey:@"fieldValue"];
+    }
+    
+    NSLog(@"%f", [helper getLabelSizeWithWidth:lbl fontSize:17  width:160] + 14);
+    
+    return [helper getLabelSizeWithWidth:lbl fontSize:17 width:160] + 14;
+    
+    
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(actionSheet.tag == 600)
+    {
+        if(actionSheet)
+            if (buttonIndex == actionSheet.cancelButtonIndex) {
+                return;
+            }
+        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:actionSheet.title]];
+    }
+    if(actionSheet.tag == 601)
+    {
+        if(actionSheet)
+            if (buttonIndex == actionSheet.cancelButtonIndex) {
+                return;
+            }
+        
+        [self showDirections];
+    }
+    if(actionSheet.tag == 602)
+    {
+        if(actionSheet)
+            if (buttonIndex == actionSheet.cancelButtonIndex) {
+                return;
+            }
+        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:actionSheet.title]];
+    }
+  
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *dict = fields[indexPath.row];
+
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if([[dict objectForKey:@"type"] isEqualToString:@"link"])
+    {
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@", [dict objectForKey:@"fieldValue"]] delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Open Link in Safari", nil), nil];
+
+            
+        action.tag = 600;
+        [action showInView:self.view];
+    }
+    if([[dict objectForKey:@"type"] isEqualToString:@"directions"])
+    {
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@", _place.placeName] delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Show Directions in Maps", nil), nil];
+        action.tag = 601;
+        [action showInView:self.view];
+        
+        
+    }
+    if([[dict objectForKey:@"type"] isEqualToString:@"reservation"])
+    {
+        UIActionSheet *action = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@", _place.reservationUrl] delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Reserve Table", nil), nil];
+        action.tag = 602;
+        [action showInView:self.view];
+        
+        
+    }
+    
+}
+
+
+-(void)showDirections
+{
+    
+    
+    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(_place.latitude,_place.longitude);
+    
+    //create MKMapItem out of coordinates
+    MKPlacemark* placeMark = [[MKPlacemark alloc] initWithCoordinate:coordinate addressDictionary:nil];
+    MKMapItem* destination =  [[MKMapItem alloc] initWithPlacemark:placeMark];
+    
+    [destination openInMapsWithLaunchOptions:@{MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeWalking}];
+    
+}
 
 /*
 // Override to support conditional editing of the table view.
