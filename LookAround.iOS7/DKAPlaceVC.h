@@ -20,6 +20,11 @@
 @property (strong, nonatomic) IBOutlet UIButton *btnBack;
 @property (strong, nonatomic) IBOutlet UILabel *lblName;
 @property (strong, nonatomic) IBOutlet UIView *barName;
+@property (strong, nonatomic) IBOutlet UIView *bar1;
+@property (strong, nonatomic) IBOutlet UIView *bar2;
+@property (strong, nonatomic) IBOutlet UIView *bar3;
+@property (strong, nonatomic) IBOutlet UIView *bar4;
+@property (strong, nonatomic) IBOutlet UIView *bar5;
 
 - (IBAction)showMenu:(id)sender;
 - (IBAction)showInfoPages:(id)sender;

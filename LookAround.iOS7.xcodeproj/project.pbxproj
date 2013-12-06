@@ -70,6 +70,8 @@
 		DC9A7FC3182E6C6A00EB9E9F /* NSDate-Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9A7FC2182E6C6A00EB9E9F /* NSDate-Utilities.m */; };
 		DC9A7FC7182F579500EB9E9F /* DKAHistoryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9A7FC6182F579500EB9E9F /* DKAHistoryVC.m */; };
 		DC9A7FCC182F868C00EB9E9F /* DKASettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DC9A7FCB182F868C00EB9E9F /* DKASettingsVC.m */; };
+		DCDD8A2A1851D0CC005FF562 /* DRNRealTimeBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCDD8A271851D0CC005FF562 /* DRNRealTimeBlurView.m */; };
+		DCDD8A2B1851D0CC005FF562 /* UIImage+BoxBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = DCDD8A291851D0CC005FF562 /* UIImage+BoxBlur.m */; };
 		DCE03846184898B40036D9EA /* DKAWeatherVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE03845184898B40036D9EA /* DKAWeatherVC.m */; };
 		DCE34C79183B6A4300757702 /* DKAPlaceMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE34C78183B6A4300757702 /* DKAPlaceMenuVC.m */; };
 		DCE34C80183B6F1000757702 /* LFDisplayBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE34C7C183B6F1000757702 /* LFDisplayBridge.m */; };
@@ -209,6 +211,10 @@
 		DC9A7FC6182F579500EB9E9F /* DKAHistoryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAHistoryVC.m; sourceTree = "<group>"; };
 		DC9A7FCA182F868C00EB9E9F /* DKASettingsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKASettingsVC.h; sourceTree = "<group>"; };
 		DC9A7FCB182F868C00EB9E9F /* DKASettingsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKASettingsVC.m; sourceTree = "<group>"; };
+		DCDD8A261851D0CC005FF562 /* DRNRealTimeBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRNRealTimeBlurView.h; sourceTree = "<group>"; };
+		DCDD8A271851D0CC005FF562 /* DRNRealTimeBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRNRealTimeBlurView.m; sourceTree = "<group>"; };
+		DCDD8A281851D0CC005FF562 /* UIImage+BoxBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BoxBlur.h"; sourceTree = "<group>"; };
+		DCDD8A291851D0CC005FF562 /* UIImage+BoxBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BoxBlur.m"; sourceTree = "<group>"; };
 		DCE03844184898B40036D9EA /* DKAWeatherVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKAWeatherVC.h; sourceTree = "<group>"; };
 		DCE03845184898B40036D9EA /* DKAWeatherVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAWeatherVC.m; sourceTree = "<group>"; };
 		DCE34C77183B6A4300757702 /* DKAPlaceMenuVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKAPlaceMenuVC.h; sourceTree = "<group>"; };
@@ -426,6 +432,10 @@
 		DC0D5437180D7049004193E2 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				DCDD8A261851D0CC005FF562 /* DRNRealTimeBlurView.h */,
+				DCDD8A271851D0CC005FF562 /* DRNRealTimeBlurView.m */,
+				DCDD8A281851D0CC005FF562 /* UIImage+BoxBlur.h */,
+				DCDD8A291851D0CC005FF562 /* UIImage+BoxBlur.m */,
 				DC5E178D184B3E260038CE12 /* NSManagedObject+NWCoreDataHelper.h */,
 				DC5E178E184B3E260038CE12 /* NSManagedObject+NWCoreDataHelper.m */,
 				DC22B1251845F9BE002ABF37 /* URBMediaFocusViewController.h */,
@@ -780,6 +790,7 @@
 				DC23183C183CE8C2006BCF57 /* DKAPlacesListVC.m in Sources */,
 				DC800423180FFEC30024C63C /* DKAFactualHelper.m in Sources */,
 				DCE89787183B862800F450FD /* ASMediaFocusController.m in Sources */,
+				DCDD8A2A1851D0CC005FF562 /* DRNRealTimeBlurView.m in Sources */,
 				DCE89717183B83E000F450FD /* NWFoursquare.m in Sources */,
 				DC9A7FC7182F579500EB9E9F /* DKAHistoryVC.m in Sources */,
 				DC9A7FCC182F868C00EB9E9F /* DKASettingsVC.m in Sources */,
@@ -808,6 +819,7 @@
 				DCE5764F18324A0F003A5F3C /* STImageAnnotationView.m in Sources */,
 				DC2EEA421841F8A6000632A6 /* DKAPhoto.m in Sources */,
 				DCE8977D183B856200F450FD /* InstagramCell.m in Sources */,
+				DCDD8A2B1851D0CC005FF562 /* UIImage+BoxBlur.m in Sources */,
 				DC9A7FC3182E6C6A00EB9E9F /* NSDate-Utilities.m in Sources */,
 				DC39CC09182F94A100EFD523 /* UIImage+MRImageEffects.m in Sources */,
 				DCE03846184898B40036D9EA /* DKAWeatherVC.m in Sources */,
@@ -965,7 +977,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6A487607-0AA4-468D-8FA3-0ACE17C1E072";
+				PROVISIONING_PROFILE = "FF3B5870-C09E-49CF-9411-EDED0040C819";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
@@ -996,7 +1008,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6A487607-0AA4-468D-8FA3-0ACE17C1E072";
+				PROVISIONING_PROFILE = "FF3B5870-C09E-49CF-9411-EDED0040C819";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};

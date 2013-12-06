@@ -88,6 +88,10 @@
 
 -(void)getSearches
 {
+    if(searches)
+    {
+        [searches removeAllObjects];
+    }
     searches = [Search getAllRecordsSortedBy:@"searchDate" ascending:NO];
     
 }
@@ -109,9 +113,11 @@
 
 -(void)refreshSchedule
 {
+  
     if(_isHistory)
     {
         [self getSearches];
+        
         [self.tableView reloadData];
     }
     else
@@ -127,23 +133,33 @@
 
 - (IBAction)segmentTapped:(id)sender {
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [refreshControl endRefreshing];
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-        CGPoint offset = CGPointMake(0, 0);
-        [self.tableView setContentOffset:offset animated:YES];
-    });
+    NSLog(@"%@", NSStringFromCGPoint(self.tableView.contentOffset));
+    if(self.tableView.contentOffset.y < 0)
+    {
+        //dispatch_async(dispatch_get_main_queue(), ^{
+            [refreshControl endRefreshing];
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+            CGPoint offset = CGPointMake(0, -60);
+            [self.tableView setContentOffset:offset animated:YES];
+        //});
+    }
+    
+ 
     
     UISegmentedControl *sw = (UISegmentedControl *)sender;
     if(sw.selectedSegmentIndex == 0)
     {
         _isHistory = YES;
+        [self getSearches];
         [self.tableView reloadData];
     }
     else
     {
+        
         _isHistory = NO;
 
+        [imagesCache removeAllObjects];
+        [sections removeAllObjects];
         [self getPhotos];
     }
     
@@ -151,7 +167,16 @@
 
 -(void)getPhotos
 {
-    
+    if(photos)
+    {
+        [photos removeAllObjects];
+
+    }
+    else
+    {
+        photos = [NSMutableArray new];
+    }
+
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 
      dispatch_async(dispatch_get_main_queue(), ^{
@@ -178,7 +203,7 @@
                          
                          
                          NSDate *date = [result valueForProperty:ALAssetPropertyDate];
-                         if([date daysBeforeDate:[NSDate date]] < 10)
+                         if([date daysBeforeDate:[NSDate date]] < [[helper getPrefValueForKey:DKA_PREF_STEPS_DAYS] doubleValue])
                          {
                              
                              ALAssetRepresentation *representation = [result defaultRepresentation];
@@ -250,7 +275,7 @@
              dispatch_async(dispatch_get_main_queue(), ^{
                  [refreshControl endRefreshing];
                  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-                 CGPoint offset = CGPointMake(0, 0);
+                 CGPoint offset = CGPointMake(0, -60);
                  [self.tableView setContentOffset:offset animated:YES];
              });
              
@@ -399,20 +424,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
-    if(!_isHistory)
-    {
-        if(sections.count == 0)
-        {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [refreshControl endRefreshing];
-                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-                CGPoint offset = CGPointMake(0, 0);
-                [self.tableView setContentOffset:offset animated:YES];
-            });
-        }
-    }
-   
+    
     
 
     return _isHistory ? 1 : sections.count;

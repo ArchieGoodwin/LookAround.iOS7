@@ -125,40 +125,7 @@
      [self.view addSubview:btnBack];*/
     
     
-    isScrolling = NO;
-    pageSize = 50;
-    page = 1;
-    isLoadingPage = YES;
-    currentChaingeItemIndex = -1;
-    CGRect frame = rect;
-    frame.origin.y = rect.origin.y - 60;
-    frame.size.height = rect.size.height;
-    //self.view = [[UIView alloc] initWithFrame:frame];
-    NSLog(@"frame %@", NSStringFromCGRect(frame));
     
-    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    [flowLayout setItemSize:CGSizeMake(100, 100)];
-    [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
-    _collectionView = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
-    _collectionView.backgroundColor = [UIColor clearColor];
-    
-    
-    [_collectionView setAllowsSelection:YES];
-    _collectionView.delegate = self;
-    _collectionView.dataSource = self;
-    
-    
-    self.layout3 = [[StackedGridLayout alloc] init];
-    self.layout3.headerHeight = 0;
-    self.layout3.footerHeight = 0;
-    
-    self.collectionView.collectionViewLayout = self.layout3;
-    
-    [self.collectionView registerClass:[InstagramCell class] forCellWithReuseIdentifier:@"myChaingeCell"];
-    
-    [self.collectionView registerNib:[UINib nibWithNibName:@"FlickrPhotoHeaderView" bundle:[NSBundle mainBundle]] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"FlickrPhotoHeaderView"];
-    
-    [self.view addSubview:self.collectionView];
     
     
     /*UISwipeGestureRecognizer *showExtrasSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(cellSwipeRight:)];
@@ -174,10 +141,50 @@
         if(!error)
         {
             _chainges = [result mutableCopy];
-            [self.collectionView reloadData];
             if(_chainges.count == 0)
             {
                 [self showMessageView];
+            }
+            else
+            {
+                isScrolling = NO;
+                pageSize = 50;
+                page = 1;
+                isLoadingPage = YES;
+                currentChaingeItemIndex = -1;
+                CGRect frame = rect;
+                frame.origin.y = rect.origin.y - 60;
+                frame.size.height = rect.size.height;
+                //self.view = [[UIView alloc] initWithFrame:frame];
+                NSLog(@"frame %@", NSStringFromCGRect(frame));
+                
+                UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+                [flowLayout setItemSize:CGSizeMake(100, 100)];
+                [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+                _collectionView = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
+                _collectionView.backgroundColor = [UIColor clearColor];
+                
+                
+                [_collectionView setAllowsSelection:YES];
+                _collectionView.delegate = self;
+                _collectionView.dataSource = self;
+                
+                
+                self.layout3 = [[StackedGridLayout alloc] init];
+                self.layout3.headerHeight = 0;
+                self.layout3.footerHeight = 0;
+                
+                self.collectionView.collectionViewLayout = self.layout3;
+                
+                [self.collectionView registerClass:[InstagramCell class] forCellWithReuseIdentifier:@"myChaingeCell"];
+                
+                [self.collectionView registerNib:[UINib nibWithNibName:@"FlickrPhotoHeaderView" bundle:[NSBundle mainBundle]] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"FlickrPhotoHeaderView"];
+                
+                [self.view addSubview:self.collectionView];
+                
+                [self hideMessageView];
+                [self.collectionView reloadData];
+
             }
         }
         else
@@ -185,6 +192,10 @@
             if(_chainges.count == 0)
             {
                 [self showMessageView];
+            }
+            else
+            {
+                [self hideMessageView];
             }
         }
     }];
@@ -217,12 +228,13 @@
 
 
 
--(void)viewDidDisappear:(BOOL)animated
+/*-(void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
     [imagesCache removeAllObjects];
     _chainges = nil;
     self.collectionView = nil;
-}
+}*/
 
 
 - (void)showMessageView {
@@ -245,15 +257,15 @@
 
 -(void)hideMessageView
 {
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [UIView beginAnimations:nil context:context];
-    [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-    [UIView setAnimationDuration:3];
-    [UIView setAnimationDelegate:self];
+    //CGContextRef context = UIGraphicsGetCurrentContext();
+    //[UIView beginAnimations:nil context:context];
+    //[UIView setAnimationCurve:UIViewAnimationCurveLinear];
+    //[UIView setAnimationDuration:3];
+    //[UIView setAnimationDelegate:self];
     
     viewForLabel.alpha = 0;
     
-    [UIView commitAnimations];
+    //[UIView commitAnimations];
     
     
 }
@@ -367,13 +379,17 @@
     InstagramCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"myChaingeCell" forIndexPath:indexPath];
 
 
-    NSInteger row = [indexPath row];
-    NWFourSquarePhoto *ch = [_chainges objectAtIndex:row];
-    cell.imagesCache = imagesCache;
-    cell.four = ch;
-    cell.fourController = self;
+     if(_chainges.count > 0)
+     {
+         NSInteger row = [indexPath row];
+         NWFourSquarePhoto *ch = [_chainges objectAtIndex:row];
+         cell.imagesCache = imagesCache;
+         cell.four = ch;
+         cell.fourController = self;
+         
+         cell.tag = indexPath.row;
+     }
     
-    cell.tag = indexPath.row;
     
     //NSLog(@"url = %@", ch.photoUrlFull);
 

@@ -213,6 +213,10 @@
             _checkinsCount = [[[dict objectForKey:@"stats"] objectForKey:@"checkinsCount"] integerValue];
             _userCount = [[[dict objectForKey:@"stats"] objectForKey:@"usersCount"] integerValue];
             _city = [[dict objectForKey:@"location"] objectForKey:@"city"];
+            if(!_city)
+            {
+                _city = @"Unknown";
+            }
             _address = [[dict objectForKey:@"location"] objectForKey:@"address"];
             self.venueId = [[dict objectForKey:@"venuePage"] objectForKey:@"id"];
 

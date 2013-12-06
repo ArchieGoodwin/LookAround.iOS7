@@ -44,6 +44,15 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (IBAction)stepChanged:(id)sender {
+    
+    UIStepper *step = (UIStepper *)sender;
+    [helper setPrefValueForKey:DKA_PREF_STEPS_DAYS val:[NSNumber numberWithDouble:step.value]];
+    
+    
+    
+    [self.tableView reloadData];
+}
 
 - (IBAction)dataSourceSwitchValueChanged:(id)sender {
     
@@ -99,6 +108,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if(section == 0)
+    {
+        return 2;
+    }
     return 1;
 }
 
@@ -107,6 +120,10 @@
     if(indexPath.section == 0)
     {
         if(indexPath.row == 0)
+        {
+            return 60;
+        }
+        if(indexPath.row == 1)
         {
             return 60;
         }
@@ -144,7 +161,20 @@
             {
                 [sw setSelectedSegmentIndex:1];
             }
-            //[self dataSourceSwitchValueChanged:sw];
+            return cell;
+        }
+        if(indexPath.row == 1)
+        {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"DaysCell"];
+            
+            //UIStepper *sw = (UIStepper *)[cell.contentView viewWithTag:3002];
+
+            
+            //[sw setStepValue:[[helper getPrefValueForKey:DKA_PREF_STEPS_DAYS] doubleValue]];
+            
+            UILabel *lbl = (UILabel *)[cell.contentView viewWithTag:3001];
+            lbl.text = [NSString stringWithFormat:@"%i", [[helper getPrefValueForKey:DKA_PREF_STEPS_DAYS] integerValue]];
+            
             return cell;
         }
         
@@ -157,7 +187,6 @@
             cell = [tableView dequeueReusableCellWithIdentifier:@"AboutCell"];
             
             
-            //[self dataSourceSwitchValueChanged:sw];
             return cell;
         }
         

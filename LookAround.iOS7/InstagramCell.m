@@ -108,14 +108,7 @@
     if(_four != photo) {
         _four = photo;
     }
-    
-    
-    //UIImage* image = [UIImage imageNamed:@"Placeholder.png"];
-    //[self.imageView setImageWithURL:[NSURL URLWithString:_four.photoUrlFull] placeholderImage:image];
-    
-   // if(self.imageView.image == nil)
-    //{
-        //self.imageView.image = [UIImage imageNamed:@"Placeholder.png"];
+
     if(_four.photoUrlFull)
     {
         UIImage *cacheImage =  [_imagesCache objectForKey:_four.photoUrlFull];
@@ -126,19 +119,14 @@
             [helper.session downloadTaskWithURL:[NSURL URLWithString:_four.photoUrlFull]
                               completionHandler:^(NSURL *location, NSURLResponse *response,
                                                   NSError *error) {
-                                  // 2
                                   UIImage *downloadedImage = [UIImage imageWithData:
                                                               [NSData dataWithContentsOfURL:location]];
-                                  //3
-                                  
-                                  
                                   dispatch_async(dispatch_get_main_queue(), ^{
                                       if(downloadedImage)
                                       {
                                           [_imagesCache setObject:downloadedImage forKey:_four.photoUrlFull];
                                           self.imageView.image = downloadedImage;
                                       }
-                                     
                                   });
                               }];
             
@@ -155,15 +143,7 @@
         [_mediaFocusManager installOnViews:@[self.imageView]];
     }
     
-    
-    
-    
-    
-       
-    //}
-    
-    
-    
+
 }
 
 -(void)applyLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes {

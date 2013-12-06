@@ -32,10 +32,7 @@
     UIColor *bg = BLUE7;
     _weatherView.backgroundColor = bg;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(setImage)
-												 name:@"weatherImage"
-											   object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setImage) name:@"weatherImage" object:nil];
     
     [helper getWeatherAround:_place.latitude lng:_place.longitude completionBlock:^(NWWeather *weather, NSError *error) {
         
@@ -77,6 +74,15 @@
     // Do any additional setup after loading the view.
 }
 
+
+/*-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    _imgView = nil;
+    _place = nil;
+    _placeImage = nil;
+}*/
 
 -(void)setImage
 {

@@ -102,15 +102,15 @@ NSCache *imagesCache;
 
 -(void)hideMessageView
 {
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    /*CGContextRef context = UIGraphicsGetCurrentContext();
     [UIView beginAnimations:nil context:context];
     [UIView setAnimationCurve:UIViewAnimationCurveLinear];
     [UIView setAnimationDuration:3];
-    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDelegate:self];*/
     
     viewForLabel.alpha = 0;
     
-    [UIView commitAnimations];
+    //[UIView commitAnimations];
     
     
 }
@@ -122,6 +122,7 @@ NSCache *imagesCache;
     
     [super viewDidLoad];
 
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -138,16 +139,23 @@ NSCache *imagesCache;
         [self showMessageView];
         //[self hideMessageView];
     }
+    else
+    {
+        [self hideMessageView];
+    }
     _parentContr.lblName.text = ((DKAPlace *)_parentContr.placeObj).placeName;
     
     [self fadeView];
 
 }
 
--(void)viewDidDisappear:(BOOL)animated
+/*-(void)viewDidDisappear:(BOOL)animated
 {
-    [imagesCache removeAllObjects];
-}
+    [super viewDidDisappear:animated];
+
+    //[imagesCache removeAllObjects];
+    //_tweets = nil;
+}*/
 
 -(void)realInit
 {
@@ -162,6 +170,10 @@ NSCache *imagesCache;
         if(_tweets.count == 0)
         {
             [self showMessageView];
+        }
+        else
+        {
+            [self hideMessageView];
         }
         
     }];

@@ -113,8 +113,39 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DaysCell" rowHeight="60" id="Znh-6n-bpH">
+                                <rect key="frame" x="0.0" y="146" width="320" height="60"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Znh-6n-bpH" id="Fc8-7Z-neY">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Days in past to get photos" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="140" translatesAutoresizingMaskIntoConstraints="NO" id="raR-di-fMM">
+                                            <rect key="frame" x="10" y="5" width="140" height="50"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                            <color key="textColor" red="0.17254902420000001" green="0.33333334329999997" blue="0.40392157439999998" alpha="1" colorSpace="deviceRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <stepper opaque="NO" clipsSubviews="YES" tag="3002" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="10" minimumValue="2" maximumValue="30" translatesAutoresizingMaskIntoConstraints="NO" id="m1A-2R-JmA">
+                                            <rect key="frame" x="213" y="15" width="94" height="29"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <connections>
+                                                <action selector="stepChanged:" destination="Hsg-fh-IDh" eventType="valueChanged" id="eDA-sq-ifB"/>
+                                            </connections>
+                                        </stepper>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="30" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jmy-lI-65e">
+                                            <rect key="frame" x="170" y="5" width="35" height="50"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                            <color key="textColor" red="1" green="0.65882354970000001" blue="0.42352941630000002" alpha="1" colorSpace="deviceRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AboutCell" rowHeight="350" id="u4E-A0-Dj2">
-                                <rect key="frame" x="0.0" y="146" width="320" height="350"/>
+                                <rect key="frame" x="0.0" y="206" width="320" height="350"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="u4E-A0-Dj2" id="9yG-7N-GgA">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="350"/>
@@ -258,17 +289,11 @@ All Instagram™ logos and trademarks displayed on this app are property of Inst
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Search For Places" id="FBb-Ae-1LF">
-                        <barButtonItem key="rightBarButtonItem" image="map" style="plain" id="suY-oK-G1g">
-                            <color key="tintColor" red="1" green="0.65882354970000001" blue="0.42352941630000002" alpha="1" colorSpace="deviceRGB"/>
-                            <connections>
-                                <segue destination="L63-50-qMR" kind="push" identifier="showMap" id="2c4-E1-ePq"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Search For Places" id="FBb-Ae-1LF"/>
                     <connections>
                         <outlet property="searchbar" destination="Pqo-WW-cWJ" id="Ixd-ef-EJQ"/>
                         <segue destination="fkK-4w-UGR" kind="push" identifier="ShowPlace" id="4pm-ui-yFZ"/>
+                        <segue destination="L63-50-qMR" kind="push" identifier="showMap" id="w3P-RA-ado"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JtN-N2-tQH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -421,10 +446,6 @@ All Instagram™ logos and trademarks displayed on this app are property of Inst
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="haj-3g-IJx">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </imageView>
                             <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hft-G3-CQD" customClass="LFGlassView">
                                 <rect key="frame" x="10" y="250" width="300" height="170"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -447,7 +468,7 @@ All Instagram™ logos and trademarks displayed on this app are property of Inst
                                         <rect key="frame" x="15" y="92" width="280" height="70"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="15"/>
-                                        <color key="textColor" red="0.17254902422428131" green="0.3333333432674408" blue="0.40392157435417175" alpha="1" colorSpace="deviceRGB"/>
+                                        <color key="textColor" red="0.85490196939999996" green="0.95686274770000002" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pU6-eU-Cih">
@@ -458,17 +479,12 @@ All Instagram™ logos and trademarks displayed on this app are property of Inst
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="AtI-eC-cX8" firstAttribute="top" secondItem="Hft-G3-CQD" secondAttribute="bottom" constant="148" id="0B8-SX-Wnm"/>
-                            <constraint firstItem="haj-3g-IJx" firstAttribute="top" secondItem="ORw-PG-KGn" secondAttribute="top" id="L7x-fW-0O5"/>
-                            <constraint firstAttribute="bottom" secondItem="haj-3g-IJx" secondAttribute="bottom" id="ZMK-np-lxd"/>
-                            <constraint firstItem="haj-3g-IJx" firstAttribute="leading" secondItem="ORw-PG-KGn" secondAttribute="leading" id="moW-OE-EBm"/>
-                            <constraint firstAttribute="trailing" secondItem="haj-3g-IJx" secondAttribute="trailing" id="qhQ-rH-MJS"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="imgView" destination="haj-3g-IJx" id="xBJ-ps-QB3"/>
                         <outlet property="imgWeather" destination="pU6-eU-Cih" id="7UM-4Z-QeW"/>
                         <outlet property="lblAddress" destination="TUM-Bt-6g9" id="QDd-dL-CtM"/>
                         <outlet property="lblCurrentT" destination="8B1-2d-U9j" id="cQt-vY-Ns9"/>
@@ -531,7 +547,7 @@ All Instagram™ logos and trademarks displayed on this app are property of Inst
         <!--MapVC - Map around-->
         <scene sceneID="hH8-lW-T3a">
             <objects>
-                <viewController id="L63-50-qMR" customClass="DKAMapVC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mapController" id="L63-50-qMR" customClass="DKAMapVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="J66-Dd-q3A"/>
                         <viewControllerLayoutGuide type="bottom" id="tH5-wa-Clp"/>
@@ -605,6 +621,31 @@ All Instagram™ logos and trademarks displayed on this app are property of Inst
                                         <color key="shadowColor" red="0.85490196939999996" green="0.95686274770000002" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                         <size key="shadowOffset" width="0.0" height="1"/>
                                     </label>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aXi-Tb-fyE">
+                                        <rect key="frame" x="266" y="13" width="5" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.85490196939999996" green="0.95686274770000002" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tqx-If-GWz">
+                                        <rect key="frame" x="276" y="13" width="5" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.85490196939999996" green="0.95686274770000002" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bhd-Se-H8L">
+                                        <rect key="frame" x="296" y="13" width="5" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.85490196939999996" green="0.95686274770000002" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Ab-Pf-xIw">
+                                        <rect key="frame" x="286" y="13" width="5" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.85490196939999996" green="0.95686274770000002" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dSa-iV-FSD">
+                                        <rect key="frame" x="306" y="13" width="5" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.85490196939999996" green="0.95686274770000002" blue="1" alpha="1" colorSpace="deviceRGB"/>
+                                    </view>
                                 </subviews>
                                 <color key="tintColor" red="1" green="0.80784313730000001" blue="0.58431372550000005" alpha="1" colorSpace="deviceRGB"/>
                             </view>
@@ -658,6 +699,11 @@ All Instagram™ logos and trademarks displayed on this app are property of Inst
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="bar1" destination="aXi-Tb-fyE" id="Kj9-1W-ft5"/>
+                        <outlet property="bar2" destination="tqx-If-GWz" id="06a-qz-GBy"/>
+                        <outlet property="bar3" destination="Bhd-Se-H8L" id="JK8-og-ld1"/>
+                        <outlet property="bar4" destination="5Ab-Pf-xIw" id="7cH-Ci-zpx"/>
+                        <outlet property="bar5" destination="dSa-iV-FSD" id="Ud0-6T-w9A"/>
                         <outlet property="barName" destination="HBM-yO-zJq" id="L1k-8Z-Jv3"/>
                         <outlet property="btnBack" destination="0ug-dI-arc" id="i32-7J-Wox"/>
                         <outlet property="btnMap" destination="UuK-HT-CoV" id="SEg-XC-EFl"/>
@@ -751,7 +797,7 @@ All Instagram™ logos and trademarks displayed on this app are property of Inst
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="2c4-E1-ePq"/>
-        <segue reference="4pm-ui-yFZ"/>
+        <segue reference="Rs0-G8-hFr"/>
+        <segue reference="w3P-RA-ado"/>
     </inferredMetricsTieBreakers>
 </document>

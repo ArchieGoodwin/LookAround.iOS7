@@ -29,6 +29,24 @@
     
     [[DKAHelper sharedInstance] startUpdateLocation];
     
+    
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    [self applyAttributes:documentsDirectory];
+    
+    paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    documentsDirectory = [paths objectAtIndex:0];
+    
+    [self applyAttributes:documentsDirectory];
+    
+    
+    paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    documentsDirectory = [paths objectAtIndex:0];
+    
+    [self applyAttributes:documentsDirectory];
+    
     return YES;
 }
 							
@@ -127,6 +145,44 @@
     
     
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+-(void)applyAttributes:(NSString *)folderPath
+{
+    NSArray *filesArray = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:folderPath error:nil];
+    NSEnumerator *filesEnumerator = [filesArray objectEnumerator];
+    NSString *fileName;
+    
+    while (fileName = [filesEnumerator nextObject]) {
+        // NSLog(@"apply to %@", [[NSURL fileURLWithPath:[folderPath stringByAppendingPathComponent:fileName]] path]);
+        if([self addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:[folderPath stringByAppendingPathComponent:fileName]]])
+        {
+            //NSLog(@"success applying");
+        }
+        
+        //NSDictionary *fileDictionary = [[NSFileManager defaultManager] attributesOfItemAtPath:[folderPath stringByAppendingPathComponent:fileName] error:nil];
+        //fileSize += [fileDictionary fileSize];
+    }
+    
+}
+
+
+
+- (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL
+{
+    if([[NSFileManager defaultManager] fileExistsAtPath: [URL path]])
+    {
+        NSError *error = nil;
+        BOOL success = [URL setResourceValue: [NSNumber numberWithBool: YES]
+                                      forKey: NSURLIsExcludedFromBackupKey error: &error];
+        if(!success){
+            NSLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
+        }
+        return success;
+    }
+    
+    return NO;
+    
 }
 
 

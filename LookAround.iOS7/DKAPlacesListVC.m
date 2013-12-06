@@ -75,6 +75,7 @@
 
 -(void)reloadme
 {
+
     [self.tableView reloadData];
     [refreshControl endRefreshing];
 
@@ -87,7 +88,7 @@
     {
         CLLocation *loc = [[DKAHelper sharedInstance] currentLocation];
         
-        CGPoint offset = CGPointMake(0, -100);
+        CGPoint offset = CGPointMake(0, -150);
         [self.tableView setContentOffset:offset animated:YES];
 
         [refreshControl beginRefreshing];

@@ -18,6 +18,8 @@
 {
     FactualQueryResult *queryData;
     NSMutableArray *items;
+    NSMutableArray *cities;
+    NSMutableArray *selectedItems;
 
 }
 @end
@@ -47,6 +49,8 @@ static NSString *CellIdentifier = @"Cell";
 {
     [super viewDidLoad];
 
+    //_btnIcon.enabled = NO;
+    
     items = [NSMutableArray new];
 
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 41, 0, 0);
@@ -74,9 +78,65 @@ static NSString *CellIdentifier = @"Cell";
     // Dispose of any resources that can be recreated.
 }
 
+
+-(BOOL)checkIfCityIsInArray:(NSString *)city
+{
+    for(NSString *c in cities)
+    {
+        if([c isEqualToString:city])
+        {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+-(void)filterCities
+{
+    cities = [NSMutableArray new];
+    for(DKAPlace *pl in items)
+    {
+        if(pl.city)
+        {
+            if(![self checkIfCityIsInArray:pl.city])
+            {
+                [cities addObject:pl.city];
+            }
+        }
+        
+        
+    }
+}
+
+-(NSMutableArray *)getPlacesWithCity:(NSString *)city
+{
+    NSMutableArray *temp = [NSMutableArray new];
+    for(DKAPlace *pl in items)
+    {
+        if(pl.city)
+        {
+            if([pl.city isEqualToString:city])
+            {
+                [temp addObject:pl];
+            }
+        }
+        
+       
+    }
+    
+    return temp;
+}
+
 -(void)reloadme
 {
-    [self.tableView reloadData];
+    if(items.count > 0)
+    {
+        //_btnIcon.enabled = YES;
+        
+        [self filterCities];
+        [self.tableView reloadData];
+    }
+
     
     
 }
@@ -124,7 +184,12 @@ static NSString *CellIdentifier = @"Cell";
 {
     
     //NSLog(@"configure cell %i", indexPath.row);
-    DKAPlace *place = [items objectAtIndex:indexPath.row];
+    
+    NSString *city = cities[indexPath.section];
+    
+    
+    DKAPlace *place = [[self getPlacesWithCity:city] objectAtIndex:indexPath.row];
+    
     UILabel *lbl = (UILabel *)[cell.contentView viewWithTag:1001];
     
     CGRect frame = lbl.frame;
@@ -184,7 +249,7 @@ static NSString *CellIdentifier = @"Cell";
         
         self.tableView.separatorInset = UIEdgeInsetsMake(0, 41, 0, 0);
         
-        return 1;
+        return cities.count;
     }
     
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 320, 0, 0);
@@ -192,22 +257,70 @@ static NSString *CellIdentifier = @"Cell";
     return 0;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 40;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if(items.count > 0)
     {
-        return items.count;
+        NSString *city = cities[section];
+        
+        return [self getPlacesWithCity:city].count;
         
     }
     return 0;
 }
 
 
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSString *city = cities[section];
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+    view.backgroundColor = BLUE4;
+    UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, 200, 30)];
+    lbl.backgroundColor = [UIColor clearColor];
+    lbl.font = [UIFont fontWithName:@"" size:19];
+    lbl.textColor = BLUE0;
+    lbl.text = city;
+    [view addSubview:lbl];
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
+    btn.frame = CGRectMake(270, 5, 30, 30);
+    [btn setImage:[UIImage imageNamed:@"map"] forState:UIControlStateNormal];
+    btn.tintColor = BLUE1;
+    [btn addTarget:self action:@selector(showMap:) forControlEvents:UIControlEventTouchUpInside];
+    btn.tag = section;
+    [view addSubview:btn];
+    
+    return view;
+}
+
+-(IBAction)showMap:(id)sender
+{
+
+    UIButton *btn = (UIButton *)sender;
+    
+    NSString *city = [cities objectAtIndex:btn.tag];
+    NSMutableArray *temp = [self getPlacesWithCity:city];
+    
+    selectedItems = temp;
+    
+    
+    [self performSegueWithIdentifier:@"showMap" sender:nil];
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(items.count > 0)
     {
-        DKAPlace *place = items[indexPath.row];
+        
+        NSString *city = cities[indexPath.section];
+        
+        DKAPlace *place = [self getPlacesWithCity:city][indexPath.row];
         
         //UILabel *lblT = (UILabel *)[[tableView cellForRowAtIndexPath:indexPath].contentView viewWithTag:1001];
         UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(41, 3, 272, 1000)];
@@ -240,7 +353,9 @@ static NSString *CellIdentifier = @"Cell";
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    DKAPlace *place = items[indexPath.row];
+    NSString *city = cities[indexPath.section];
+    
+    DKAPlace *place = [self getPlacesWithCity:city][indexPath.row];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"searchId = %@", place.placeId];
     
@@ -279,7 +394,17 @@ static NSString *CellIdentifier = @"Cell";
     {
         DKAMapVC *vc = (DKAMapVC *)segue.destinationViewController;
         
-        vc.items = [@[items[0]] mutableCopy];
+        if(sender == nil)
+        {
+            vc.items = selectedItems;
+        }
+        else
+        {
+            vc.items = [@[items[0]] mutableCopy];
+            
+        }
+        
+        
     }
 }
 

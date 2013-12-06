@@ -44,6 +44,8 @@
     UIView *tweetView;
     BOOL firstTime;
     GMSPanoramaView *panoramaView;
+    NSInteger menuTappedCount;
+
 }
 @end
 
@@ -66,9 +68,9 @@
 {
     [super viewDidLoad];
     
-    
+    [self showHideBarView:YES];
 
-
+    menuTappedCount = 0;
     /*[_lblName.layer removeAllAnimations];
     CATransition *animation = [CATransition animation];
     animation.duration = 1.0;
@@ -106,13 +108,25 @@
     
     [self loadInstas];
     [self loadTweets];
+    foursquareInfoView = [self createFoursquareInfoView];
+    
     [self load4sPhotos];
     //[self loadFacebook];
-    foursquareInfoView = [self createFoursquareInfoView];
     weatherVCview = [self createWeatherView];
 	// Do any additional setup after loading the view.
 }
 
+
+
+-(void)showHideBarView:(BOOL)show
+{
+    _bar1.hidden = show;
+    _bar2.hidden = show;
+    _bar3.hidden = show;
+    _bar4.hidden = show;
+    _bar5.hidden = show;
+    
+}
 
 -(void)changeLabelText:(NSString *)str
 {
@@ -121,6 +135,8 @@
 
 -(void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
+
     for(UIView *view in _myStreetView.subviews)
     {
         [view removeFromSuperview];
@@ -164,6 +180,8 @@
  
     //_myStreetView = [[GMSPanoramaView alloc] initWithFrame:CGRectZero];
 
+    [self showHideBarView:YES];
+    
     for(UIView *view in _myStreetView.subviews)
     {
         [view removeFromSuperview];
@@ -287,35 +305,18 @@
     fourController.currentPageType = 0;
     fourController.parentContr = self;
     fourController.place = _placeObj;
-    [fourController initCollectionViewWithRect:CGRectMake(0, 60, 320, [helper isIphone5] ? 508 : 420) instas:fourSquarePhotos location:nil];
+    [fourController initCollectionViewWithRect:CGRectMake(0, 60, 320, [helper isIphone5] ? 508 : 420) instas:nil location:nil];
     
     return fourController.view;
     
 }
 
 
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    
-   /* CGPoint offset = scrollView.contentOffset;
-    CGPoint newOffset = CGPointMake(offset.x+30, offset.y);
-    
-    [UIView animateWithDuration:0.3 delay:0.2 options:UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionAutoreverse |UIViewAnimationOptionRepeat animations:^{
-        [UIView setAnimationRepeatCount: 1];
-        [scrollView setContentOffset:newOffset animated: NO];
-    } completion:^(BOOL finished) {
-        [scrollView setContentOffset:offset animated:NO];
-    }];*/
-     
-    
-}
 
 - (IBAction)showInfoPages:(id)sender
 {
     
-    
-    
-    
+    [self showHideBarView:NO];
     for (int i = 0; i < 5; i++) {
         CGRect frame;
         frame.origin.x = scrollView.frame.size.width * i;
@@ -353,6 +354,7 @@
    
     [_myStreetView addSubview:scrollView];
     
+    [self changeBarBackground:1];
     
     if(firstTime)
     {
@@ -365,7 +367,7 @@
         } completion:^(BOOL finished) {
             if(finished)
             {
-                [UIView animateWithDuration:0.2 delay:0.1 options:UIViewAnimationOptionCurveEaseIn   animations:^{
+                [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseIn   animations:^{
                     //[UIView setAnimationRepeatCount: 1];
                     [scrollView setContentOffset:offset animated: NO];
                 } completion:^(BOOL finished) {
@@ -381,33 +383,107 @@
 
 }
 
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    /*CGPoint offset = scrollView.contentOffset;
+    NSLog(@"offset %@", NSStringFromCGPoint(offset));
+
+    CGPoint newOffset = CGPointMake(offset.x+15, offset.y);
+    
+    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseIn   animations:^{
+        //[UIView setAnimationRepeatCount: 1];
+        [scrollView setContentOffset:newOffset animated: NO];
+    } completion:^(BOOL finished) {
+        if(finished)
+        {
+            [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseIn   animations:^{
+                //[UIView setAnimationRepeatCount: 1];
+                [scrollView setContentOffset:offset animated: NO];
+            } completion:^(BOOL finished) {
+                
+            }];
+            
+            
+            
+        }
+    }];*/
+}
+
+
+-(void)changeBarBackground:(NSInteger)barNumber
+{
+    for(int i = 1; i < 6; i++)
+    {
+        
+        _bar1.backgroundColor = BLUE4;
+        _bar2.backgroundColor = BLUE4;
+        _bar3.backgroundColor = BLUE4;
+        _bar4.backgroundColor = BLUE4;
+        _bar5.backgroundColor = BLUE4;
+        if(barNumber == 1)
+        {
+            _bar1.backgroundColor = BLUE0;
+        }
+        if(barNumber == 2)
+        {
+            _bar2.backgroundColor = BLUE0;
+        }
+        if(barNumber == 3)
+        {
+            _bar3.backgroundColor = BLUE0;
+        }
+        if(barNumber == 4)
+        {
+            _bar4.backgroundColor = BLUE0;
+        }
+        if(barNumber == 5)
+        {
+            _bar5.backgroundColor = BLUE0;
+        }
+    }
+}
+
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView1
 {
     //static NSInteger previousPage = 0;
     CGFloat pageWidth = scrollView1.frame.size.width;
     float fractionalPage = scrollView1.contentOffset.x / pageWidth;
     NSInteger page = lround(fractionalPage);
-    //NSLog(@"Page %i", page);
+    NSLog(@"Page %i", page);
     if(page == 0)
     {
         [self changeTextForTitleLabel:@"Place info"];
-        
+     
+        [self changeBarBackground:1];
+        [_myStreetView viewWithTag:2005].hidden = NO;
+
     }
     if(page == 1)
     {
         [self changeTextForTitleLabel:@"Tweets around location"];
+        [self changeBarBackground:2];
+        [_myStreetView viewWithTag:2005].hidden = NO;
+
     }
     if(page == 3)
     {
         [self changeTextForTitleLabel:@"Foursquare photos"];
+        [self changeBarBackground:3];
+        [_myStreetView viewWithTag:2005].hidden = NO;
+
     }
     if(page == 2)
     {
         [self changeTextForTitleLabel:@"Instagram photos"];
+        [self changeBarBackground:4];
+        [_myStreetView viewWithTag:2005].hidden = NO;
     }
     if(page == 4)
     {
         [self changeTextForTitleLabel:@"Weather in location"];
+        [self changeBarBackground:5];
+        
+        [_myStreetView viewWithTag:2005].hidden = YES;
     }
 }
 
@@ -464,16 +540,20 @@
             [view removeFromSuperview];
             
         }
-        [scrollView removeFromSuperview];
+        //[scrollView removeFromSuperview];
     }
-    CGRect frame = _myStreetView.frame;
-    frame.origin.y = 60;
-    frame.size.height = frame.size.height - 60;
-    scrollView = [[UIScrollView alloc] initWithFrame:frame];
-    scrollView.pagingEnabled = YES;
-    scrollView.backgroundColor = [UIColor clearColor];
-    scrollView.delegate = self;
-    scrollView.tag = 2006;
+    else
+    {
+        CGRect frame = _myStreetView.frame;
+        frame.origin.y = 60;
+        frame.size.height = frame.size.height - 60;
+        scrollView = [[UIScrollView alloc] initWithFrame:frame];
+        scrollView.pagingEnabled = YES;
+        scrollView.backgroundColor = [UIColor clearColor];
+        scrollView.delegate = self;
+        scrollView.tag = 2006;
+
+    }
     
     
     
@@ -487,10 +567,13 @@
     
     UIImageView *img = [[UIImageView alloc] initWithImage:image];
     
-    img.alpha = 0.0;
+
     img.frame = _myStreetView.frame;
     img.tag = 2003;
-    LFGlassView *frost  = [[LFGlassView alloc] initWithFrame:_myStreetView.frame];
+    [_myStreetView addSubview:img];
+    
+
+    __block LFGlassView *frost  = [[LFGlassView alloc] initWithFrame:_myStreetView.frame];
     frost.tag = 2004;
     frost.alpha = 0.0;
     
@@ -500,19 +583,10 @@
     //placeMenu.parentVC = self;
     //placeMenu.view.alpha = 0.0;
     [UIView animateWithDuration:0.3 animations:^{
-        
-        [_myStreetView addSubview:img];
-        
-        img.alpha = 1.0;
-        
+
         [_myStreetView addSubview:frost];
         frost.alpha = 1.0;
-        
-        
-       
-        
-        //[_myStreetView addSubview:placeMenu.view];
-        //placeMenu.view.alpha = 1.0;
+
     } completion:^(BOOL finished) {
         
         UIGraphicsBeginImageContextWithOptions(_myStreetView.frame.size, YES, 4);
@@ -534,8 +608,8 @@
 
         [[_myStreetView viewWithTag:2003] removeFromSuperview];
         
-        [[_myStreetView viewWithTag:2004] removeFromSuperview];
-        
+        [frost removeFromSuperview];
+        frost = nil;
         
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"weatherImage" object:nil userInfo:nil];
@@ -640,6 +714,8 @@
 
 - (IBAction)showMap:(id)sender {
     
+    
+    [self showHideBarView:YES];
     for(UIView *view in _myStreetView.subviews)
     {
         [view removeFromSuperview];

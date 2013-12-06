@@ -10,5 +10,6 @@
 
 @interface DKASearchVC : UITableViewController <UISearchBarDelegate>
 @property (strong, nonatomic) IBOutlet UISearchBar *searchbar;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *btnIcon;
 
 @end

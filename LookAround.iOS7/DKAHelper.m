@@ -106,6 +106,12 @@ static NSString* topLevelCategories[] = {
         
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
+    if([self getPrefValueForKey:DKA_PREF_STEPS_DAYS] == nil)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithDouble:10.0] forKey:DKA_PREF_STEPS_DAYS];
+        
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
     
    
 }

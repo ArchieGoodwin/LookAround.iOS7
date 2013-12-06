@@ -42,12 +42,14 @@
 
 }
 
--(void)viewDidDisappear:(BOOL)animated
+/*-(void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
+
     [imagesCache removeAllObjects];
     [_chainges removeAllObjects];
     self.collectionView = nil;
-}
+}*/
 
 -(void)fadeView
 {
@@ -186,6 +188,10 @@
         {
             [self showMessageView];
         }
+        else
+        {
+            [self hideMessageView];
+        }
          [self.collectionView reloadData];
         
     }];
@@ -235,15 +241,15 @@
 
 -(void)hideMessageView
 {
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        [UIView beginAnimations:nil context:context];
-        [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-        [UIView setAnimationDuration:3];
-        [UIView setAnimationDelegate:self];
+        //CGContextRef context = UIGraphicsGetCurrentContext();
+        //[UIView beginAnimations:nil context:context];
+        //[UIView setAnimationCurve:UIViewAnimationCurveLinear];
+        //[UIView setAnimationDuration:3];
+        //[UIView setAnimationDelegate:self];
 
         viewForLabel.alpha = 0;
 
-        [UIView commitAnimations];
+        //[UIView commitAnimations];
 
 
 }
@@ -363,13 +369,17 @@
 
     InstagramCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"myChaingeCell" forIndexPath:indexPath];
 
-    NSInteger row = [indexPath row];
-    NWinstagram *ch = [_chainges objectAtIndex:row];
-    cell.imagesCache = imagesCache;
-
-    cell.insta = ch;
-    cell.controller = self;
-    cell.tag = indexPath.row;
+    if(_chainges.count > 0)
+    {
+        NSInteger row = [indexPath row];
+        NWinstagram *ch = [_chainges objectAtIndex:row];
+        cell.imagesCache = imagesCache;
+        
+        cell.insta = ch;
+        cell.controller = self;
+        cell.tag = indexPath.row;
+    }
+   
 
     
 
